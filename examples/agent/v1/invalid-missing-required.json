@@ -1,0 +1,7 @@
+{
+  "$schema": "../../../schemas/agent/v1/agent-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "agentId": "123e4567-e89b-12d3-a456-426614174000",
+  "agentName": "Broken Agent",
+  "agentVersion": "1.0.0"
+}

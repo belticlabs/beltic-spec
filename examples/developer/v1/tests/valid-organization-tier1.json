@@ -1,0 +1,78 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified",
+    "fieldAssurances": {
+      "legalName": {
+        "assuranceLevel": "beltic_verified",
+        "verificationDate": "2025-11-20T14:00:00Z",
+        "verificationSource": "Delaware Division of Corporations"
+      },
+      "incorporationDate": {
+        "assuranceLevel": "beltic_verified",
+        "verificationDate": "2025-11-20T14:00:00Z",
+        "verificationSource": "Delaware Division of Corporations"
+      },
+      "businessRegistrationNumber": {
+        "assuranceLevel": "beltic_verified",
+        "verificationDate": "2025-11-20T14:00:00Z",
+        "verificationSource": "Delaware Division of Corporations"
+      },
+      "taxIdVerified": {
+        "assuranceLevel": "beltic_verified",
+        "verificationDate": "2025-10-10T10:00:00Z",
+        "verificationSource": "IRS EIN Verification"
+      }
+    }
+  },
+  "legalName": "Innovative AI Solutions LLC",
+  "entityType": "limited_liability_company",
+  "incorporationJurisdiction": {
+    "country": "US",
+    "region": "DE"
+  },
+  "incorporationDate": "2022-06-15",
+  "businessRegistrationNumber": "hash_innovative2022",
+  "businessRegistrationStatus": "active_good_standing",
+  "website": "https://innovativeai.example",
+  "registeredAddress": {
+    "streetAddress": "1234 Startup Lane",
+    "city": "Wilmington",
+    "region": "DE",
+    "postalCode": "19801",
+    "country": "US"
+  },
+  "businessEmail": "contact@innovativeai.example",
+  "businessPhone": "+1-302-555-7890",
+  "securityEmail": "security@innovativeai.example",
+  "taxIdExists": true,
+  "taxIdVerified": "verified",
+  "taxIdJurisdiction": {
+    "country": "US"
+  },
+  "taxIdLastVerifiedDate": "2025-10-10",
+  "kybTier": "tier_1_basic",
+  "sanctionsScreeningStatus": "not_screened",
+  "overallRiskRating": "not_assessed",
+  "credentialId": "750e8400-e29b-41d4-a716-446655441003",
+  "issuanceDate": "2025-11-21T12:00:00Z",
+  "expirationDate": "2027-11-21T12:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "active",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-21T12:00:00Z",
+  "subjectDid": "did:web:innovativeai.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-21T12:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5validOrg1"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified"
+  },
+  "legalName": "Jurisdiction Mismatch LLC",
+  "entityType": "limited_liability_company",
+  "incorporationJurisdiction": {
+    "country": "US",
+    "region": "FL"
+  },
+  "incorporationDate": "2023-02-14",
+  "businessRegistrationNumber": "hash_jurisdiction101",
+  "businessRegistrationStatus": "active_good_standing",
+  "website": "https://jurisdiction.example",
+  "registeredAddress": {
+    "streetAddress": "101 Mismatch Blvd",
+    "city": "Miami",
+    "region": "FL",
+    "postalCode": "33101",
+    "country": "US"
+  },
+  "businessEmail": "info@jurisdiction.example",
+  "taxIdExists": false,
+  "taxIdJurisdiction": {
+    "country": "US"
+  },
+  "kybTier": "tier_1_basic",
+  "sanctionsScreeningStatus": "not_screened",
+  "overallRiskRating": "not_assessed",
+  "credentialId": "650e8400-e29b-41d4-a716-446655440011",
+  "issuanceDate": "2025-11-21T10:00:00Z",
+  "expirationDate": "2026-11-21T10:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "active",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-21T10:00:00Z",
+  "subjectDid": "did:web:jurisdiction.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-21T10:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5testTier2Rule1"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified"
+  },
+  "legalName": "Old Assessment Corp",
+  "entityType": "corporation",
+  "incorporationJurisdiction": {
+    "country": "US",
+    "region": "MA"
+  },
+  "incorporationDate": "2016-07-15",
+  "businessRegistrationNumber": "hash_oldassessment808",
+  "businessRegistrationStatus": "active_good_standing",
+  "website": "https://oldassessment.example",
+  "registeredAddress": {
+    "streetAddress": "808 Dated Drive",
+    "city": "Boston",
+    "region": "MA",
+    "postalCode": "02101",
+    "country": "US"
+  },
+  "businessEmail": "info@oldassessment.example",
+  "taxIdExists": true,
+  "taxIdVerified": "verified",
+  "taxIdJurisdiction": {
+    "country": "US"
+  },
+  "taxIdLastVerifiedDate": "2025-08-01",
+  "kybTier": "tier_2_standard",
+  "sanctionsScreeningStatus": "clear",
+  "sanctionsScreeningLastChecked": "2025-11-15",
+  "pepRiskLevel": "low",
+  "pepRiskLastAssessed": "2025-01-01",
+  "adverseMediaRiskLevel": "low",
+  "adverseMediaLastAssessed": "2025-01-01",
+  "overallRiskRating": "low",
+  "credentialId": "650e8400-e29b-41d4-a716-446655440020",
+  "issuanceDate": "2025-11-21T10:00:00Z",
+  "expirationDate": "2026-05-21T10:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "active",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-21T10:00:00Z",
+  "subjectDid": "did:web:oldassessment.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-21T10:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5testTier2Rule5and6"
+  }
+}

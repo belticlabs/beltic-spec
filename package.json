@@ -1,0 +1,43 @@
+{
+  "name": "beltic-spec",
+  "version": "1.0.0",
+  "description": "Beltic AI Agent Certification Framework - Schemas, specifications, and examples for verifiable credentials",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beltic/beltic-spec.git"
+  },
+  "author": "Beltic <hello@beltic.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "ai-agents",
+    "verifiable-credentials",
+    "json-schema",
+    "ai-safety",
+    "kyc",
+    "kyb",
+    "agent-certification"
+  ],
+  "scripts": {
+    "validate:all": "npm run validate:agent && npm run validate:developer",
+    "validate:agent": "ajv validate --spec=draft2020 --strict=false -s schemas/agent/v1/agent-credential-v1.schema.json -d 'examples/agent/v1/valid-*.json' --all-errors",
+    "validate:developer": "npm run validate:developer:valid && npm run validate:developer:invalid",
+    "validate:developer:valid": "ajv validate --spec=draft2020 --strict=false -s schemas/developer/v1/developer-credential-v1.schema.json -d 'examples/developer/v1/tests/valid-*.json' --all-errors",
+    "validate:developer:invalid": "node scripts/validate-invalid.js",
+    "test": "npm run test:conditional-rules && npm run validate:all",
+    "test:conditional-rules": "node scripts/test-conditional-rules.js",
+    "test:agent": "ajv validate --spec=draft2020 --strict=false -s schemas/agent/v1/agent-credential-v1.schema.json -d 'examples/agent/v1/valid-*.json'",
+    "test:developer": "node scripts/test-developer.js",
+    "lint:schemas": "ajv compile --spec=draft2020 --strict=false -s 'schemas/**/*.schema.json'",
+    "format:check": "prettier --check '**/*.{json,md}'",
+    "format:write": "prettier --write '**/*.{json,md}'"
+  },
+  "devDependencies": {
+    "ajv": "^8.12.0",
+    "ajv-cli": "^5.0.0",
+    "ajv-formats": "^2.1.1",
+    "prettier": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

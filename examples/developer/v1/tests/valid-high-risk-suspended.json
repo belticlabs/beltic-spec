@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified",
+    "fieldAssurances": {
+      "legalName": {
+        "assuranceLevel": "beltic_verified",
+        "verificationDate": "2025-11-01T10:00:00Z",
+        "verificationSource": "Delaware Division of Corporations"
+      },
+      "sanctionsScreeningStatus": {
+        "assuranceLevel": "third_party_verified",
+        "verificationDate": "2025-11-20T16:00:00Z",
+        "verificationSource": "OFAC SDN List Match + Manual Verification"
+      },
+      "pepRiskLevel": {
+        "assuranceLevel": "third_party_verified",
+        "verificationDate": "2025-11-20T16:00:00Z",
+        "verificationSource": "Dow Jones Risk & Compliance"
+      },
+      "adverseMediaRiskLevel": {
+        "assuranceLevel": "third_party_verified",
+        "verificationDate": "2025-11-20T16:00:00Z",
+        "verificationSource": "LexisNexis + Manual Review"
+      }
+    }
+  },
+  "legalName": "High Risk Suspended Corp",
+  "entityType": "corporation",
+  "incorporationJurisdiction": {
+    "country": "US",
+    "region": "DE"
+  },
+  "incorporationDate": "2012-08-08",
+  "businessRegistrationNumber": "hash_highrisk2012",
+  "businessRegistrationStatus": "suspended",
+  "website": "https://highrisk.example",
+  "registeredAddress": {
+    "streetAddress": "999 Prohibited Street",
+    "city": "Wilmington",
+    "region": "DE",
+    "postalCode": "19801",
+    "country": "US"
+  },
+  "businessEmail": "legal@highrisk.example",
+  "taxIdExists": true,
+  "taxIdVerified": "verified",
+  "taxIdJurisdiction": {
+    "country": "US"
+  },
+  "taxIdLastVerifiedDate": "2024-03-15",
+  "kybTier": "tier_3_enhanced",
+  "sanctionsScreeningStatus": "confirmed_match",
+  "sanctionsScreeningLastChecked": "2025-11-20",
+  "pepRiskLevel": "high",
+  "pepRiskLastAssessed": "2025-11-20",
+  "adverseMediaRiskLevel": "high",
+  "adverseMediaLastAssessed": "2025-11-20",
+  "overallRiskRating": "prohibited",
+  "beneficialOwnersKycStatus": "identified_not_kycd",
+  "beneficialOwnersCount": 1,
+  "controlStructureComplexity": "simple",
+  "credentialId": "750e8400-e29b-41d4-a716-446655441006",
+  "issuanceDate": "2025-11-21T12:00:00Z",
+  "expirationDate": "2026-01-21T12:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "suspended",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-21T12:00:00Z",
+  "subjectDid": "did:web:highrisk.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-21T12:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5validHighRiskSuspended"
+  }
+}

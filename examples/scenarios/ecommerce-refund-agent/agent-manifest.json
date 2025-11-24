@@ -1,0 +1,83 @@
+{
+  "manifestSchemaVersion": "1.0",
+  "manifestRevision": "1.0.0",
+  "agentId": "9d4c4d1e-5f35-4c5a-9e9a-58c2a0f52311",
+  "agentName": "FlowRefund Agent",
+  "agentVersion": "1.4.0",
+  "agentDescription": "Autonomous refund helper that validates eligibility, applies policy rules, issues refunds up to $500, and escalates edge cases to human support with full audit trails.",
+  "firstReleaseDate": "2023-08-01",
+  "currentStatus": "production",
+  "developerCredentialId": "0f6f1a4d-0c3d-4a5e-9d2b-992d9b7d8b70",
+  "developerContactEmail": "ops@pioneerrefunds.example",
+  "primaryModelProvider": "Anthropic",
+  "primaryModelFamily": "Claude-3 Sonnet",
+  "modelContextWindow": 200000,
+  "modalitySupport": ["text", "structured_data"],
+  "languageCapabilities": ["en", "es"],
+  "architectureType": "tool_using",
+  "systemConfigFingerprint": "9f1c7e98e4d66274e8d9b9d9301f5b8eaf3a8b1df02f89a0bc613066b8c1d4fa",
+  "systemConfigLastUpdated": "2025-01-20",
+  "deploymentEnvironment": "AWS us-east-1 primary, eu-west-1 DR; isolated VPC with private subnets for tool access",
+  "dataLocationProfile": {
+    "storageRegions": ["US"],
+    "processingRegions": ["US"],
+    "backupRegions": ["IE"],
+    "notes": "Order history cached in US; encrypted backups replicated to EU DR under SCCs"
+  },
+  "tools": [
+    {
+      "toolId": "lookup_order",
+      "toolName": "Order Lookup",
+      "toolDescription": "Reads order details, payment method token, and return eligibility flags from commerce backend.",
+      "riskCategory": "data",
+      "riskSubcategory": "data_read_internal",
+      "requiresAuth": true,
+      "requiresHumanApproval": false,
+      "mitigations": "Scoped API key restricted to read-only orders index; masking applied to PANs"
+    },
+    {
+      "toolId": "issue_refund",
+      "toolName": "Issue Refund",
+      "toolDescription": "Creates refund transactions up to $500 and posts adjustments back to the payment processor.",
+      "riskCategory": "financial",
+      "riskSubcategory": "financial_payment_initiation",
+      "requiresAuth": true,
+      "requiresHumanApproval": true,
+      "mitigations": "Refund cap $500; requires manager approval above $250; dual-signature webhook to PSP"
+    },
+    {
+      "toolId": "notify_customer",
+      "toolName": "Customer Notification",
+      "toolDescription": "Sends templated email updates about refund status and return labels.",
+      "riskCategory": "external",
+      "riskSubcategory": "external_email",
+      "requiresAuth": true,
+      "requiresHumanApproval": false,
+      "mitigations": "Templates locked; domain-signed via DKIM; suppression list enforced"
+    }
+  ],
+  "dataCategoriesProcessed": ["pii", "financial", "behavioral"],
+  "dataRetentionMaxPeriod": "P90D",
+  "dataRetentionByCategory": {
+    "pii": "P60D",
+    "financial": "P30D",
+    "behavioral": "P30D",
+    "logs": "P180D"
+  },
+  "trainingDataUsage": "never",
+  "piiDetectionEnabled": true,
+  "piiRedactionCapability": "advanced",
+  "piiRedactionPipeline": "Detection at ingress; masking before model input; output scrubber before logging",
+  "dataEncryptionStandards": ["AES-256 at rest", "TLS 1.3 in transit"],
+  "monitoringCoverage": "Structured audit logs for all tool calls; prompt injection detector on inputs; PagerDuty alerts for denied/refused refund actions reviewed daily.",
+  "approvedUseCases": ["E-commerce refund automation", "Order status support"],
+  "prohibitedUseCases": ["Manual returns requiring physical inspection", "Processing chargebacks", "Creating new customer accounts"],
+  "ageRestrictions": "13+",
+  "riskSummary": "moderate_risk",
+  "humanOversightMode": "human_review_pre_action",
+  "failSafeBehavior": "Refuses refunds without matching order + policy signals; caps auto-refunds at $250; escalates ambiguous intent or PII exposure to human queue with no action taken.",
+  "incidentResponseContact": "security@pioneerrefunds.example",
+  "incidentResponseSLO": "PT4H",
+  "deprecationPolicy": "Provide 30-day notice; maintain previous manifest for 60 days with blocked risky tools during migration.",
+  "updateCadence": "biweekly"
+}

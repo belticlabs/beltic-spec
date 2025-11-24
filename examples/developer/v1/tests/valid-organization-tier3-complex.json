@@ -1,0 +1,96 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified",
+    "fieldAssurances": {
+      "legalName": {
+        "assuranceLevel": "beltic_verified",
+        "verificationDate": "2025-11-10T13:00:00Z",
+        "verificationSource": "California Secretary of State"
+      },
+      "taxIdVerified": {
+        "assuranceLevel": "third_party_verified",
+        "verificationDate": "2025-09-25T10:00:00Z",
+        "verificationSource": "IRS EIN Verification + Stripe Identity"
+      },
+      "sanctionsScreeningStatus": {
+        "assuranceLevel": "third_party_verified",
+        "verificationDate": "2025-11-19T14:30:00Z",
+        "verificationSource": "OFAC SDN + UN Sanctions Consolidated List"
+      },
+      "pepRiskLevel": {
+        "assuranceLevel": "third_party_verified",
+        "verificationDate": "2025-11-19T14:30:00Z",
+        "verificationSource": "Dow Jones Risk & Compliance + Manual Review"
+      },
+      "adverseMediaRiskLevel": {
+        "assuranceLevel": "third_party_verified",
+        "verificationDate": "2025-11-19T14:30:00Z",
+        "verificationSource": "Factiva + Manual Review"
+      },
+      "beneficialOwnersKycStatus": {
+        "assuranceLevel": "third_party_verified",
+        "verificationDate": "2025-11-12T11:00:00Z",
+        "verificationSource": "Beltic + Persona KYC Vendor"
+      }
+    }
+  },
+  "legalName": "Global Enterprises Corporation",
+  "entityType": "corporation",
+  "incorporationJurisdiction": {
+    "country": "US",
+    "region": "CA"
+  },
+  "incorporationDate": "2015-01-20",
+  "businessRegistrationNumber": "hash_global2015ca",
+  "businessRegistrationStatus": "active_good_standing",
+  "website": "https://globalenterprises.example",
+  "registeredAddress": {
+    "streetAddress": "1 Market Street, Suite 3000",
+    "city": "San Francisco",
+    "region": "CA",
+    "postalCode": "94105",
+    "country": "US"
+  },
+  "businessEmail": "corporate@globalenterprises.example",
+  "businessPhone": "+1-415-555-9000",
+  "securityEmail": "security@globalenterprises.example",
+  "taxIdExists": true,
+  "taxIdVerified": "verified",
+  "taxIdJurisdiction": {
+    "country": "US"
+  },
+  "taxIdLastVerifiedDate": "2025-09-25",
+  "kybTier": "tier_3_enhanced",
+  "sanctionsScreeningStatus": "clear",
+  "sanctionsScreeningLastChecked": "2025-11-19",
+  "pepRiskLevel": "medium",
+  "pepRiskLastAssessed": "2025-11-19",
+  "adverseMediaRiskLevel": "low",
+  "adverseMediaLastAssessed": "2025-11-19",
+  "overallRiskRating": "medium",
+  "beneficialOwnersKycStatus": "all_identified_and_kycd",
+  "beneficialOwnersCount": 5,
+  "controlStructureComplexity": "complex",
+  "credentialId": "750e8400-e29b-41d4-a716-446655441005",
+  "issuanceDate": "2025-11-21T12:00:00Z",
+  "expirationDate": "2026-02-21T12:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "active",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-21T12:00:00Z",
+  "subjectDid": "did:web:globalenterprises.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-21T12:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5validOrg3Tier3Complex"
+  }
+}

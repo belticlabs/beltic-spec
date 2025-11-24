@@ -1,0 +1,59 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified"
+  },
+  "legalName": "Risk Mismatch Corp",
+  "entityType": "corporation",
+  "incorporationJurisdiction": {
+    "country": "US",
+    "region": "TX"
+  },
+  "incorporationDate": "2017-09-10",
+  "businessRegistrationNumber": "hash_riskmismatch404",
+  "businessRegistrationStatus": "active_good_standing",
+  "website": "https://riskmismatch.example",
+  "registeredAddress": {
+    "streetAddress": "404 Inconsistent Ave",
+    "city": "Dallas",
+    "region": "TX",
+    "postalCode": "75201",
+    "country": "US"
+  },
+  "businessEmail": "info@riskmismatch.example",
+  "taxIdExists": true,
+  "taxIdVerified": "verified",
+  "taxIdJurisdiction": {
+    "country": "US"
+  },
+  "taxIdLastVerifiedDate": "2025-09-10",
+  "kybTier": "tier_3_enhanced",
+  "sanctionsScreeningStatus": "clear",
+  "sanctionsScreeningLastChecked": "2025-11-20",
+  "pepRiskLevel": "high",
+  "pepRiskLastAssessed": "2025-11-20",
+  "adverseMediaRiskLevel": "low",
+  "adverseMediaLastAssessed": "2025-11-20",
+  "overallRiskRating": "low",
+  "credentialId": "650e8400-e29b-41d4-a716-446655440015",
+  "issuanceDate": "2025-11-21T10:00:00Z",
+  "expirationDate": "2026-02-21T10:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "active",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-21T10:00:00Z",
+  "subjectDid": "did:web:riskmismatch.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-21T10:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5testTier2Rule9"
+  }
+}

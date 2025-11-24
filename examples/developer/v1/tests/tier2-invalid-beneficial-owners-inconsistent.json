@@ -1,0 +1,61 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified"
+  },
+  "legalName": "Multi-Owner Corp",
+  "entityType": "corporation",
+  "incorporationJurisdiction": {
+    "country": "US",
+    "region": "DE"
+  },
+  "incorporationDate": "2020-08-30",
+  "businessRegistrationNumber": "hash_multiowner202",
+  "businessRegistrationStatus": "active_good_standing",
+  "website": "https://multiowner.example",
+  "registeredAddress": {
+    "streetAddress": "202 Owner Plaza",
+    "city": "Wilmington",
+    "region": "DE",
+    "postalCode": "19801",
+    "country": "US"
+  },
+  "businessEmail": "contact@multiowner.example",
+  "taxIdExists": true,
+  "taxIdVerified": "verified",
+  "taxIdJurisdiction": {
+    "country": "US"
+  },
+  "taxIdLastVerifiedDate": "2025-07-20",
+  "kybTier": "tier_2_standard",
+  "sanctionsScreeningStatus": "clear",
+  "sanctionsScreeningLastChecked": "2025-11-18",
+  "pepRiskLevel": "none",
+  "pepRiskLastAssessed": "2025-11-18",
+  "adverseMediaRiskLevel": "none",
+  "adverseMediaLastAssessed": "2025-11-18",
+  "overallRiskRating": "low",
+  "beneficialOwnersKycStatus": "not_applicable",
+  "beneficialOwnersCount": 3,
+  "credentialId": "650e8400-e29b-41d4-a716-446655440013",
+  "issuanceDate": "2025-11-21T10:00:00Z",
+  "expirationDate": "2026-05-21T10:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "active",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-21T10:00:00Z",
+  "subjectDid": "did:web:multiowner.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-21T10:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5testTier2Rule3"
+  }
+}

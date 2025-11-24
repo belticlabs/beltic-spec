@@ -1,0 +1,54 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified"
+  },
+  "legalName": "Status Confusion LLC",
+  "entityType": "limited_liability_company",
+  "incorporationJurisdiction": {
+    "country": "US",
+    "region": "WA"
+  },
+  "incorporationDate": "2020-12-01",
+  "businessRegistrationNumber": "hash_statusconfusion707",
+  "businessRegistrationStatus": "active_good_standing",
+  "website": "https://statusconfusion.example",
+  "registeredAddress": {
+    "streetAddress": "707 Mismatch Way",
+    "city": "Seattle",
+    "region": "WA",
+    "postalCode": "98101",
+    "country": "US"
+  },
+  "businessEmail": "info@statusconfusion.example",
+  "taxIdExists": true,
+  "taxIdVerified": "verified",
+  "taxIdJurisdiction": {
+    "country": "US"
+  },
+  "taxIdLastVerifiedDate": "2025-06-10",
+  "kybTier": "tier_1_basic",
+  "sanctionsScreeningStatus": "not_screened",
+  "overallRiskRating": "not_assessed",
+  "credentialId": "650e8400-e29b-41d4-a716-446655440019",
+  "issuanceDate": "2025-11-21T10:00:00Z",
+  "expirationDate": "2027-11-21T10:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "expired",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-21T10:00:00Z",
+  "subjectDid": "did:web:statusconfusion.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-21T10:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5testTier2Rule8"
+  }
+}

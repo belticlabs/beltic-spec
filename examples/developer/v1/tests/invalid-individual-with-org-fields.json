@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified"
+  },
+  "legalName": "John Doe",
+  "entityType": "individual",
+  "incorporationJurisdiction": {
+    "country": "US"
+  },
+  "incorporationDate": "1985-06-20",
+  "businessRegistrationNumber": "invalid_for_individual",
+  "businessRegistrationStatus": "not_applicable",
+  "website": "https://johndoe.dev",
+  "businessEmail": "john@johndoe.dev",
+  "taxIdExists": false,
+  "kybTier": "tier_0_unverified",
+  "sanctionsScreeningStatus": "not_screened",
+  "overallRiskRating": "not_assessed",
+  "credentialId": "550e8400-e29b-41d4-a716-446655440002",
+  "issuanceDate": "2025-11-20T10:00:00Z",
+  "expirationDate": "2026-11-20T10:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "active",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-20T10:00:00Z",
+  "subjectDid": "did:web:johndoe.dev",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-20T10:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5test456signature"
+  }
+}

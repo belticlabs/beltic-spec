@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified"
+  },
+  "legalName": "Test Company Inc.",
+  "entityType": "corporation",
+  "incorporationJurisdiction": {
+    "country": "US",
+    "region": "DE"
+  },
+  "incorporationDate": "2020-05-15",
+  "businessRegistrationNumber": "hash_test123",
+  "businessRegistrationStatus": "active_good_standing",
+  "website": "https://testcompany.example",
+  "registeredAddress": {
+    "streetAddress": "123 Main St",
+    "city": "Wilmington",
+    "region": "DE",
+    "postalCode": "19801",
+    "country": "US"
+  },
+  "businessEmail": "contact@testcompany.example",
+  "businessPhone": "+1-302-555-0100",
+  "taxIdExists": true,
+  "kybTier": "tier_1_basic",
+  "sanctionsScreeningStatus": "not_screened",
+  "overallRiskRating": "not_assessed",
+  "credentialId": "550e8400-e29b-41d4-a716-446655440001",
+  "issuanceDate": "2025-11-20T10:00:00Z",
+  "expirationDate": "2026-11-20T10:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "active",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-20T10:00:00Z",
+  "subjectDid": "did:web:testcompany.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-20T10:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5test123signature"
+  }
+}

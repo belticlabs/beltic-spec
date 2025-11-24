@@ -1,0 +1,52 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified"
+  },
+  "legalName": "Global Innovations Corp",
+  "entityType": "corporation",
+  "incorporationJurisdiction": {
+    "country": "CA"
+  },
+  "incorporationDate": "2019-11-20",
+  "businessRegistrationNumber": "hash_global555",
+  "businessRegistrationStatus": "active_good_standing",
+  "website": "https://globalinnovations.example",
+  "registeredAddress": {
+    "streetAddress": "1000 Bay Street",
+    "city": "Toronto",
+    "region": "ON",
+    "postalCode": "M5H 2Y4",
+    "country": "CA"
+  },
+  "businessEmail": "info@globalinnovations.example",
+  "taxIdExists": true,
+  "taxIdVerified": "verified",
+  "taxIdJurisdiction": {
+    "country": "CA"
+  },
+  "kybTier": "tier_1_basic",
+  "sanctionsScreeningStatus": "not_screened",
+  "overallRiskRating": "not_assessed",
+  "credentialId": "550e8400-e29b-41d4-a716-446655440008",
+  "issuanceDate": "2025-11-20T10:00:00Z",
+  "expirationDate": "2027-11-20T10:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "active",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-20T10:00:00Z",
+  "subjectDid": "did:web:globalinnovations.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-20T10:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5testMNO345signature"
+  }
+}

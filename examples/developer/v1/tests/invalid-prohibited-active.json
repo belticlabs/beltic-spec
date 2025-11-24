@@ -1,0 +1,58 @@
+{
+  "$schema": "../../../schemas/developer/v1/developer-credential-v1.schema.json",
+  "schemaVersion": "1.0",
+  "assuranceMetadata": {
+    "globalAssuranceLevel": "beltic_verified"
+  },
+  "legalName": "Prohibited Company Inc",
+  "entityType": "corporation",
+  "incorporationJurisdiction": {
+    "country": "US"
+  },
+  "incorporationDate": "2010-05-05",
+  "businessRegistrationNumber": "hash_prohibited777",
+  "businessRegistrationStatus": "suspended",
+  "website": "https://prohibited.example",
+  "registeredAddress": {
+    "streetAddress": "777 Ban Street",
+    "city": "Washington",
+    "region": "DC",
+    "postalCode": "20001",
+    "country": "US"
+  },
+  "businessEmail": "info@prohibited.example",
+  "taxIdExists": true,
+  "taxIdVerified": "verified",
+  "taxIdJurisdiction": {
+    "country": "US"
+  },
+  "taxIdLastVerifiedDate": "2024-06-10",
+  "kybTier": "tier_3_enhanced",
+  "sanctionsScreeningStatus": "confirmed_match",
+  "sanctionsScreeningLastChecked": "2025-11-19",
+  "pepRiskLevel": "high",
+  "pepRiskLastAssessed": "2025-11-19",
+  "adverseMediaRiskLevel": "high",
+  "adverseMediaLastAssessed": "2025-11-19",
+  "overallRiskRating": "prohibited",
+  "credentialId": "550e8400-e29b-41d4-a716-446655440006",
+  "issuanceDate": "2025-11-20T10:00:00Z",
+  "expirationDate": "2026-02-20T10:00:00Z",
+  "issuerDid": "did:web:beltic.com",
+  "verificationMethod": "did:web:beltic.com#key-1",
+  "credentialStatus": "active",
+  "revocationListUrl": "https://beltic.com/status/dev-credentials.json",
+  "lastUpdatedDate": "2025-11-20T10:00:00Z",
+  "subjectDid": "did:web:prohibited.example",
+  "publicKey": {
+    "type": "Ed25519VerificationKey2020",
+    "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-20T10:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5testGHI789signature"
+  }
+}

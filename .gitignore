@@ -1,0 +1,18 @@
+# macOS system files
+.DS_Store
+**/.DS_Store
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.pdf
+*.tex
+
+# Temporary/draft files
+temp/
+draft/
+
+# Node modules (if not already ignored)
+node_modules/
+

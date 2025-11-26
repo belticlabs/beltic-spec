@@ -84,6 +84,6 @@
     "created": "2025-11-21T12:00:00Z",
     "verificationMethod": "did:web:beltic.com#key-1",
     "proofPurpose": "assertionMethod",
-    "proofValue": "z5validOrg2Tier2"
+    "proofValue": "z5validOrg2Tier2AbCdEfGhIjKlMnOpQrStUvWx"
   }
 }

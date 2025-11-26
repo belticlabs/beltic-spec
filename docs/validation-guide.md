@@ -879,6 +879,82 @@ if (runtimeResult.warnings.length > 0) {
 console.log("✓ Credential is valid (schema + runtime)");
 ```
 
+### Runtime Validation Rules Reference
+
+This section provides a comprehensive catalog of all runtime validation rules with formal error codes.
+
+#### Severity Levels
+
+| Severity | Description | Action |
+|----------|-------------|--------|
+| `critical` | Validation fails; credential MUST NOT be trusted | Reject credential |
+| `high` | Serious issue affecting trust | Reject for high-risk operations |
+| `medium` | Notable issue | Log and monitor |
+| `warning` | Recommendation | Informational only |
+
+#### Date Ordering Rules
+
+| Rule ID | Condition | Error Code | Severity |
+|---------|-----------|------------|----------|
+| RV-D001 | `issuanceDate < expirationDate` | `DATE_ORDER_ISSUANCE_EXPIRATION` | critical |
+| RV-D002 | `issuanceDate <= lastUpdatedDate <= expirationDate` | `DATE_ORDER_LAST_UPDATED` | critical |
+| RV-D003 | `proof.created >= issuanceDate` | `DATE_ORDER_PROOF_CREATED` | warning |
+
+#### Freshness Rules
+
+| Rule ID | Field | Max Age | Error Code | Severity |
+|---------|-------|---------|------------|----------|
+| RV-F001 | `sanctionsScreeningLastChecked` | 90 days | `FRESHNESS_SANCTIONS_SCREENING` | high |
+| RV-F002 | `pepRiskLastAssessed` | 180 days | `FRESHNESS_PEP_ASSESSMENT` | medium |
+| RV-F003 | `adverseMediaLastAssessed` | 180 days | `FRESHNESS_ADVERSE_MEDIA` | medium |
+| RV-F004 | `taxIdLastVerifiedDate` | 730 days | `FRESHNESS_TAX_VERIFICATION` | medium |
+| RV-F005 | `expirationDate > now` | current | `CREDENTIAL_EXPIRED` | critical |
+| RV-F006 | Safety evaluation dates | 180 days | `FRESHNESS_SAFETY_EVALUATION` | medium |
+| RV-F007 | `toolsLastAudited` | 180 days | `FRESHNESS_TOOLS_AUDIT` | medium |
+
+#### Cross-Field Consistency Rules
+
+| Rule ID | Condition | Error Code | Severity |
+|---------|-----------|------------|----------|
+| RV-C001 | `toolsList.length > 0` → tool abuse metrics required | `CONSISTENCY_TOOLS_METRICS_REQUIRED` | critical |
+| RV-C002 | PHI in `dataCategoriesProcessed` → HIPAA in `complianceCertifications` | `CONSISTENCY_PHI_COMPLIANCE` | warning |
+| RV-C003 | Financial in `dataCategoriesProcessed` → PCI/SOC2 in `complianceCertifications` | `CONSISTENCY_FINANCIAL_COMPLIANCE` | warning |
+| RV-C004 | `credentialStatus="expired"` → `expirationDate` in past | `CONSISTENCY_EXPIRED_STATUS` | critical |
+| RV-C005 | `credentialStatus="active"` → `expirationDate` in future | `CONSISTENCY_ACTIVE_EXPIRED` | critical |
+
+#### Cross-Credential Rules (AgentCredential)
+
+| Rule ID | Condition | Error Code | Severity |
+|---------|-----------|------------|----------|
+| RV-X001 | `developerCredentialId` references valid credential | `CROSS_CREDENTIAL_DEVELOPER_NOT_FOUND` | critical |
+| RV-X002 | Referenced developer credential is active | `CROSS_CREDENTIAL_DEVELOPER_NOT_ACTIVE` | critical |
+| RV-X003 | Referenced developer credential not expired | `CROSS_CREDENTIAL_DEVELOPER_EXPIRED` | critical |
+| RV-X004 | Developer KYB tier >= agent `kybTierRequired` | `CROSS_CREDENTIAL_KYB_TIER_INSUFFICIENT` | critical |
+| RV-X005 | Developer `overallRiskRating` not "prohibited" | `CROSS_CREDENTIAL_DEVELOPER_PROHIBITED` | critical |
+
+#### ValidationResult Structure
+
+```typescript
+interface ValidationResult {
+  valid: boolean;                // true if no critical/high errors
+  credentialType: 'DeveloperCredential' | 'AgentCredential';
+  credentialId: string;
+  timestamp: string;             // ISO 8601
+  schemaValid: boolean;
+  runtimeValid: boolean;
+  errors: ValidationError[];
+  warnings: ValidationError[];
+}
+
+interface ValidationError {
+  code: string;                  // Error code (e.g., "DATE_ORDER_ISSUANCE_EXPIRATION")
+  severity: 'critical' | 'high' | 'medium' | 'low' | 'warning';
+  field: string;                 // JSON path (e.g., "issuanceDate")
+  message: string;               // Human-readable message
+  rule: string;                  // Rule ID (e.g., "RV-D001")
+}
+```
+
 ---
 
 ## Batch Validation

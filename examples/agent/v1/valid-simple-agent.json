@@ -9,15 +9,20 @@
   "currentStatus": "production",
   "developerCredentialId": "d7aa92c7-8b07-4f35-8c9b-a2d02e26f012",
   "developerCredentialVerified": true,
-  "primaryModelProvider": "Anthropic",
-  "primaryModelFamily": "Claude-3 Opus",
+  "primaryModelProvider": "anthropic",
+  "primaryModelFamily": "claude-3-opus",
   "modelContextWindow": 200000,
   "modalitySupport": ["text", "structured_data"],
   "languageCapabilities": ["en", "es"],
   "architectureType": "rag",
   "systemConfigFingerprint": "f6d2b3fdc1b0e8f79b99a9fa5a4f1bb99a2db0e932c1e2b948ecacfe3130f9ab",
   "systemConfigLastUpdated": "2025-10-30",
-  "deploymentEnvironment": "AWS us-west-2 isolated VPC",
+  "deploymentEnvironment": {
+    "type": "cloud_managed",
+    "cloudProvider": "aws",
+    "primaryRegion": "US",
+    "complianceNotes": "us-west-2 isolated VPC"
+  },
   "dataLocationProfile": {
     "storageRegions": ["US"],
     "processingRegions": ["US"],
@@ -51,7 +56,8 @@
   "trainingDataUsage": "with_explicit_consent",
   "piiDetectionEnabled": true,
   "piiRedactionCapability": "advanced",
-  "dataEncryptionStandards": ["AES-256-at-rest", "TLS 1.3 in transit"],
+  "dataEncryptionStandards": ["AES-256-at-rest", "TLS-1.3-in-transit"],
+  "complianceCertifications": ["soc2_type2", "pci_dss"],
   "harmfulContentRefusalScore": 96,
   "harmfulContentBenchmarkName": "Beltic Harmful Content Suite",
   "harmfulContentBenchmarkVersion": "2.1.0",
@@ -97,6 +103,6 @@
     "created": "2025-11-08T12:00:05Z",
     "verificationMethod": "did:web:beltic.com#key-1",
     "proofPurpose": "assertionMethod",
-    "proofValue": "zExampleSignature=="
+    "proofValue": "z4Xwpn9MzBe1qPvRjWz3kD7mN8sV2cYh6tL0uF5aG9dE"
   }
 }

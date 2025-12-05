@@ -1,0 +1,50 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.beltic.com/v2"
+  ],
+  "type": ["VerifiableCredential", "DeveloperCredential"],
+  "id": "urn:uuid:860f9500-f30c-52e5-b827-557766552115",
+  "issuer": "did:web:beltic.com",
+  "validFrom": "2025-12-01T00:00:00Z",
+  "validUntil": "2026-06-01T00:00:00Z",
+  "credentialSubject": {
+    "id": "did:web:jane-doe-dev.example",
+    "schemaVersion": "2.0",
+    "legalName": "Jane Doe",
+    "entityType": "individual",
+    "incorporationJurisdiction": {
+      "country": "US"
+    },
+    "businessRegistrationStatus": "not_applicable",
+    "website": "https://jane-doe-dev.example",
+    "registeredAddress": null,
+    "businessEmail": "jane@jane-doe-dev.example",
+    "taxIdExists": false,
+    "kybTier": "tier_1_basic",
+    "sanctionsScreeningStatus": "clear",
+    "sanctionsScreeningLastChecked": "2025-11-25",
+    "overallRiskRating": "low",
+    "beneficialOwnersKycStatus": "not_applicable",
+    "publicKey": {
+      "type": "Ed25519VerificationKey2020",
+      "publicKeyMultibase": "z6MkiTBz1ymuepAQ4HEHYSF1H8quG5GLVVQR3djdX3mDooWp"
+    },
+    "lastUpdatedDate": "2025-12-01T00:00:00Z"
+  },
+  "credentialStatus": {
+    "id": "https://beltic.com/status/dev-credentials#11111",
+    "type": "BitstringStatusListEntry",
+    "statusPurpose": "revocation",
+    "statusListIndex": "11111",
+    "statusListCredential": "https://beltic.com/status/dev-credentials"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-12-01T00:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z6IndivMinimalXyZaBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890"
+  }
+}
+

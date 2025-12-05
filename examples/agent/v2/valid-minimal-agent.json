@@ -1,0 +1,71 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.beltic.com/v2"
+  ],
+  "type": ["VerifiableCredential", "AgentCredential"],
+  "id": "urn:uuid:b3b2f7b1-8f5f-5bb2-9f7c-6d44d7f0f8f3",
+  "issuer": "did:web:beltic.com",
+  "validFrom": "2025-12-01T00:00:00Z",
+  "validUntil": "2026-06-01T00:00:00Z",
+  "credentialSubject": {
+    "id": "did:web:simple-chatbot.example.com",
+    "schemaVersion": "2.0",
+    "agentId": "4d0f5f0c-2b3c-5d0e-9f45-8f6d91f4e523",
+    "agentName": "Simple FAQ Chatbot",
+    "agentVersion": "1.0.0",
+    "agentDescription": "A basic FAQ chatbot that answers customer questions about product features and returns policy using a predefined knowledge base.",
+    "firstReleaseDate": "2025-11-01",
+    "currentStatus": "production",
+    "developerCredentialId": "e8bb03d8-9c18-5f46-9d0c-b3e13f37f123",
+    "developerCredentialVerified": true,
+    "primaryModelProvider": "openai",
+    "primaryModelFamily": "gpt-4o-mini",
+    "modelContextWindow": 128000,
+    "modalitySupport": ["text"],
+    "languageCapabilities": ["en"],
+    "architectureType": "rag",
+    "systemConfigFingerprint": "a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd",
+    "systemConfigLastUpdated": "2025-11-15",
+    "deploymentEnvironment": {
+      "type": "cloud_managed",
+      "cloudProvider": "gcp"
+    },
+    "dataLocationProfile": {
+      "storageRegions": ["US"],
+      "processingRegions": ["US"]
+    },
+    "dataCategoriesProcessed": ["none"],
+    "dataRetentionMaxPeriod": "P7D",
+    "trainingDataUsage": "never",
+    "piiDetectionEnabled": false,
+    "piiRedactionCapability": "none",
+    "dataEncryptionStandards": ["AES-256-at-rest", "TLS-1.3-in-transit"],
+    "incidentResponseContact": "support@example.com",
+    "incidentResponseSLO": "P1D",
+    "deprecationPolicy": "30-day notice via email to all users",
+    "updateCadence": "monthly",
+    "humanOversightMode": "autonomous_low_risk",
+    "failSafeBehavior": "Returns a polite fallback message directing users to contact human support when confidence is low or query is out of scope.",
+    "monitoringCoverage": "Basic logging of all conversations with weekly review for quality assurance and error detection.",
+    "overallSafetyRating": "minimal_risk",
+    "ageRestrictions": "none",
+    "kybTierRequired": "tier_1",
+    "verificationLevel": "self_attested"
+  },
+  "credentialStatus": {
+    "id": "https://beltic.com/status/agent-credentials#12345",
+    "type": "BitstringStatusListEntry",
+    "statusPurpose": "revocation",
+    "statusListIndex": "12345",
+    "statusListCredential": "https://beltic.com/status/agent-credentials"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-12-01T00:00:05Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5Ywqo0NzCf2rQwSjXy4lE8oO9tW3dZi7uM1vG6bH0fF"
+  }
+}
+

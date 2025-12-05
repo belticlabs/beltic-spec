@@ -1,0 +1,90 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.beltic.com/v2"
+  ],
+  "type": ["VerifiableCredential", "DeveloperCredential"],
+  "id": "urn:uuid:750e8400-e29b-41d4-a716-446655441004",
+  "issuer": "did:web:beltic.com",
+  "validFrom": "2025-11-21T12:00:00Z",
+  "validUntil": "2026-05-21T12:00:00Z",
+  "credentialSubject": {
+    "id": "did:web:techcorp-intl.example",
+    "schemaVersion": "2.0",
+    "assuranceMetadata": {
+      "globalAssuranceLevel": "beltic_verified",
+      "fieldAssurances": {
+        "legalName": {
+          "assuranceLevel": "beltic_verified",
+          "verificationDate": "2025-11-15T09:00:00Z",
+          "verificationSource": "UK Companies House"
+        },
+        "taxIdVerified": {
+          "assuranceLevel": "third_party_verified",
+          "verificationDate": "2025-10-20T10:00:00Z",
+          "verificationSource": "HMRC VAT Verification"
+        },
+        "sanctionsScreeningStatus": {
+          "assuranceLevel": "third_party_verified",
+          "verificationDate": "2025-11-20T08:00:00Z",
+          "verificationSource": "WorldCheck Sanctions API"
+        }
+      }
+    },
+    "legalName": "TechCorp International Ltd",
+    "entityType": "corporation",
+    "incorporationJurisdiction": {
+      "country": "GB"
+    },
+    "incorporationDate": "2019-03-10",
+    "businessRegistrationNumber": "hash_techcorp2019uk",
+    "businessRegistrationStatus": "active_good_standing",
+    "website": "https://techcorp-intl.example",
+    "registeredAddress": {
+      "streetAddress": "50 Canary Wharf",
+      "city": "London",
+      "postalCode": "E14 5AB",
+      "country": "GB"
+    },
+    "businessEmail": "compliance@techcorp-intl.example",
+    "businessPhone": "+44-20-5555-1000",
+    "securityEmail": "security@techcorp-intl.example",
+    "taxIdExists": true,
+    "taxIdVerified": "verified",
+    "taxIdJurisdiction": {
+      "country": "GB"
+    },
+    "taxIdLastVerifiedDate": "2025-10-20",
+    "kybTier": "tier_2_standard",
+    "sanctionsScreeningStatus": "clear",
+    "sanctionsScreeningLastChecked": "2025-11-20",
+    "pepRiskLevel": "low",
+    "pepRiskLastAssessed": "2025-11-20",
+    "adverseMediaRiskLevel": "none",
+    "adverseMediaLastAssessed": "2025-11-20",
+    "overallRiskRating": "low",
+    "beneficialOwnersKycStatus": "all_identified_and_kycd",
+    "beneficialOwnersCount": 2,
+    "controlStructureComplexity": "simple",
+    "publicKey": {
+      "type": "Ed25519VerificationKey2020",
+      "publicKeyMultibase": "z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+    },
+    "lastUpdatedDate": "2025-11-21T12:00:00Z"
+  },
+  "credentialStatus": {
+    "id": "https://beltic.com/status/dev-credentials#67890",
+    "type": "BitstringStatusListEntry",
+    "statusPurpose": "revocation",
+    "statusListIndex": "67890",
+    "statusListCredential": "https://beltic.com/status/dev-credentials"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2025-11-21T12:00:00Z",
+    "verificationMethod": "did:web:beltic.com#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5validOrg2Tier2AbCdEfGhIjKlMnOpQrStUvWx"
+  }
+}
+

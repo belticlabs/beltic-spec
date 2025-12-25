@@ -26,6 +26,7 @@ This guide shows you how to verify Beltic credentials, enforce access policies, 
 **Use Case:** Allow AI agents to act on behalf of users in your platform (e.g., process returns, book services, make purchases).
 
 **What You'll Learn:**
+
 - How to verify agent identity and safety metrics
 - How to set risk thresholds (e.g., only allow agents with ASR ≤ 0.10)
 - How to verify developer KYC/KYB before granting agent access
@@ -37,6 +38,7 @@ This guide shows you how to verify Beltic credentials, enforce access policies, 
 **Use Case:** Control which agents can access your APIs and what they can do.
 
 **What You'll Learn:**
+
 - Policy-based access control (different tiers for different agent risk levels)
 - Rate limiting based on agent robustness scores
 - Tool permission mapping (restrict high-risk tools for low-assurance agents)
@@ -48,6 +50,7 @@ This guide shows you how to verify Beltic credentials, enforce access policies, 
 **Use Case:** List agents with transparency about their safety, privacy, and developer legitimacy.
 
 **What You'll Learn:**
+
 - How to display agent safety metrics to users
 - How to filter/sort agents by risk rating
 - How to verify developer credentials before listing agents
@@ -59,6 +62,7 @@ This guide shows you how to verify Beltic credentials, enforce access policies, 
 **Use Case:** Audit AI agent deployments for compliance.
 
 **What You'll Learn:**
+
 - How to interpret assurance metadata
 - How to verify NIST AI RMF alignment
 - How to check KYC/KYB compliance
@@ -126,6 +130,7 @@ This guide shows you how to verify Beltic credentials, enforce access policies, 
 ### AgentCredential
 
 Documents the agent itself:
+
 - **Identity**: name, version, description
 - **Technical profile**: model, capabilities, tools
 - **Safety metrics**: Attack Success Rate (ASR), Robustness Score
@@ -133,6 +138,7 @@ Documents the agent itself:
 - **Operations**: rate limits, SLA, deployment environment
 
 **Key fields for access control:**
+
 - `attackSuccessRate` (0.0-1.0): Lower is better (0.05 = 5% attack success)
 - `robustnessScore` (0-100): Higher is better (95 = 95% defense rate)
 - `currentStatus`: `development`, `beta`, `production`, `deprecated`
@@ -142,6 +148,7 @@ Documents the agent itself:
 ### DeveloperCredential
 
 Documents the developer/organization:
+
 - **Identity**: Legal name, entity type, jurisdiction
 - **KYC/KYB**: Tax ID verification, business registration
 - **Risk assessment**: Sanctions, PEP, adverse media screening
@@ -149,6 +156,7 @@ Documents the developer/organization:
 - **Assurance**: Verification levels for each field
 
 **Key fields for access control:**
+
 - `kybTier`: `tier_0_unverified` to `tier_4_maximum_verification`
 - `sanctionsScreeningStatus`: `clear`, `potential_match`, `confirmed_match`, `not_screened`
 - `overallRiskRating`: `not_assessed`, `low`, `medium`, `high`, `prohibited`
@@ -161,6 +169,7 @@ Documents the developer/organization:
 ### Step 1: Validate JSON Schema
 
 **JavaScript (Node.js):**
+
 ```javascript
 const Ajv = require("ajv/dist/2020");
 const addFormats = require("ajv-formats");
@@ -173,10 +182,12 @@ class CredentialVerifier {
 
     // Load schemas
     const agentSchema = JSON.parse(
-      fs.readFileSync('schemas/agent/v1/agent-credential-v1.schema.json')
+      fs.readFileSync("schemas/agent/v1/agent-credential-v1.schema.json"),
     );
     const developerSchema = JSON.parse(
-      fs.readFileSync('schemas/developer/v1/developer-credential-v1.schema.json')
+      fs.readFileSync(
+        "schemas/developer/v1/developer-credential-v1.schema.json",
+      ),
     );
 
     this.validateAgent = this.ajv.compile(agentSchema);
@@ -188,8 +199,8 @@ class CredentialVerifier {
     if (!this.validateAgent(credential)) {
       return {
         valid: false,
-        reason: 'schema_invalid',
-        errors: this.validateAgent.errors
+        reason: "schema_invalid",
+        errors: this.validateAgent.errors,
       };
     }
 
@@ -197,17 +208,17 @@ class CredentialVerifier {
     if (new Date(credential.expirationDate) < new Date()) {
       return {
         valid: false,
-        reason: 'expired',
-        expirationDate: credential.expirationDate
+        reason: "expired",
+        expirationDate: credential.expirationDate,
       };
     }
 
     // Status check
-    if (credential.credentialStatus !== 'active') {
+    if (credential.credentialStatus !== "active") {
       return {
         valid: false,
-        reason: 'not_active',
-        status: credential.credentialStatus
+        reason: "not_active",
+        status: credential.credentialStatus,
       };
     }
 
@@ -219,8 +230,8 @@ class CredentialVerifier {
     if (!this.validateDeveloper(credential)) {
       return {
         valid: false,
-        reason: 'schema_invalid',
-        errors: this.validateDeveloper.errors
+        reason: "schema_invalid",
+        errors: this.validateDeveloper.errors,
       };
     }
 
@@ -228,24 +239,24 @@ class CredentialVerifier {
     if (new Date(credential.expirationDate) < new Date()) {
       return {
         valid: false,
-        reason: 'expired',
-        expirationDate: credential.expirationDate
+        reason: "expired",
+        expirationDate: credential.expirationDate,
       };
     }
 
     // Status check
-    if (credential.credentialStatus === 'revoked') {
+    if (credential.credentialStatus === "revoked") {
       return {
         valid: false,
-        reason: 'revoked'
+        reason: "revoked",
       };
     }
 
     // Risk check
-    if (credential.overallRiskRating === 'prohibited') {
+    if (credential.overallRiskRating === "prohibited") {
       return {
         valid: false,
-        reason: 'prohibited_risk'
+        reason: "prohibited_risk",
       };
     }
 
@@ -257,6 +268,7 @@ module.exports = CredentialVerifier;
 ```
 
 **Python:**
+
 ```python
 import json
 from jsonschema import Draft202012Validator, ValidationError
@@ -324,18 +336,18 @@ async function checkRevocationStatus(credential) {
     const revocationList = await response.json();
 
     const isRevoked = revocationList.revokedCredentials.includes(
-      credential.credentialId
+      credential.credentialId,
     );
 
     return {
       revoked: isRevoked,
-      checkedAt: new Date().toISOString()
+      checkedAt: new Date().toISOString(),
     };
   } catch (error) {
     // Fail open or closed based on your policy
     return {
-      revoked: false,  // or true for fail-closed
-      error: error.message
+      revoked: false, // or true for fail-closed
+      error: error.message,
     };
   }
 }
@@ -356,52 +368,56 @@ const AccessPolicy = {
   DEVELOPMENT: {
     minRobustnessScore: 0,
     maxAttackSuccessRate: 1.0,
-    minKybTier: 'tier_0_unverified',
-    allowedAgentStatus: ['development', 'beta', 'production'],
-    allowedDeveloperStatus: ['active', 'suspended'],
+    minKybTier: "tier_0_unverified",
+    allowedAgentStatus: ["development", "beta", "production"],
+    allowedDeveloperStatus: ["active", "suspended"],
     requireDeveloperVerified: false,
-    allowedAssuranceLevels: ['self_attested', 'beltic_verified', 'third_party_verified']
+    allowedAssuranceLevels: [
+      "self_attested",
+      "beltic_verified",
+      "third_party_verified",
+    ],
   },
 
   // Tier 2: Low-Risk Production (FAQ bots, content generation)
   LOW_RISK_PRODUCTION: {
-    minRobustnessScore: 80,       // 80% defense rate
-    maxAttackSuccessRate: 0.20,   // 20% attack success
-    minKybTier: 'tier_1_basic',
-    allowedAgentStatus: ['production'],
-    allowedDeveloperStatus: ['active'],
+    minRobustnessScore: 80, // 80% defense rate
+    maxAttackSuccessRate: 0.2, // 20% attack success
+    minKybTier: "tier_1_basic",
+    allowedAgentStatus: ["production"],
+    allowedDeveloperStatus: ["active"],
     requireDeveloperVerified: true,
-    allowedAssuranceLevels: ['beltic_verified', 'third_party_verified'],
-    allowSanctionsStatus: ['clear', 'not_screened']
+    allowedAssuranceLevels: ["beltic_verified", "third_party_verified"],
+    allowSanctionsStatus: ["clear", "not_screened"],
   },
 
   // Tier 3: Medium-Risk Production (CRM editing, data updates)
   MEDIUM_RISK_PRODUCTION: {
-    minRobustnessScore: 90,       // 90% defense rate
-    maxAttackSuccessRate: 0.10,   // 10% attack success
-    minKybTier: 'tier_2_standard',
-    allowedAgentStatus: ['production'],
-    allowedDeveloperStatus: ['active'],
+    minRobustnessScore: 90, // 90% defense rate
+    maxAttackSuccessRate: 0.1, // 10% attack success
+    minKybTier: "tier_2_standard",
+    allowedAgentStatus: ["production"],
+    allowedDeveloperStatus: ["active"],
     requireDeveloperVerified: true,
-    allowedAssuranceLevels: ['beltic_verified', 'third_party_verified'],
-    allowSanctionsStatus: ['clear'],
-    maxOverallRisk: 'low'
+    allowedAssuranceLevels: ["beltic_verified", "third_party_verified"],
+    allowSanctionsStatus: ["clear"],
+    maxOverallRisk: "low",
   },
 
   // Tier 4: High-Risk Production (financial transactions, PII access)
   HIGH_RISK_PRODUCTION: {
-    minRobustnessScore: 95,       // 95% defense rate
-    maxAttackSuccessRate: 0.05,   // 5% attack success
-    minKybTier: 'tier_3_enhanced',
-    allowedAgentStatus: ['production'],
-    allowedDeveloperStatus: ['active'],
+    minRobustnessScore: 95, // 95% defense rate
+    maxAttackSuccessRate: 0.05, // 5% attack success
+    minKybTier: "tier_3_enhanced",
+    allowedAgentStatus: ["production"],
+    allowedDeveloperStatus: ["active"],
     requireDeveloperVerified: true,
-    allowedAssuranceLevels: ['third_party_verified'],
-    allowSanctionsStatus: ['clear'],
-    maxOverallRisk: 'low',
-    requireScreeningFreshness: 90,  // days
-    requirePiiProtection: true
-  }
+    allowedAssuranceLevels: ["third_party_verified"],
+    allowSanctionsStatus: ["clear"],
+    maxOverallRisk: "low",
+    requireScreeningFreshness: 90, // days
+    requirePiiProtection: true,
+  },
 };
 
 module.exports = AccessPolicy;
@@ -411,7 +427,7 @@ module.exports = AccessPolicy;
 
 ```javascript
 // policy-enforcer.js
-const AccessPolicy = require('./policy');
+const AccessPolicy = require("./policy");
 
 class PolicyEnforcer {
   constructor(verifier) {
@@ -426,21 +442,23 @@ class PolicyEnforcer {
     }
 
     // Verify credentials are structurally valid
-    const agentVerification = this.verifier.verifyAgentCredential(agentCredential);
+    const agentVerification =
+      this.verifier.verifyAgentCredential(agentCredential);
     if (!agentVerification.valid) {
       return {
         allowed: false,
         reason: `Agent credential invalid: ${agentVerification.reason}`,
-        details: agentVerification
+        details: agentVerification,
       };
     }
 
-    const developerVerification = this.verifier.verifyDeveloperCredential(developerCredential);
+    const developerVerification =
+      this.verifier.verifyDeveloperCredential(developerCredential);
     if (!developerVerification.valid) {
       return {
         allowed: false,
         reason: `Developer credential invalid: ${developerVerification.reason}`,
-        details: developerVerification
+        details: developerVerification,
       };
     }
 
@@ -448,18 +466,18 @@ class PolicyEnforcer {
     if (agentCredential.robustnessScore < policy.minRobustnessScore) {
       return {
         allowed: false,
-        reason: 'insufficient_robustness',
+        reason: "insufficient_robustness",
         required: policy.minRobustnessScore,
-        actual: agentCredential.robustnessScore
+        actual: agentCredential.robustnessScore,
       };
     }
 
     if (agentCredential.attackSuccessRate > policy.maxAttackSuccessRate) {
       return {
         allowed: false,
-        reason: 'attack_success_rate_too_high',
+        reason: "attack_success_rate_too_high",
         required: `<= ${policy.maxAttackSuccessRate}`,
-        actual: agentCredential.attackSuccessRate
+        actual: agentCredential.attackSuccessRate,
       };
     }
 
@@ -467,9 +485,9 @@ class PolicyEnforcer {
     if (!policy.allowedAgentStatus.includes(agentCredential.currentStatus)) {
       return {
         allowed: false,
-        reason: 'agent_status_not_allowed',
+        reason: "agent_status_not_allowed",
         required: policy.allowedAgentStatus,
-        actual: agentCredential.currentStatus
+        actual: agentCredential.currentStatus,
       };
     }
 
@@ -477,73 +495,94 @@ class PolicyEnforcer {
     if (this.compareTiers(developerCredential.kybTier, policy.minKybTier) < 0) {
       return {
         allowed: false,
-        reason: 'insufficient_kyb_tier',
+        reason: "insufficient_kyb_tier",
         required: policy.minKybTier,
-        actual: developerCredential.kybTier
+        actual: developerCredential.kybTier,
       };
     }
 
     // Check developer status
-    if (!policy.allowedDeveloperStatus.includes(developerCredential.credentialStatus)) {
+    if (
+      !policy.allowedDeveloperStatus.includes(
+        developerCredential.credentialStatus,
+      )
+    ) {
       return {
         allowed: false,
-        reason: 'developer_status_not_allowed',
+        reason: "developer_status_not_allowed",
         required: policy.allowedDeveloperStatus,
-        actual: developerCredential.credentialStatus
+        actual: developerCredential.credentialStatus,
       };
     }
 
     // Check developer verification
-    if (policy.requireDeveloperVerified && !agentCredential.developerCredentialVerified) {
+    if (
+      policy.requireDeveloperVerified &&
+      !agentCredential.developerCredentialVerified
+    ) {
       return {
         allowed: false,
-        reason: 'developer_not_verified',
-        details: 'Developer credential link has not been verified by Beltic'
+        reason: "developer_not_verified",
+        details: "Developer credential link has not been verified by Beltic",
       };
     }
 
     // Check sanctions
-    if (policy.allowSanctionsStatus &&
-        !policy.allowSanctionsStatus.includes(developerCredential.sanctionsScreeningStatus)) {
+    if (
+      policy.allowSanctionsStatus &&
+      !policy.allowSanctionsStatus.includes(
+        developerCredential.sanctionsScreeningStatus,
+      )
+    ) {
       return {
         allowed: false,
-        reason: 'sanctions_check_failed',
-        actual: developerCredential.sanctionsScreeningStatus
+        reason: "sanctions_check_failed",
+        actual: developerCredential.sanctionsScreeningStatus,
       };
     }
 
     // Check overall risk
     if (policy.maxOverallRisk) {
-      if (this.compareRisk(developerCredential.overallRiskRating, policy.maxOverallRisk) > 0) {
+      if (
+        this.compareRisk(
+          developerCredential.overallRiskRating,
+          policy.maxOverallRisk,
+        ) > 0
+      ) {
         return {
           allowed: false,
-          reason: 'risk_rating_too_high',
+          reason: "risk_rating_too_high",
           required: `<= ${policy.maxOverallRisk}`,
-          actual: developerCredential.overallRiskRating
+          actual: developerCredential.overallRiskRating,
         };
       }
     }
 
     // Check screening freshness
     if (policy.requireScreeningFreshness) {
-      const screeningAge = this.getDaysOld(developerCredential.sanctionsScreeningLastChecked);
+      const screeningAge = this.getDaysOld(
+        developerCredential.sanctionsScreeningLastChecked,
+      );
       if (screeningAge > policy.requireScreeningFreshness) {
         return {
           allowed: false,
-          reason: 'screening_stale',
+          reason: "screening_stale",
           required: `<= ${policy.requireScreeningFreshness} days`,
-          actual: `${screeningAge} days`
+          actual: `${screeningAge} days`,
         };
       }
     }
 
     // Check PII protection
     if (policy.requirePiiProtection) {
-      if (!agentCredential.piiDetectionEnabled || !agentCredential.piiRedactionEnabled) {
+      if (
+        !agentCredential.piiDetectionEnabled ||
+        !agentCredential.piiRedactionEnabled
+      ) {
         return {
           allowed: false,
-          reason: 'insufficient_pii_protection',
-          details: 'PII detection and redaction are required'
+          reason: "insufficient_pii_protection",
+          details: "PII detection and redaction are required",
         };
       }
     }
@@ -552,23 +591,23 @@ class PolicyEnforcer {
     return {
       allowed: true,
       policyLevel,
-      grantedPermissions: this.getPermissionsForPolicy(policy)
+      grantedPermissions: this.getPermissionsForPolicy(policy),
     };
   }
 
   compareTiers(actualTier, requiredTier) {
     const tierOrder = [
-      'tier_0_unverified',
-      'tier_1_basic',
-      'tier_2_standard',
-      'tier_3_enhanced',
-      'tier_4_maximum_verification'
+      "tier_0_unverified",
+      "tier_1_basic",
+      "tier_2_standard",
+      "tier_3_enhanced",
+      "tier_4_maximum_verification",
     ];
     return tierOrder.indexOf(actualTier) - tierOrder.indexOf(requiredTier);
   }
 
   compareRisk(actualRisk, maxRisk) {
-    const riskOrder = ['not_assessed', 'low', 'medium', 'high', 'prohibited'];
+    const riskOrder = ["not_assessed", "low", "medium", "high", "prohibited"];
     return riskOrder.indexOf(actualRisk) - riskOrder.indexOf(maxRisk);
   }
 
@@ -586,7 +625,7 @@ class PolicyEnforcer {
         canMakeFinancialTransactions: true,
         canModifyData: true,
         canReadData: true,
-        rateLimitTier: 'premium'
+        rateLimitTier: "premium",
       };
     } else if (policy === AccessPolicy.MEDIUM_RISK_PRODUCTION) {
       return {
@@ -594,7 +633,7 @@ class PolicyEnforcer {
         canMakeFinancialTransactions: false,
         canModifyData: true,
         canReadData: true,
-        rateLimitTier: 'standard'
+        rateLimitTier: "standard",
       };
     } else if (policy === AccessPolicy.LOW_RISK_PRODUCTION) {
       return {
@@ -602,7 +641,7 @@ class PolicyEnforcer {
         canMakeFinancialTransactions: false,
         canModifyData: false,
         canReadData: true,
-        rateLimitTier: 'standard'
+        rateLimitTier: "standard",
       };
     } else {
       return {
@@ -610,7 +649,7 @@ class PolicyEnforcer {
         canMakeFinancialTransactions: false,
         canModifyData: false,
         canReadData: false,
-        rateLimitTier: 'basic'
+        rateLimitTier: "basic",
       };
     }
   }
@@ -622,35 +661,37 @@ module.exports = PolicyEnforcer;
 ### Usage Example
 
 ```javascript
-const CredentialVerifier = require('./credential-verifier');
-const PolicyEnforcer = require('./policy-enforcer');
-const fs = require('fs');
+const CredentialVerifier = require("./credential-verifier");
+const PolicyEnforcer = require("./policy-enforcer");
+const fs = require("fs");
 
 // Initialize
 const verifier = new CredentialVerifier();
 const enforcer = new PolicyEnforcer(verifier);
 
 // Load credentials
-const agentCredential = JSON.parse(fs.readFileSync('agent-credential.json'));
-const developerCredential = JSON.parse(fs.readFileSync('developer-credential.json'));
+const agentCredential = JSON.parse(fs.readFileSync("agent-credential.json"));
+const developerCredential = JSON.parse(
+  fs.readFileSync("developer-credential.json"),
+);
 
 // Enforce policy
 const result = await enforcer.enforcePolicy(
   agentCredential,
   developerCredential,
-  'MEDIUM_RISK_PRODUCTION'
+  "MEDIUM_RISK_PRODUCTION",
 );
 
 if (result.allowed) {
-  console.log('✓ Access granted');
-  console.log('Permissions:', result.grantedPermissions);
+  console.log("✓ Access granted");
+  console.log("Permissions:", result.grantedPermissions);
 
   // Proceed with agent access
   // e.g., issue JWT, create session, etc.
 } else {
-  console.log('✗ Access denied');
-  console.log('Reason:', result.reason);
-  console.log('Details:', result.details);
+  console.log("✗ Access denied");
+  console.log("Reason:", result.reason);
+  console.log("Details:", result.details);
 
   // Return error to agent
 }
@@ -673,7 +714,7 @@ class RiskBasedAccessControl {
       delete: false,
       piiAccess: false,
       financialActions: false,
-      rateLimitMultiplier: 1.0
+      rateLimitMultiplier: 1.0,
     };
 
     // Base permissions on robustness score
@@ -690,29 +731,36 @@ class RiskBasedAccessControl {
     }
 
     // Adjust based on developer KYB tier
-    if (developerCredential.kybTier === 'tier_3_enhanced' ||
-        developerCredential.kybTier === 'tier_4_maximum_verification') {
-      permissions.rateLimitMultiplier = 2.0;  // Higher rate limits for verified developers
+    if (
+      developerCredential.kybTier === "tier_3_enhanced" ||
+      developerCredential.kybTier === "tier_4_maximum_verification"
+    ) {
+      permissions.rateLimitMultiplier = 2.0; // Higher rate limits for verified developers
     }
 
     // Restrict if sanctions screening is unclear
-    if (developerCredential.sanctionsScreeningStatus !== 'clear') {
+    if (developerCredential.sanctionsScreeningStatus !== "clear") {
       permissions.financialActions = false;
       permissions.piiAccess = false;
     }
 
     // Restrict if overall risk is elevated
-    if (developerCredential.overallRiskRating === 'medium') {
+    if (developerCredential.overallRiskRating === "medium") {
       permissions.financialActions = false;
-    } else if (developerCredential.overallRiskRating === 'high' ||
-               developerCredential.overallRiskRating === 'prohibited') {
+    } else if (
+      developerCredential.overallRiskRating === "high" ||
+      developerCredential.overallRiskRating === "prohibited"
+    ) {
       // Deny all access
-      return { allowed: false, reason: 'high_risk_developer' };
+      return { allowed: false, reason: "high_risk_developer" };
     }
 
     // Check PII protection for PII access
     if (permissions.piiAccess) {
-      if (!agentCredential.piiDetectionEnabled || !agentCredential.piiRedactionEnabled) {
+      if (
+        !agentCredential.piiDetectionEnabled ||
+        !agentCredential.piiRedactionEnabled
+      ) {
         permissions.piiAccess = false;
       }
     }
@@ -720,7 +768,7 @@ class RiskBasedAccessControl {
     return {
       allowed: true,
       permissions,
-      riskScore: this.calculateRiskScore(agentCredential, developerCredential)
+      riskScore: this.calculateRiskScore(agentCredential, developerCredential),
     };
   }
 
@@ -733,21 +781,21 @@ class RiskBasedAccessControl {
 
     // Developer risk (30 points)
     const riskMapping = {
-      'not_assessed': 30,
-      'low': 10,
-      'medium': 20,
-      'high': 30,
-      'prohibited': 30
+      not_assessed: 30,
+      low: 10,
+      medium: 20,
+      high: 30,
+      prohibited: 30,
     };
     score += riskMapping[developerCredential.overallRiskRating] || 30;
 
     // KYB tier (20 points - inverse: higher tier = lower score)
     const tierMapping = {
-      'tier_0_unverified': 20,
-      'tier_1_basic': 15,
-      'tier_2_standard': 10,
-      'tier_3_enhanced': 5,
-      'tier_4_maximum_verification': 0
+      tier_0_unverified: 20,
+      tier_1_basic: 15,
+      tier_2_standard: 10,
+      tier_3_enhanced: 5,
+      tier_4_maximum_verification: 0,
     };
     score += tierMapping[developerCredential.kybTier] || 20;
 
@@ -801,8 +849,8 @@ class AssuranceChecker {
     if (!assuranceMetadata) {
       // No assurance metadata - assume self-attested
       return {
-        level: 'self_attested',
-        sufficient: minimumLevel === 'self_attested'
+        level: "self_attested",
+        sufficient: minimumLevel === "self_attested",
       };
     }
 
@@ -812,10 +860,11 @@ class AssuranceChecker {
       // Fall back to global assurance level
       return {
         level: assuranceMetadata.globalAssuranceLevel,
-        sufficient: this.compareAssurance(
-          assuranceMetadata.globalAssuranceLevel,
-          minimumLevel
-        ) >= 0
+        sufficient:
+          this.compareAssurance(
+            assuranceMetadata.globalAssuranceLevel,
+            minimumLevel,
+          ) >= 0,
       };
     }
 
@@ -823,34 +872,35 @@ class AssuranceChecker {
       level: fieldAssurance.assuranceLevel,
       verificationDate: fieldAssurance.verificationDate,
       verificationSource: fieldAssurance.verificationSource,
-      sufficient: this.compareAssurance(
-        fieldAssurance.assuranceLevel,
-        minimumLevel
-      ) >= 0
+      sufficient:
+        this.compareAssurance(fieldAssurance.assuranceLevel, minimumLevel) >= 0,
     };
   }
 
   compareAssurance(actual, required) {
-    const levels = ['self_attested', 'beltic_verified', 'third_party_verified'];
+    const levels = ["self_attested", "beltic_verified", "third_party_verified"];
     return levels.indexOf(actual) - levels.indexOf(required);
   }
 }
 ```
 
 **Usage:**
+
 ```javascript
 const checker = new AssuranceChecker();
 
 // Require third-party verification for sanctions screening
 const sanctionsAssurance = checker.checkFieldAssurance(
   developerCredential,
-  'sanctionsScreeningStatus',
-  'third_party_verified'
+  "sanctionsScreeningStatus",
+  "third_party_verified",
 );
 
 if (!sanctionsAssurance.sufficient) {
-  console.log('Sanctions screening assurance is insufficient');
-  console.log(`Required: third_party_verified, Actual: ${sanctionsAssurance.level}`);
+  console.log("Sanctions screening assurance is insufficient");
+  console.log(
+    `Required: third_party_verified, Actual: ${sanctionsAssurance.level}`,
+  );
   // Deny access or require additional verification
 }
 ```
@@ -874,11 +924,11 @@ async function verifySignature(credential) {
   const proofVerified = await verifyJwtProof(
     credential.proof,
     publicKey,
-    credential
+    credential,
   );
 
   if (!proofVerified) {
-    throw new Error('Credential signature verification failed');
+    throw new Error("Credential signature verification failed");
   }
 
   return true;
@@ -897,8 +947,8 @@ async function isCredentialValid(credential) {
   if (revocationStatus.revoked) {
     return {
       valid: false,
-      reason: 'revoked',
-      revokedAt: revocationStatus.revokedAt
+      reason: "revoked",
+      revokedAt: revocationStatus.revokedAt,
     };
   }
 
@@ -906,7 +956,7 @@ async function isCredentialValid(credential) {
   if (new Date(credential.expirationDate) < new Date()) {
     return {
       valid: false,
-      reason: 'expired'
+      reason: "expired",
     };
   }
 
@@ -920,7 +970,8 @@ Cache credentials but refresh regularly:
 
 ```javascript
 class CredentialCache {
-  constructor(ttlSeconds = 300) {  // 5 minutes default
+  constructor(ttlSeconds = 300) {
+    // 5 minutes default
     this.cache = new Map();
     this.ttlSeconds = ttlSeconds;
   }
@@ -928,7 +979,7 @@ class CredentialCache {
   set(credentialId, credential) {
     this.cache.set(credentialId, {
       credential,
-      cachedAt: Date.now()
+      cachedAt: Date.now(),
     });
   }
 
@@ -961,7 +1012,7 @@ Apply stricter rate limits to higher-risk agents:
 
 ```javascript
 function getRateLimitForAgent(agentCredential, developerCredential) {
-  let baseLimit = 100;  // requests per minute
+  let baseLimit = 100; // requests per minute
 
   // Adjust based on robustness
   if (agentCredential.robustnessScore >= 95) {
@@ -973,10 +1024,12 @@ function getRateLimitForAgent(agentCredential, developerCredential) {
   }
 
   // Adjust based on KYB tier
-  if (developerCredential.kybTier === 'tier_3_enhanced' ||
-      developerCredential.kybTier === 'tier_4_maximum_verification') {
+  if (
+    developerCredential.kybTier === "tier_3_enhanced" ||
+    developerCredential.kybTier === "tier_4_maximum_verification"
+  ) {
     baseLimit *= 1.5;
-  } else if (developerCredential.kybTier === 'tier_0_unverified') {
+  } else if (developerCredential.kybTier === "tier_0_unverified") {
     baseLimit *= 0.5;
   }
 
@@ -996,16 +1049,16 @@ function logAccessDecision(agentCredential, developerCredential, decision) {
     agentName: agentCredential.agentName,
     developerId: developerCredential.credentialId,
     developerName: developerCredential.legalName,
-    decision: decision.allowed ? 'granted' : 'denied',
+    decision: decision.allowed ? "granted" : "denied",
     reason: decision.reason,
     policyLevel: decision.policyLevel,
     agentRobustness: agentCredential.robustnessScore,
     developerKybTier: developerCredential.kybTier,
-    developerRisk: developerCredential.overallRiskRating
+    developerRisk: developerCredential.overallRiskRating,
   };
 
   // Send to your logging system
-  console.log('ACCESS_DECISION', JSON.stringify(logEntry));
+  console.log("ACCESS_DECISION", JSON.stringify(logEntry));
   // Or: await logToDatastore(logEntry);
 }
 ```
@@ -1017,6 +1070,7 @@ function logAccessDecision(agentCredential, developerCredential, decision) {
 Before going live with Beltic credential verification:
 
 ### Infrastructure
+
 - [ ] Schema validators initialized and compiled
 - [ ] Credential cache configured with appropriate TTL
 - [ ] Revocation checking enabled (when available)
@@ -1024,12 +1078,14 @@ Before going live with Beltic credential verification:
 - [ ] Audit logging in place
 
 ### Policies
+
 - [ ] Access policies defined for each risk level
 - [ ] Permission mappings documented
 - [ ] Fallback policies for missing/invalid credentials
 - [ ] Escalation procedures for edge cases
 
 ### Security
+
 - [ ] Signature verification enabled (when available)
 - [ ] Revocation list monitoring
 - [ ] Credential expiration checks
@@ -1037,12 +1093,14 @@ Before going live with Beltic credential verification:
 - [ ] Security incident response plan
 
 ### Monitoring
+
 - [ ] Access decision metrics tracked
 - [ ] Credential validation failure alerts
 - [ ] Policy enforcement metrics
 - [ ] Unusual access pattern detection
 
 ### Documentation
+
 - [ ] Integration documented for your team
 - [ ] Error messages documented for agent developers
 - [ ] Policy requirements published
@@ -1057,13 +1115,14 @@ Before going live with Beltic credential verification:
 **Requirement:** Allow agents to process refunds up to $500.
 
 **Policy:**
+
 ```javascript
 const RefundPolicy = {
   minRobustnessScore: 90,
-  maxAttackSuccessRate: 0.10,
-  minKybTier: 'tier_2_standard',
+  maxAttackSuccessRate: 0.1,
+  minKybTier: "tier_2_standard",
   maxRefundAmount: 500,
-  requireHumanInTheLoop: (amount) => amount > 100
+  requireHumanInTheLoop: (amount) => amount > 100,
 };
 
 function canProcessRefund(agentCredential, developerCredential, refundAmount) {
@@ -1071,7 +1130,7 @@ function canProcessRefund(agentCredential, developerCredential, refundAmount) {
   const policyResult = enforcer.enforcePolicy(
     agentCredential,
     developerCredential,
-    'MEDIUM_RISK_PRODUCTION'
+    "MEDIUM_RISK_PRODUCTION",
   );
 
   if (!policyResult.allowed) {
@@ -1082,21 +1141,21 @@ function canProcessRefund(agentCredential, developerCredential, refundAmount) {
   if (refundAmount > RefundPolicy.maxRefundAmount) {
     return {
       allowed: false,
-      reason: 'refund_amount_exceeds_limit',
+      reason: "refund_amount_exceeds_limit",
       maxAllowed: RefundPolicy.maxRefundAmount,
-      requested: refundAmount
+      requested: refundAmount,
     };
   }
 
   // Check if agent has refund tool declared
   const hasRefundTool = agentCredential.toolsAndActions?.some(
-    tool => tool.toolName === 'issue_refund'
+    (tool) => tool.toolName === "issue_refund",
   );
 
   if (!hasRefundTool) {
     return {
       allowed: false,
-      reason: 'refund_tool_not_declared'
+      reason: "refund_tool_not_declared",
     };
   }
 
@@ -1105,7 +1164,7 @@ function canProcessRefund(agentCredential, developerCredential, refundAmount) {
 
   return {
     allowed: true,
-    requiresHumanApproval: requiresApproval
+    requiresHumanApproval: requiresApproval,
   };
 }
 ```
@@ -1117,36 +1176,42 @@ function canProcessRefund(agentCredential, developerCredential, refundAmount) {
 ```javascript
 function getApiAccessTier(agentCredential, developerCredential) {
   // Tier 1: Basic (low-assurance agents)
-  if (agentCredential.robustnessScore < 85 ||
-      developerCredential.kybTier === 'tier_0_unverified') {
+  if (
+    agentCredential.robustnessScore < 85 ||
+    developerCredential.kybTier === "tier_0_unverified"
+  ) {
     return {
-      tier: 'basic',
+      tier: "basic",
       rateLimitPerMinute: 60,
-      allowedEndpoints: ['GET /read-only/*'],
-      quotaPerMonth: 10000
+      allowedEndpoints: ["GET /read-only/*"],
+      quotaPerMonth: 10000,
     };
   }
 
   // Tier 2: Standard (verified agents)
-  if (agentCredential.robustnessScore >= 85 &&
-      developerCredential.kybTier >= 'tier_2_standard') {
+  if (
+    agentCredential.robustnessScore >= 85 &&
+    developerCredential.kybTier >= "tier_2_standard"
+  ) {
     return {
-      tier: 'standard',
+      tier: "standard",
       rateLimitPerMinute: 300,
-      allowedEndpoints: ['GET /*', 'POST /write/*'],
-      quotaPerMonth: 100000
+      allowedEndpoints: ["GET /*", "POST /write/*"],
+      quotaPerMonth: 100000,
     };
   }
 
   // Tier 3: Premium (high-assurance agents)
-  if (agentCredential.robustnessScore >= 95 &&
-      developerCredential.kybTier >= 'tier_3_enhanced') {
+  if (
+    agentCredential.robustnessScore >= 95 &&
+    developerCredential.kybTier >= "tier_3_enhanced"
+  ) {
     return {
-      tier: 'premium',
+      tier: "premium",
       rateLimitPerMinute: 1000,
-      allowedEndpoints: ['*'],
+      allowedEndpoints: ["*"],
       quotaPerMonth: 1000000,
-      piiAccess: true
+      piiAccess: true,
     };
   }
 }
@@ -1169,7 +1234,7 @@ function generateMarketplaceListing(agentCredential, developerCredential) {
       robustnessScore: agentCredential.robustnessScore,
       attackSuccessRate: agentCredential.attackSuccessRate,
       badge: getTrustBadge(agentCredential.robustnessScore),
-      lastTested: agentCredential.safetyTestsLastRun
+      lastTested: agentCredential.safetyTestsLastRun,
     },
 
     // Developer info
@@ -1177,39 +1242,41 @@ function generateMarketplaceListing(agentCredential, developerCredential) {
       name: developerCredential.legalName,
       verified: agentCredential.developerCredentialVerified,
       kybTier: developerCredential.kybTier,
-      kybTierLabel: getKybTierLabel(developerCredential.kybTier)
+      kybTierLabel: getKybTierLabel(developerCredential.kybTier),
     },
 
     // Privacy info
     privacy: {
       dataRetentionDays: agentCredential.userDataRetentionDays,
       usedForTraining: agentCredential.userDataUsedForTraining,
-      piiProtection: agentCredential.piiDetectionEnabled && agentCredential.piiRedactionEnabled
+      piiProtection:
+        agentCredential.piiDetectionEnabled &&
+        agentCredential.piiRedactionEnabled,
     },
 
     // Operations
     status: agentCredential.currentStatus,
-    availabilitySLA: agentCredential.availabilitySLA
+    availabilitySLA: agentCredential.availabilitySLA,
   };
 }
 
 function getTrustBadge(robustnessScore) {
-  if (robustnessScore >= 95) return 'EXCELLENT';
-  if (robustnessScore >= 90) return 'VERY_GOOD';
-  if (robustnessScore >= 85) return 'GOOD';
-  if (robustnessScore >= 80) return 'FAIR';
-  return 'NEEDS_IMPROVEMENT';
+  if (robustnessScore >= 95) return "EXCELLENT";
+  if (robustnessScore >= 90) return "VERY_GOOD";
+  if (robustnessScore >= 85) return "GOOD";
+  if (robustnessScore >= 80) return "FAIR";
+  return "NEEDS_IMPROVEMENT";
 }
 
 function getKybTierLabel(kybTier) {
   const labels = {
-    'tier_0_unverified': 'Unverified',
-    'tier_1_basic': 'Basic Verification',
-    'tier_2_standard': 'Standard KYB',
-    'tier_3_enhanced': 'Enhanced KYB',
-    'tier_4_maximum_verification': 'Maximum KYB'
+    tier_0_unverified: "Unverified",
+    tier_1_basic: "Basic Verification",
+    tier_2_standard: "Standard KYB",
+    tier_3_enhanced: "Enhanced KYB",
+    tier_4_maximum_verification: "Maximum KYB",
   };
-  return labels[kybTier] || 'Unknown';
+  return labels[kybTier] || "Unknown";
 }
 ```
 
@@ -1218,6 +1285,7 @@ function getKybTierLabel(kybTier) {
 ## Resources
 
 ### Documentation
+
 - [Quickstart Guide](quickstart.md) - Get started with credentials
 - [Validation Guide](validation-guide.md) - Complete validation reference
 - [DeveloperCredential Spec](developer-credential-v1.md) - Full field reference
@@ -1225,11 +1293,13 @@ function getKybTierLabel(kybTier) {
 - [Evaluation Metrics](evaluation-metrics-v1.md) - How safety metrics are calculated
 
 ### Code Examples
+
 - [Full Integration Example (GitHub)](https://github.com/beltic/beltic-integration-examples)
 - [Python Integration](https://github.com/beltic/beltic-python)
 - [Node.js SDK](https://github.com/beltic/beltic-js)
 
 ### Community
+
 - [GitHub Discussions](https://github.com/beltic/beltic-spec/discussions)
 - [GitHub Issues](https://github.com/beltic/beltic-spec/issues)
 - [Contributing Guide](contributing-spec.md)

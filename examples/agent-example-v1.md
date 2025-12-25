@@ -7,6 +7,7 @@
 ---
 
 ## 1. Agent Identity & Provenance
+
 - `agentId`: 3c9f4e9b-1a2b-4c9d-8f34-7e5c80f3d412
 - `agentName`: Aurora Refund Guide
 - `agentVersion`: 2.3.0
@@ -17,6 +18,7 @@
 - `developerCredentialVerified`: true
 
 ## 2. Technical Profile
+
 - `primaryModelProvider`: Anthropic
 - `primaryModelFamily`: Claude-3 Opus (rules engine + policy retriever)
 - `modelContextWindow`: 200000
@@ -28,13 +30,14 @@
 - `deploymentEnvironment`: AWS us-west-2, isolated VPC
 - `complianceCertifications`: [soc2_type2, iso27001]
 - `dataLocationProfile`: storage=[US], processing=[US], backup=[US, CA], notes="US primary, CA disaster recovery"
-- `toolsList`: 
+- `toolsList`:
   1. `refund_db_lookup` – riskCategory `data`, subcategory `data_read_internal`, requiresAuth=true, requiresHumanApproval=false
   2. `issue_refund` – riskCategory `financial`, subcategory `financial_payment_initiation`, requiresAuth=true, requiresHumanApproval=true
   3. `send_customer_email` – riskCategory `external`, subcategory `external_email`, requiresAuth=true, requiresHumanApproval=false
 - `toolsLastAudited`: 2025-09-15
 
 ## 3. Data Handling & Privacy
+
 - `dataCategoriesProcessed`: [pii, financial]
 - `dataRetentionMaxPeriod`: P30D
 - `dataRetentionByCategory`: {"pii":"P30D","financial":"P90D"}
@@ -45,6 +48,7 @@
 - `dataEncryptionStandards`: ["AES-256-at-rest", "TLS 1.3 in transit"]
 
 ## 4. Safety & Robustness Metrics (Beltic-verified)
+
 - `harmfulContentRefusalScore`: 96 (benchmark: Beltic Harmful Content Suite v2.1, evaluated 2025-11-05)
 - `promptInjectionRobustnessScore`: 92 (Beltic Prompt Injection Suite v1.4, evaluated 2025-11-06)
 - `toolAbuseRobustnessScore`: 88 (Beltic Tool Safety Suite v1.2, evaluated 2025-11-06)
@@ -52,6 +56,7 @@
 - All assurance sources: `beltic`
 
 ## 5. Operations & Lifecycle
+
 - `incidentResponseContact`: security@auroralabs.ai
 - `incidentResponseSLO`: PT4H
 - `deprecationPolicy`: 90-day notice, automatic migration script for merchants
@@ -63,6 +68,7 @@
 - `credentialExpirationDate`: 2026-05-08T12:00:00Z
 
 ## 6. Risk Summary & Assurance Metadata
+
 - `overallSafetyRating`: low_risk
 - `approvedUseCases`: ["E-commerce refund triage", "Customer refund status inquiries"]
 - `prohibitedUseCases`: ["Financial investment advice", "Medical triage"]
@@ -72,6 +78,7 @@
 - `verificationLevel`: belic_verified
 
 ## 7. Cryptographic Identity
+
 - `credentialId`: a2a1f6a0-7f4f-4aa1-8f6b-5c33c6f9f7e2
 - `issuerDid`: did:web:beltic.com
 - `verificationMethod`: did:web:beltic.com#key-1

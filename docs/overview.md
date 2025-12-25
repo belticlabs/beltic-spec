@@ -13,17 +13,20 @@ Beltic defines two primary credential types that work together to establish comp
 The DeveloperCredential establishes the identity and legitimacy of the organization or individual developing AI agents.
 
 **Purpose:**
+
 - Verify the real-world identity of developers, companies, or organizations
 - Establish accountability through Know Your Customer (KYC) and Know Your Business (KYB) processes
 - Create a foundational trust anchor for all agents developed by the entity
 
 **Key Characteristics:**
+
 - Issued after successful identity verification process
 - Contains verified information about the developer/organization
 - Required prerequisite for obtaining AgentCredentials
 - Can be revoked if trust is violated
 
 **High-Level Sections:**
+
 - Identity Information (legal name, registration details, jurisdiction)
 - Contact Information (verified email, physical address, support channels)
 - Verification Metadata (KYC/KYB completion status, verification date, expiry)
@@ -34,18 +37,21 @@ The DeveloperCredential establishes the identity and legitimacy of the organizat
 The AgentCredential certifies a specific AI agent's capabilities, safety characteristics, and operational parameters.
 
 **Purpose:**
+
 - Certify what an agent can and cannot do
 - Document safety evaluation results and compliance levels
 - Specify privacy practices and data handling policies
 - Link the agent to its developer via DeveloperCredential reference
 
 **Key Characteristics:**
+
 - Issued per agent after successful evaluation process
 - Contains verifiable claims about agent capabilities and safety
 - References the parent DeveloperCredential
 - Can be updated as agent versions change
 
 **High-Level Sections:**
+
 - Agent Identity (name, version, unique identifier, description)
 - Capability Declarations (supported actions, API interactions, tool usage)
 - Safety & Compliance (evaluation results, safety level, guardrails)
@@ -127,6 +133,7 @@ Beltic supports multiple levels of assurance to accommodate different trust requ
 **Description:** Claims made directly by the developer without third-party verification.
 
 **Use Cases:**
+
 - Development and testing environments
 - Low-risk interactions
 - Initial agent prototyping
@@ -140,6 +147,7 @@ Beltic supports multiple levels of assurance to accommodate different trust requ
 **Description:** Claims verified by Beltic through automated evaluations, manual reviews, and testing.
 
 **Use Cases:**
+
 - Production deployments
 - Moderate to high-risk interactions
 - Commercial agent marketplaces
@@ -147,6 +155,7 @@ Beltic supports multiple levels of assurance to accommodate different trust requ
 **Trust Level:** High - combines automated testing with human oversight
 
 **Verification Process:**
+
 - Automated capability testing
 - Safety evaluation suites
 - Privacy policy review
@@ -158,6 +167,7 @@ Beltic supports multiple levels of assurance to accommodate different trust requ
 **Description:** Claims verified by independent, accredited third-party auditors or certification bodies.
 
 **Use Cases:**
+
 - Regulated industries (healthcare, finance, legal)
 - High-stakes applications
 - Government or enterprise deployments requiring compliance
@@ -165,6 +175,7 @@ Beltic supports multiple levels of assurance to accommodate different trust requ
 **Trust Level:** Highest - independent verification with auditor accountability
 
 **Verification Process:**
+
 - Formal audit by accredited organization
 - Compliance with industry-specific standards
 - Independent safety testing
@@ -174,6 +185,7 @@ Beltic supports multiple levels of assurance to accommodate different trust requ
 ### Assurance Level Indicators
 
 Each credential includes explicit indicators of its assurance level:
+
 - Attestation metadata showing verification method
 - Verifier signatures (self, Beltic, third-party)
 - Audit trail references
@@ -205,6 +217,7 @@ DeveloperCredential (Root of Trust)
 ```
 
 A merchant verifying an AgentCredential must also verify:
+
 1. The AgentCredential itself is valid and not revoked
 2. The referenced DeveloperCredential exists and is valid
 3. The cryptographic chain linking them is intact
@@ -360,16 +373,16 @@ Then create your AgentCredential:
 
 ### 🔗 Quick Links
 
-| Resource | Purpose |
-|----------|---------|
-| [Quickstart](quickstart.md) | Create your first credential (5 min) |
-| [Validation Guide](validation-guide.md) | Complete validation reference |
-| [Integration Guide](integration-guide.md) | Verify credentials in your app |
-| [Schema Registry](../schemas/README.md) | All schemas and versions |
-| [Examples](../examples/) | Templates and test cases |
-| [GitHub Discussions](https://github.com/beltic/beltic-spec/discussions) | Ask questions |
-| [GitHub Issues](https://github.com/beltic/beltic-spec/issues) | Report problems |
-| [Contributing Guide](contributing-spec.md) | Propose changes |
+| Resource                                                                | Purpose                              |
+| ----------------------------------------------------------------------- | ------------------------------------ |
+| [Quickstart](quickstart.md)                                             | Create your first credential (5 min) |
+| [Validation Guide](validation-guide.md)                                 | Complete validation reference        |
+| [Integration Guide](integration-guide.md)                               | Verify credentials in your app       |
+| [Schema Registry](../schemas/README.md)                                 | All schemas and versions             |
+| [Examples](../examples/)                                                | Templates and test cases             |
+| [GitHub Discussions](https://github.com/beltic/beltic-spec/discussions) | Ask questions                        |
+| [GitHub Issues](https://github.com/beltic/beltic-spec/issues)           | Report problems                      |
+| [Contributing Guide](contributing-spec.md)                              | Propose changes                      |
 
 ## Version Scope and Limitations
 

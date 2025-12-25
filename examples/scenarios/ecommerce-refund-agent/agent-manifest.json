@@ -71,7 +71,11 @@
   "dataEncryptionStandards": ["AES-256 at rest", "TLS 1.3 in transit"],
   "monitoringCoverage": "Structured audit logs for all tool calls; prompt injection detector on inputs; PagerDuty alerts for denied/refused refund actions reviewed daily.",
   "approvedUseCases": ["E-commerce refund automation", "Order status support"],
-  "prohibitedUseCases": ["Manual returns requiring physical inspection", "Processing chargebacks", "Creating new customer accounts"],
+  "prohibitedUseCases": [
+    "Manual returns requiring physical inspection",
+    "Processing chargebacks",
+    "Creating new customer accounts"
+  ],
   "ageRestrictions": "13+",
   "riskSummary": "moderate_risk",
   "humanOversightMode": "human_review_pre_action",

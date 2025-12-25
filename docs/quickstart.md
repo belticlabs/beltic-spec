@@ -7,6 +7,7 @@ This guide walks you through creating and validating your first verifiable crede
 ## What You'll Achieve
 
 By the end of this guide, you'll have:
+
 - ✅ Created a DeveloperCredential or AgentCredential from a template
 - ✅ Customized it with your information
 - ✅ Validated it against the JSON Schema
@@ -17,16 +18,19 @@ By the end of this guide, you'll have:
 ### Install a JSON Schema Validator
 
 **Option 1: AJV CLI (JavaScript/Node.js)**
+
 ```bash
 npm install -g ajv-cli ajv-formats
 ```
 
 **Option 2: Python jsonschema**
+
 ```bash
 pip install jsonschema
 ```
 
 **Option 3: Clone this repository**
+
 ```bash
 git clone https://github.com/beltic/beltic-spec.git
 cd beltic-spec
@@ -36,10 +40,10 @@ cd beltic-spec
 
 Beltic has two credential types:
 
-| Credential Type | Who Needs It | Purpose |
-|-----------------|--------------|---------|
+| Credential Type         | Who Needs It                                 | Purpose                                                            |
+| ----------------------- | -------------------------------------------- | ------------------------------------------------------------------ |
 | **DeveloperCredential** | Individuals or organizations creating agents | Establishes developer identity, KYC/KYB verification, risk profile |
-| **AgentCredential** | AI agents | Documents agent capabilities, safety metrics, privacy practices |
+| **AgentCredential**     | AI agents                                    | Documents agent capabilities, safety metrics, privacy practices    |
 
 **Which should you start with?**
 
@@ -53,12 +57,12 @@ Beltic has two credential types:
 
 Pick the template that matches your situation:
 
-| You Are | Template File |
-|---------|--------------|
-| Individual developer (hobby/learning) | `examples/developer/v1/tests/valid-individual-minimal.json` |
-| Professional freelancer | `examples/developer/v1/tests/valid-individual-complete.json` |
-| Small startup/LLC | `examples/developer/v1/tests/valid-organization-tier1.json` |
-| Established company | `examples/developer/v1/tests/valid-organization-tier2-complete.json` |
+| You Are                               | Template File                                                        |
+| ------------------------------------- | -------------------------------------------------------------------- |
+| Individual developer (hobby/learning) | `examples/developer/v1/tests/valid-individual-minimal.json`          |
+| Professional freelancer               | `examples/developer/v1/tests/valid-individual-complete.json`         |
+| Small startup/LLC                     | `examples/developer/v1/tests/valid-organization-tier1.json`          |
+| Established company                   | `examples/developer/v1/tests/valid-organization-tier2-complete.json` |
 
 ### Step 2: Copy the Template
 
@@ -102,6 +106,7 @@ Open `my-developer-credential.json` and update these fields:
 ```
 
 **Quick Tips:**
+
 - **UUIDs**: Generate with `uuidgen` (Mac/Linux) or https://www.uuidgenerator.net/
 - **Dates**: Use ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`
 - **DIDs**: For testing, use `did:web:yourwebsite.com` or `did:key:...`
@@ -109,6 +114,7 @@ Open `my-developer-credential.json` and update these fields:
 ### Step 4: Validate
 
 **Using AJV CLI:**
+
 ```bash
 ajv validate \
   -s schemas/developer/v1/developer-credential-v1.schema.json \
@@ -116,6 +122,7 @@ ajv validate \
 ```
 
 **Using Python:**
+
 ```python
 import json
 from jsonschema import validate, Draft202012Validator
@@ -137,6 +144,7 @@ except Exception as e:
 ```
 
 **Expected Output:**
+
 ```
 my-developer-credential.json valid
 ```
@@ -149,9 +157,9 @@ my-developer-credential.json valid
 
 ### Step 1: Choose a Template
 
-| Your Agent | Template File |
-|------------|--------------|
-| Low-risk agent (e-commerce support, FAQ bot) | `examples/agent/v1/valid-simple-agent.json` |
+| Your Agent                                         | Template File                                |
+| -------------------------------------------------- | -------------------------------------------- |
+| Low-risk agent (e-commerce support, FAQ bot)       | `examples/agent/v1/valid-simple-agent.json`  |
 | High-risk agent (financial, healthcare, regulated) | `examples/agent/v1/valid-complex-agent.json` |
 
 ### Step 2: Copy the Template
@@ -217,6 +225,7 @@ ajv validate \
 ```
 
 **Expected Output:**
+
 ```
 my-agent-credential.json valid
 ```
@@ -234,12 +243,14 @@ my-credential.json valid
 ```
 
 **What this means:**
+
 - All required fields are present
 - All fields have correct data types
 - All format constraints are satisfied (dates, emails, UUIDs)
 - All conditional validation rules passed
 
 **Next steps:**
+
 1. Review [assurance levels](developer-credential-v1.md#9-assurance-metadata) (most fields start as `self_attested`)
 2. Consider which fields need verification (KYC/KYB, safety testing)
 3. Integrate with Beltic platform for credential signing
@@ -297,6 +308,7 @@ Error: taxIdVerified is required when taxIdExists is true
 **Fix:** DeveloperCredential has 27 conditional rules. See [Conditional Validation Rules](developer-credential-v1.md#8-conditional-validation-rules) for the full list.
 
 **Common conditional rules:**
+
 - `taxIdExists=true` → require `taxIdVerified`, `taxIdJurisdiction`
 - `entityType="individual"` → **prohibit** `incorporationDate`, `businessRegistrationNumber`, `registeredAddress`
 - `entityType="corporation"` → **require** `incorporationDate`, `businessRegistrationNumber`, `registeredAddress`
@@ -309,14 +321,16 @@ Error: taxIdVerified is required when taxIdExists is true
 ### 1. **Using the Wrong Entity Type**
 
 ❌ **Don't do this:**
+
 ```json
 {
   "entityType": "individual",
-  "incorporationDate": "2020-01-01"  // ← Error: individuals can't have incorporation dates
+  "incorporationDate": "2020-01-01" // ← Error: individuals can't have incorporation dates
 }
 ```
 
 ✅ **Do this:**
+
 ```json
 {
   "entityType": "corporation",  // ← Organizations need incorporation dates
@@ -329,6 +343,7 @@ Error: taxIdVerified is required when taxIdExists is true
 ### 2. **Incomplete Tax ID Chain**
 
 ❌ **Don't do this:**
+
 ```json
 {
   "taxIdExists": true
@@ -337,6 +352,7 @@ Error: taxIdVerified is required when taxIdExists is true
 ```
 
 ✅ **Do this:**
+
 ```json
 {
   "taxIdExists": true,
@@ -349,18 +365,20 @@ Error: taxIdVerified is required when taxIdExists is true
 ### 3. **Wrong ASR / Robustness Score**
 
 ❌ **Don't do this:**
+
 ```json
 {
-  "attackSuccessRate": 15,  // ← Should be 0.15 (ratio, not percentage)
-  "robustnessScore": 0.85   // ← Should be 85 (percentage, not ratio)
+  "attackSuccessRate": 15, // ← Should be 0.15 (ratio, not percentage)
+  "robustnessScore": 0.85 // ← Should be 85 (percentage, not ratio)
 }
 ```
 
 ✅ **Do this:**
+
 ```json
 {
-  "attackSuccessRate": 0.15,  // ← 15% as a ratio
-  "robustnessScore": 85        // ← 85% as a whole number
+  "attackSuccessRate": 0.15, // ← 15% as a ratio
+  "robustnessScore": 85 // ← 85% as a whole number
 }
 ```
 
@@ -369,18 +387,20 @@ Error: taxIdVerified is required when taxIdExists is true
 ### 4. **Date Ordering**
 
 ❌ **Don't do this:**
+
 ```json
 {
   "issuanceDate": "2025-11-21T10:00:00Z",
-  "expirationDate": "2025-10-21T10:00:00Z"  // ← Expires before issuance!
+  "expirationDate": "2025-10-21T10:00:00Z" // ← Expires before issuance!
 }
 ```
 
 ✅ **Do this:**
+
 ```json
 {
   "issuanceDate": "2025-11-21T10:00:00Z",
-  "expirationDate": "2026-11-21T10:00:00Z"  // ← Expires after issuance
+  "expirationDate": "2026-11-21T10:00:00Z" // ← Expires after issuance
 }
 ```
 
@@ -389,6 +409,7 @@ Error: taxIdVerified is required when taxIdExists is true
 ### 5. **Tier 2+ KYB Without Screening**
 
 ❌ **Don't do this:**
+
 ```json
 {
   "kybTier": "tier_2_standard"
@@ -397,6 +418,7 @@ Error: taxIdVerified is required when taxIdExists is true
 ```
 
 ✅ **Do this:**
+
 ```json
 {
   "kybTier": "tier_2_standard",
@@ -437,21 +459,25 @@ Test your understanding with: [Test Suite](../examples/developer/v1/tests/README
 ### 3. Integrate with Your Application
 
 **Merchants/Platforms:**
+
 - Read the [Integration Guide](integration-guide.md) to verify credentials in your application
 - Implement policy checks (e.g., "only allow agents with ASR ≤ 0.10 and developer KYB tier ≥ tier_2")
 
 **Developers:**
+
 - Automate credential generation in your CI/CD pipeline
 - Use validation scripts: [Validation Guide](validation-guide.md)
 
 ### 4. Explore Advanced Features
 
 **AgentCredential:**
+
 - [Safety Metrics](evaluation-metrics-v1.md): How to measure ASR, Robustness Score, Privacy Leakage Score
 - [NIST AI RMF Mapping](nist-mapping-v1.md): How Beltic aligns with AI Risk Management Framework
 - [Tool Risk Categories](agent-credential-v1.md#tools-and-actions): Declaring tools and their risk levels
 
 **DeveloperCredential:**
+
 - [Entity Type Matrix](../examples/developer/v1/README.md#entity-type-decision-matrix): Required fields per entity type
 - [KYB Tier Comparison](../examples/developer/v1/README.md#kyb-tier-comparison): Choosing the right verification level
 - [Runtime Validation](../schemas/developer/v1/README.md#runtime-validation): Date freshness checks beyond JSON Schema
@@ -475,6 +501,7 @@ Before deploying to production:
 ## Resources
 
 ### Documentation
+
 - [Beltic Overview](overview.md) - Framework introduction
 - [DeveloperCredential Spec](developer-credential-v1.md) - Complete field reference
 - [AgentCredential Spec](agent-credential-v1.md) - Complete field reference
@@ -482,16 +509,19 @@ Before deploying to production:
 - [Integration Guide](integration-guide.md) - For merchants and platforms
 
 ### Examples
+
 - [Agent Examples](../examples/agent/v1/) - Simple and complex agents
 - [Developer Examples](../examples/developer/v1/) - Individuals and organizations
 - [Test Suite](../examples/developer/v1/tests/) - 26 validation test cases
 
 ### Schemas
+
 - [Schema Registry](../schemas/README.md) - All schemas and versions
 - [Agent Schema v1](../schemas/agent/v1/README.md) - Version-specific docs
 - [Developer Schema v1](../schemas/developer/v1/README.md) - Version-specific docs
 
 ### Community
+
 - [GitHub Discussions](https://github.com/beltic/beltic-spec/discussions) - Ask questions
 - [GitHub Issues](https://github.com/beltic/beltic-spec/issues) - Report problems
 - [Contributing Guide](contributing-spec.md) - Propose changes
@@ -501,6 +531,7 @@ Before deploying to production:
 ## Troubleshooting
 
 **Problem: Validator not found**
+
 ```bash
 # Install AJV
 npm install -g ajv-cli ajv-formats
@@ -510,6 +541,7 @@ pip install jsonschema
 ```
 
 **Problem: Schema file not found**
+
 ```bash
 # Make sure you're in the beltic-spec directory
 cd /path/to/beltic-spec
@@ -519,18 +551,22 @@ ls schemas/agent/v1/agent-credential-v1.schema.json
 ```
 
 **Problem: "Cannot read property" errors**
+
 - **Cause:** Malformed JSON (missing comma, bracket, etc.)
 - **Fix:** Use a JSON linter like https://jsonlint.com/ or your editor's JSON validation
 
 **Problem: Too many validation errors**
+
 - **Start fresh:** Copy a working example again and make minimal changes
 - **Validate incrementally:** Change one field, validate, repeat
 
 **Problem: Validation passes but credential seems wrong**
+
 - **Check runtime rules:** Some rules (date ordering, screening freshness) require application-level checks
 - **Review conditional rules:** Read [Section 8](developer-credential-v1.md#8-conditional-validation-rules) carefully
 
 **Still stuck?**
+
 - Check [GitHub Discussions](https://github.com/beltic/beltic-spec/discussions)
 - Review [examples](../examples/) for similar use cases
 - Consult the [Validation Guide](validation-guide.md) for detailed troubleshooting

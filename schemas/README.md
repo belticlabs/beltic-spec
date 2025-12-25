@@ -5,6 +5,7 @@ This directory contains all JSON Schema definitions for Beltic credentials. Sche
 ## Purpose
 
 The Beltic Schema Registry serves as the single source of truth for:
+
 - **Credential Structure**: Required and optional fields for each credential type
 - **Validation Rules**: Data types, formats, conditional requirements, and constraints
 - **Versioning**: Schema evolution with backward compatibility tracking
@@ -28,10 +29,10 @@ schemas/
 
 ## Available Schemas
 
-| Schema Name | Version | Status | Documentation | Validation Tools | Last Updated |
-|-------------|---------|--------|---------------|------------------|--------------|
-| **AgentCredential** | v1.0 | Stable | [Specification](../docs/agent-credential-v1.md) | AJV, jsonschema | 2025-11-21 |
-| **DeveloperCredential** | v1.0 | Stable | [Specification](../docs/developer-credential-v1.md) | AJV, jsonschema | 2025-11-21 |
+| Schema Name             | Version | Status | Documentation                                       | Validation Tools | Last Updated |
+| ----------------------- | ------- | ------ | --------------------------------------------------- | ---------------- | ------------ |
+| **AgentCredential**     | v1.0    | Stable | [Specification](../docs/agent-credential-v1.md)     | AJV, jsonschema  | 2025-11-21   |
+| **DeveloperCredential** | v1.0    | Stable | [Specification](../docs/developer-credential-v1.md) | AJV, jsonschema  | 2025-11-21   |
 
 ### AgentCredential v1
 
@@ -40,6 +41,7 @@ schemas/
 **Purpose**: Verifiable credential for AI agents that documents identity, capabilities, safety metrics, privacy practices, and operational details.
 
 **Key Features**:
+
 - 75+ fields covering identity, technical profile, safety, privacy, and operations
 - ML safety metrics (Attack Success Rate, Robustness Score, Privacy Leakage Score)
 - NIST AI RMF alignment tags for governance and risk management
@@ -47,6 +49,7 @@ schemas/
 - Data handling and privacy policy documentation
 
 **Use Cases**:
+
 - Agent registration and KYC
 - Merchant agent verification
 - Platform access control
@@ -65,6 +68,7 @@ schemas/
 **Purpose**: Verifiable credential for developers/organizations that establishes identity, legitimacy, and risk profile through KYC/KYB verification.
 
 **Key Features**:
+
 - 35 fields covering core identity, contact info, tax/registration, risk, ownership
 - Conditional validation rules (27 rules across Tier 1 Critical + Tier 2 High)
 - Assurance metadata tracking (self-attested, Beltic-verified, third-party-verified)
@@ -72,6 +76,7 @@ schemas/
 - KYB tier system (tier_0 to tier_4) with progressive screening requirements
 
 **Use Cases**:
+
 - Developer identity verification
 - KYC/KYB for agent issuers
 - Sanctions/PEP/adverse media screening
@@ -99,6 +104,7 @@ Add a `$schema` field at the top of your credential JSON:
 ```
 
 **Schema Reference Patterns**:
+
 - **Relative Path**: `../../../schemas/agent/v1/agent-credential-v1.schema.json` (from examples/)
 - **Absolute URL**: `https://schema.beltic.com/agent/v1/agent-credential-v1.schema.json` (for production)
 - **Local File**: `/path/to/beltic-spec/schemas/agent/v1/agent-credential-v1.schema.json` (for development)
@@ -154,6 +160,7 @@ make validate-all
 ### JSON Schema Draft 2020-12
 
 All Beltic schemas use **JSON Schema Draft 2020-12**, which provides:
+
 - Advanced conditional validation (`if/then/else`)
 - Format validation (date, date-time, email, URI, UUID)
 - String pattern matching (regex)
@@ -166,6 +173,7 @@ All Beltic schemas use **JSON Schema Draft 2020-12**, which provides:
 Some schemas (e.g., DeveloperCredential v1) include complex conditional logic:
 
 **Example: Tax ID Verification Chain**
+
 ```json
 {
   "if": {
@@ -206,17 +214,18 @@ See [Assurance Metadata Specification](../docs/developer-credential-v1.md#9-assu
 
 ### Recommended Tools by Language
 
-| Language | Tool | Installation | Documentation |
-|----------|------|--------------|---------------|
-| **JavaScript/Node.js** | [AJV](https://ajv.js.org/) | `npm install ajv ajv-formats` | [AJV Docs](https://ajv.js.org/guide/getting-started.html) |
-| **Python** | [jsonschema](https://python-jsonschema.readthedocs.io/) | `pip install jsonschema` | [jsonschema Docs](https://python-jsonschema.readthedocs.io/en/stable/) |
-| **Go** | [gojsonschema](https://github.com/xeipuuv/gojsonschema) | `go get github.com/xeipuuv/gojsonschema` | [gojsonschema Docs](https://github.com/xeipuuv/gojsonschema) |
-| **Java** | [everit-org/json-schema](https://github.com/everit-org/json-schema) | Maven/Gradle | [Everit Docs](https://github.com/everit-org/json-schema) |
-| **CLI** | [ajv-cli](https://github.com/ajv-validator/ajv-cli) | `npm install -g ajv-cli ajv-formats` | [CLI Docs](https://github.com/ajv-validator/ajv-cli) |
+| Language               | Tool                                                                | Installation                             | Documentation                                                          |
+| ---------------------- | ------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------- |
+| **JavaScript/Node.js** | [AJV](https://ajv.js.org/)                                          | `npm install ajv ajv-formats`            | [AJV Docs](https://ajv.js.org/guide/getting-started.html)              |
+| **Python**             | [jsonschema](https://python-jsonschema.readthedocs.io/)             | `pip install jsonschema`                 | [jsonschema Docs](https://python-jsonschema.readthedocs.io/en/stable/) |
+| **Go**                 | [gojsonschema](https://github.com/xeipuuv/gojsonschema)             | `go get github.com/xeipuuv/gojsonschema` | [gojsonschema Docs](https://github.com/xeipuuv/gojsonschema)           |
+| **Java**               | [everit-org/json-schema](https://github.com/everit-org/json-schema) | Maven/Gradle                             | [Everit Docs](https://github.com/everit-org/json-schema)               |
+| **CLI**                | [ajv-cli](https://github.com/ajv-validator/ajv-cli)                 | `npm install -g ajv-cli ajv-formats`     | [CLI Docs](https://github.com/ajv-validator/ajv-cli)                   |
 
 ### Online Validators
 
 For quick testing without installation:
+
 - [JSON Schema Validator](https://www.jsonschemavalidator.net/) - Paste schema and JSON
 - [AJV Online](https://ajv.js.org/) - Official AJV test environment
 
@@ -227,12 +236,14 @@ For quick testing without installation:
 ### v1.0 (2025-11-21) - Initial Release
 
 **AgentCredential v1.0**:
+
 - 75+ fields covering full agent lifecycle
 - Safety metrics (ASR, robustness, privacy leakage)
 - NIST AI RMF alignment
 - Tool/action risk declarations
 
 **DeveloperCredential v1.0**:
+
 - 35 fields for developer/organization identity
 - 27 conditional validation rules
 - Assurance metadata for verification tracking
@@ -240,6 +251,7 @@ For quick testing without installation:
 - KYB tier system (0-4)
 
 **Schema Features**:
+
 - JSON Schema Draft 2020-12
 - Conditional validation with `if/then/else`
 - Format validation (dates, emails, URIs, UUIDs)
@@ -250,6 +262,7 @@ For quick testing without installation:
 ### Versioning Strategy
 
 Beltic uses **semantic versioning** for schemas:
+
 - **Major version** (v1 → v2): Breaking changes, incompatible updates
 - **Minor version** (v1.0 → v1.1): New optional fields, backward-compatible additions
 - **Patch version** (v1.0.0 → v1.0.1): Bug fixes, clarifications, no structural changes
@@ -257,6 +270,7 @@ Beltic uses **semantic versioning** for schemas:
 ### Backward Compatibility
 
 When schemas evolve:
+
 - **Old credentials remain valid**: v1 credentials continue to work with v1 validators
 - **Deprecation notices**: Schemas marked deprecated receive 6-month transition period
 - **Migration guides**: Each new major version includes migration instructions
@@ -283,7 +297,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
       - run: npm install -g ajv-cli ajv-formats
       - run: ajv validate -s schemas/**/*.schema.json -d examples/**/*.json
 ```
@@ -293,17 +307,20 @@ See [CI/CD Validation Guide](../docs/validation-guide.md#cicd-integration) for c
 ## Support
 
 ### Documentation
+
 - [Beltic Overview](../docs/overview.md) - High-level framework introduction
 - [Validation Guide](../docs/validation-guide.md) - Complete validation instructions
 - [Integration Guide](../docs/integration-guide.md) - For merchants and platforms
 - [Quickstart](../docs/quickstart.md) - Get started in 5 minutes
 
 ### Examples
+
 - [Agent Examples](../examples/agent/v1/) - Simple and complex agent credentials
 - [Developer Examples](../examples/developer/v1/) - Individual and organization credentials
 - [Test Suite](../examples/developer/v1/tests/) - 26 validation test cases
 
 ### Community
+
 - **Issues**: [GitHub Issues](https://github.com/beltic/beltic-spec/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/beltic/beltic-spec/discussions)
 - **Contributing**: [Contributing Guide](../docs/contributing-spec.md)

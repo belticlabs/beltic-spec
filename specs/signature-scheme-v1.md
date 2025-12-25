@@ -1,12 +1,15 @@
 # Signature Scheme v1 (Draft)
 
 ## Abstract
+
 Defines the signing/verification profile for Beltic credentials using JWS (JWT-compatible) with ES256 or EdDSA. Provides claim mapping, header parameters, security requirements, and verification steps suitable for independent implementations.
 
 ## Status
+
 Draft
 
 ## Terminology
+
 - **Credential**: DeveloperCredential or AgentCredential JSON payload.
 - **Issuer**: Entity signing the credential (Beltic or authorized third-party).
 - **Subject**: Credential holder (developer org or agent DID).
@@ -21,23 +24,23 @@ Draft
 
 ### Supported Algorithms
 
-| Algorithm | Status | Key Type | Use Case |
-|-----------|--------|----------|----------|
-| `ES256` | **Required** | P-256 (secp256r1) | Default for production |
-| `EdDSA` | **Recommended** | Ed25519 | High-security contexts |
-| `ES384` | Optional | P-384 | Enhanced security |
-| `ES512` | Optional | P-521 | Maximum security |
+| Algorithm | Status          | Key Type          | Use Case               |
+| --------- | --------------- | ----------------- | ---------------------- |
+| `ES256`   | **Required**    | P-256 (secp256r1) | Default for production |
+| `EdDSA`   | **Recommended** | Ed25519           | High-security contexts |
+| `ES384`   | Optional        | P-384             | Enhanced security      |
+| `ES512`   | Optional        | P-521             | Maximum security       |
 
 ### Prohibited Algorithms
 
 The following algorithms MUST be rejected by all verifiers:
 
-| Algorithm | Reason |
-|-----------|--------|
-| `none` | No signature - critical vulnerability |
-| `HS256`, `HS384`, `HS512` | Symmetric - unsuitable for credentials |
+| Algorithm                 | Reason                                      |
+| ------------------------- | ------------------------------------------- |
+| `none`                    | No signature - critical vulnerability       |
+| `HS256`, `HS384`, `HS512` | Symmetric - unsuitable for credentials      |
 | `RS256`, `RS384`, `RS512` | Legacy RSA - deprecated for new credentials |
-| `PS256`, `PS384`, `PS512` | RSA-PSS - deprecated for new credentials |
+| `PS256`, `PS384`, `PS512` | RSA-PSS - deprecated for new credentials    |
 
 ### Algorithm Validation Rules
 
@@ -52,6 +55,7 @@ RULE ALG-005: Key size MUST match algorithm requirements (P-256 for ES256, Ed255
 ### Algorithm Agility
 
 To support future algorithm migration:
+
 1. Verifiers SHOULD maintain an allowlist of accepted algorithms per credential type
 2. Issuers MUST NOT downgrade algorithms without explicit policy change
 3. Algorithm preference is: EdDSA > ES512 > ES384 > ES256
@@ -62,20 +66,20 @@ To support future algorithm migration:
 
 ### Required Headers
 
-| Header | Type | Description | Validation |
-|--------|------|-------------|------------|
-| `alg` | string | Signing algorithm | MUST be in allowed list |
-| `kid` | string | Key identifier | MUST resolve to valid key |
-| `typ` | string | Media type | MUST match expected type |
+| Header | Type   | Description       | Validation                |
+| ------ | ------ | ----------------- | ------------------------- |
+| `alg`  | string | Signing algorithm | MUST be in allowed list   |
+| `kid`  | string | Key identifier    | MUST resolve to valid key |
+| `typ`  | string | Media type        | MUST match expected type  |
 
 ### Optional Headers
 
-| Header | Type | Description | Validation |
-|--------|------|-------------|------------|
-| `cty` | string | Content type | If present, MUST be `application/json` |
-| `crit` | array | Critical headers | Extensions requiring processing |
-| `x5c` | array | X.509 certificate chain | For PKI integration |
-| `x5t#S256` | string | X.509 thumbprint | Certificate binding |
+| Header     | Type   | Description             | Validation                             |
+| ---------- | ------ | ----------------------- | -------------------------------------- |
+| `cty`      | string | Content type            | If present, MUST be `application/json` |
+| `crit`     | array  | Critical headers        | Extensions requiring processing        |
+| `x5c`      | array  | X.509 certificate chain | For PKI integration                    |
+| `x5t#S256` | string | X.509 thumbprint        | Certificate binding                    |
 
 ### Header Validation Rules
 
@@ -94,9 +98,9 @@ RULE HDR-006: kid MUST match pattern: ^did:(web|key|ion|pkh|ethr):[a-zA-Z0-9._%-
 
 ### Media Type Values
 
-| Credential Type | typ Value |
-|-----------------|-----------|
-| Agent Credential | `application/beltic-agent+jwt` |
+| Credential Type      | typ Value                          |
+| -------------------- | ---------------------------------- |
+| Agent Credential     | `application/beltic-agent+jwt`     |
 | Developer Credential | `application/beltic-developer+jwt` |
 
 ---
@@ -105,23 +109,23 @@ RULE HDR-006: kid MUST match pattern: ^did:(web|key|ion|pkh|ethr):[a-zA-Z0-9._%-
 
 ### Standard Claims
 
-| JWT Claim | Credential Field | Type | Required |
-|-----------|-----------------|------|----------|
-| `iss` | `issuerDid` | DID string | Yes |
-| `sub` | `subjectDid` | DID string | Yes |
-| `jti` | `credentialId` | UUID | Yes |
-| `nbf` | `issuanceDate` | Unix timestamp | Yes |
-| `exp` | `expirationDate` | Unix timestamp | Yes |
-| `iat` | (derived from issuanceDate) | Unix timestamp | Recommended |
+| JWT Claim | Credential Field            | Type           | Required    |
+| --------- | --------------------------- | -------------- | ----------- |
+| `iss`     | `issuerDid`                 | DID string     | Yes         |
+| `sub`     | `subjectDid`                | DID string     | Yes         |
+| `jti`     | `credentialId`              | UUID           | Yes         |
+| `nbf`     | `issuanceDate`              | Unix timestamp | Yes         |
+| `exp`     | `expirationDate`            | Unix timestamp | Yes         |
+| `iat`     | (derived from issuanceDate) | Unix timestamp | Recommended |
 
 ### Extended Claims
 
-| JWT Claim | Description | Type | Required |
-|-----------|-------------|------|----------|
-| `vc` or `beltic` | Full credential body | object | Yes |
-| `aud` | Intended verifier(s) | string/array | Optional |
-| `cnf` | Holder confirmation (PoP) | object | Optional |
-| `nonce` | Replay protection | string | Conditional |
+| JWT Claim        | Description               | Type         | Required    |
+| ---------------- | ------------------------- | ------------ | ----------- |
+| `vc` or `beltic` | Full credential body      | object       | Yes         |
+| `aud`            | Intended verifier(s)      | string/array | Optional    |
+| `cnf`            | Holder confirmation (PoP) | object       | Optional    |
+| `nonce`          | Replay protection         | string       | Conditional |
 
 ### Claims Mapping Rules
 
@@ -170,23 +174,26 @@ RULE RPL-007: Nonce validity window SHOULD NOT exceed 10 minutes
 
 ### jti Uniqueness Requirements
 
-| Context | Uniqueness Scope | Cache Duration |
-|---------|------------------|----------------|
-| Credential Issuance | Global (per issuer) | Credential lifetime |
-| Presentation | Per verifier session | Session duration |
-| Status Check | N/A | N/A |
+| Context             | Uniqueness Scope     | Cache Duration      |
+| ------------------- | -------------------- | ------------------- |
+| Credential Issuance | Global (per issuer)  | Credential lifetime |
+| Presentation        | Per verifier session | Session duration    |
+| Status Check        | N/A                  | N/A                 |
 
 ### Implementation Recommendations
 
 ```typescript
 interface ReplayProtection {
   // Cache for tracking seen credential IDs
-  seenCredentials: Map<string, {
-    jti: string;
-    iss: string;
-    exp: number;
-    firstSeen: number;
-  }>;
+  seenCredentials: Map<
+    string,
+    {
+      jti: string;
+      iss: string;
+      exp: number;
+      firstSeen: number;
+    }
+  >;
 
   // Check if credential was already processed
   checkReplay(jti: string, iss: string): boolean;
@@ -213,6 +220,7 @@ interface ReplayProtection {
    - Calculate `expirationDate` based on policy
 
 2. **Build JWT Header**
+
    ```json
    {
      "alg": "ES256",
@@ -222,6 +230,7 @@ interface ReplayProtection {
    ```
 
 3. **Build JWT Payload**
+
    ```json
    {
      "iss": "did:web:beltic.com",
@@ -230,7 +239,9 @@ interface ReplayProtection {
      "nbf": 1700000000,
      "exp": 1731536000,
      "iat": 1700000000,
-     "vc": { /* full credential object */ }
+     "vc": {
+       /* full credential object */
+     }
    }
    ```
 
@@ -250,6 +261,7 @@ interface ReplayProtection {
 ### Deterministic Serialization
 
 For reproducible signatures:
+
 - Sort object keys lexicographically
 - No whitespace between tokens
 - UTF-8 encoding
@@ -262,6 +274,7 @@ For reproducible signatures:
 ### Step-by-Step Verification
 
 1. **Parse JWS/JWT**
+
    ```
    CHECK VER-001: Token has exactly 3 parts separated by "."
    CHECK VER-002: Each part is valid base64url
@@ -269,6 +282,7 @@ For reproducible signatures:
    ```
 
 2. **Validate Header**
+
    ```
    CHECK VER-004: alg is in allowed algorithm list
    CHECK VER-005: alg is NOT "none" or symmetric
@@ -277,6 +291,7 @@ For reproducible signatures:
    ```
 
 3. **Resolve Issuer Key**
+
    ```
    CHECK VER-008: Resolve DID document for issuer
    CHECK VER-009: Find verification method matching kid
@@ -285,12 +300,14 @@ For reproducible signatures:
    ```
 
 4. **Verify Signature**
+
    ```
    CHECK VER-012: Signature is valid for header.payload
    CHECK VER-013: Signature uses key from kid
    ```
 
 5. **Validate Temporal Claims**
+
    ```
    CHECK VER-014: nbf ≤ current_time + clock_skew
    CHECK VER-015: exp ≥ current_time - clock_skew
@@ -298,11 +315,13 @@ For reproducible signatures:
    ```
 
 6. **Validate Audience (if present)**
+
    ```
    CHECK VER-017: If aud present, verifier identity in aud list
    ```
 
 7. **Check Revocation Status**
+
    ```
    CHECK VER-018: Fetch status list from credential.status or revocationListUrl
    CHECK VER-019: Decode and check bit at statusListIndex
@@ -310,6 +329,7 @@ For reproducible signatures:
    ```
 
 8. **Validate Credential Body**
+
    ```
    CHECK VER-021: vc object validates against JSON Schema
    CHECK VER-022: Claims mapping consistency (iss = vc.issuerDid, etc.)
@@ -342,7 +362,7 @@ interface VerificationResult {
 }
 
 interface VerificationError {
-  code: string;        // e.g., "VER-004"
+  code: string; // e.g., "VER-004"
   message: string;
   fatal: boolean;
 }
@@ -355,6 +375,7 @@ interface VerificationError {
 ### Status List 2021 (Recommended)
 
 Credential carries status entry:
+
 ```json
 {
   "status": {
@@ -378,6 +399,7 @@ Credential carries status entry:
 ### Legacy Support
 
 For backward compatibility, credentials MAY include:
+
 ```json
 {
   "revocationListUrl": "https://beltic.com/status/credentials.json",
@@ -393,13 +415,13 @@ Verifiers SHOULD prefer Status List 2021 when both are present.
 
 ### Issuer Key Requirements
 
-| Requirement | Description |
-|-------------|-------------|
-| Storage | HSM or cloud KMS (AWS KMS, GCP Cloud HSM, Azure Key Vault) |
-| Access | Role-based access control with audit logging |
-| Rotation | Regular rotation (recommended: 1 year) |
-| Backup | Secure backup with geographic redundancy |
-| History | Maintain history for verifying older credentials |
+| Requirement | Description                                                |
+| ----------- | ---------------------------------------------------------- |
+| Storage     | HSM or cloud KMS (AWS KMS, GCP Cloud HSM, Azure Key Vault) |
+| Access      | Role-based access control with audit logging               |
+| Rotation    | Regular rotation (recommended: 1 year)                     |
+| Backup      | Secure backup with geographic redundancy                   |
+| History     | Maintain history for verifying older credentials           |
 
 ### Key Rotation Process
 
@@ -427,6 +449,7 @@ For holder confirmation (Proof of Possession):
 ```
 
 Or using key thumbprint:
+
 ```json
 {
   "cnf": {
@@ -441,14 +464,14 @@ Or using key thumbprint:
 
 ### Attack Mitigations
 
-| Attack | Mitigation |
-|--------|------------|
-| Algorithm confusion | Strict algorithm allowlist; reject `none` |
-| Key substitution | Bind `kid` to specific issuer DID |
-| Replay attacks | `jti` uniqueness + temporal validation |
-| Token substitution | Verify `aud` if present |
-| Signature stripping | Always require signature verification |
-| Clock skew exploitation | Maximum 5-minute tolerance |
+| Attack                  | Mitigation                                |
+| ----------------------- | ----------------------------------------- |
+| Algorithm confusion     | Strict algorithm allowlist; reject `none` |
+| Key substitution        | Bind `kid` to specific issuer DID         |
+| Replay attacks          | `jti` uniqueness + temporal validation    |
+| Token substitution      | Verify `aud` if present                   |
+| Signature stripping     | Always require signature verification     |
+| Clock skew exploitation | Maximum 5-minute tolerance                |
 
 ### Implementation Requirements
 
@@ -465,6 +488,7 @@ REQ SEC-007: SHOULD log verification failures for security monitoring
 ### Error Handling
 
 Verifiers SHOULD NOT leak information about:
+
 - Which specific validation step failed (to external parties)
 - Internal key management details
 - Status list implementation details
@@ -527,24 +551,24 @@ Test vectors for rejection:
 
 ## Appendix A: Error Codes
 
-| Code | Description |
-|------|-------------|
-| SIG-001 | Invalid JWS structure |
-| SIG-002 | Unsupported algorithm |
-| SIG-003 | Algorithm "none" not allowed |
-| SIG-004 | Missing kid header |
-| SIG-005 | Invalid kid format |
-| SIG-006 | Key not found for kid |
-| SIG-007 | Key type mismatch |
+| Code    | Description                   |
+| ------- | ----------------------------- |
+| SIG-001 | Invalid JWS structure         |
+| SIG-002 | Unsupported algorithm         |
+| SIG-003 | Algorithm "none" not allowed  |
+| SIG-004 | Missing kid header            |
+| SIG-005 | Invalid kid format            |
+| SIG-006 | Key not found for kid         |
+| SIG-007 | Key type mismatch             |
 | SIG-008 | Signature verification failed |
-| SIG-009 | Token expired |
-| SIG-010 | Token not yet valid |
-| SIG-011 | Invalid audience |
-| SIG-012 | Credential revoked |
-| SIG-013 | Status list unavailable |
-| SIG-014 | Schema validation failed |
-| SIG-015 | Claims mapping inconsistent |
-| SIG-016 | Replay detected |
+| SIG-009 | Token expired                 |
+| SIG-010 | Token not yet valid           |
+| SIG-011 | Invalid audience              |
+| SIG-012 | Credential revoked            |
+| SIG-013 | Status list unavailable       |
+| SIG-014 | Schema validation failed      |
+| SIG-015 | Claims mapping inconsistent   |
+| SIG-016 | Replay detected               |
 
 ## Appendix B: References
 

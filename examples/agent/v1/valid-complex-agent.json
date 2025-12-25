@@ -25,10 +25,10 @@
   },
   "complianceCertifications": ["soc2_type2", "iso27001", "pci_dss"],
   "dataLocationProfile": {
-      "storageRegions": ["US", "CA"],
-      "processingRegions": ["US", "CA"],
-      "backupRegions": ["US"],
-      "notes": "Primary US, Canadian secondary for Canadian clients"
+    "storageRegions": ["US", "CA"],
+    "processingRegions": ["US", "CA"],
+    "backupRegions": ["US"],
+    "notes": "Primary US, Canadian secondary for Canadian clients"
   },
   "toolsList": [
     {
@@ -61,7 +61,12 @@
     }
   ],
   "toolsLastAudited": "2025-09-01",
-  "dataCategoriesProcessed": ["pii", "financial", "behavioral", "authentication"],
+  "dataCategoriesProcessed": [
+    "pii",
+    "financial",
+    "behavioral",
+    "authentication"
+  ],
   "dataRetentionMaxPeriod": "P90D",
   "dataRetentionByCategory": {
     "pii": "P90D",
@@ -103,8 +108,14 @@
   "credentialIssuanceDate": "2025-11-07T09:00:00Z",
   "credentialExpirationDate": "2026-05-07T09:00:00Z",
   "overallSafetyRating": "moderate_risk",
-  "approvedUseCases": ["Advisor-drafted investment memos", "Client Q&A summarization"],
-  "prohibitedUseCases": ["Automatic trade execution", "Retail self-service investing"],
+  "approvedUseCases": [
+    "Advisor-drafted investment memos",
+    "Client Q&A summarization"
+  ],
+  "prohibitedUseCases": [
+    "Automatic trade execution",
+    "Retail self-service investing"
+  ],
   "ageRestrictions": "18+",
   "regulatoryApprovals": ["FINRA supervisory controls"],
   "kybTierRequired": "tier_3",

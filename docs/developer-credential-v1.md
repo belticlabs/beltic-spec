@@ -13,6 +13,7 @@ This document specifies version 1 of the Beltic DeveloperCredential, which estab
 ## Field Categories
 
 Fields are organized into the following categories:
+
 1. Core Identity Information
 2. Contact Information
 3. Tax and Registration
@@ -40,11 +41,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Minimum length: 2 characters
 - Maximum length: 500 characters
 - Must match official registration documents
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -68,6 +71,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `corporation` - Incorporated company (Inc, Corp, Ltd)
 - `limited_liability_company` - LLC or equivalent
 - `partnership` - General or limited partnership
@@ -78,6 +82,7 @@ Fields are organized into the following categories:
 - `other` - Other legal structures
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -95,6 +100,7 @@ Fields are organized into the following categories:
 **Description:** The country (and optionally state/province) where the entity is legally registered or incorporated. This determines which regulatory frameworks apply and helps verifiers assess jurisdictional risks.
 
 **Type:** Object containing:
+
 - `country` (ISO 3166-1 alpha-2 country code, required)
 - `region` (state/province/territory code, optional)
 
@@ -103,10 +109,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Country must be valid ISO 3166-1 alpha-2 code (e.g., "US", "GB", "DE")
 - Region should use ISO 3166-2 subdivision codes where applicable
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified against registration documents)
 - Third-party-verified: Allowed for regulated industries
@@ -130,12 +138,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be a valid date in the past
 - Cannot be more than 200 years in the past
 - Cannot be in the future
 - Day-level precision is reserved for internal AML/KYC logs; public presentations surface only year-month to avoid exposing personal birthdates
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified against registration documents)
 - Third-party-verified: Allowed for regulated industries
@@ -159,12 +169,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Constraints:**
+
 - Stored as hash or verification token, not plaintext
 - Format varies by jurisdiction
 - Verifiable through Beltic verification API
 - Restricted view is available only to Beltic compliance teams and regulators when legally mandated; merchant verifications consume a yes/no proof that the credential maps to a valid registration number
 
 **Assurance Model:**
+
 - Self-attested: Not allowed
 - Beltic-verified: Required
 - Third-party-verified: Allowed for regulated industries
@@ -188,6 +200,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `active_good_standing` - Registered and in good standing
 - `active_requires_attention` - Registered but may have minor compliance issues
 - `inactive` - Registration expired or voluntarily dissolved
@@ -196,6 +209,7 @@ Fields are organized into the following categories:
 - `verification_pending` - Status not yet confirmed
 
 **Assurance Model:**
+
 - Self-attested: Not allowed
 - Beltic-verified: Required
 - Third-party-verified: Allowed for regulated industries
@@ -221,11 +235,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid URL format
 - Must use HTTPS protocol (HTTP allowed only for development/testing)
 - Maximum length: 500 characters
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Recommended (includes domain ownership verification)
 - Third-party-verified: Allowed for regulated industries
@@ -243,6 +259,7 @@ Fields are organized into the following categories:
 **Description:** The official registered address of the organization as filed with government authorities. This may differ from operational addresses. For individuals, this field should be kept internal unless a regulator explicitly requests it; merchant-facing presentations only expose country/region level data so the full street address is never broadly disclosed.
 
 **Type:** Object containing:
+
 - `streetAddress` (text, required)
 - `addressLine2` (text, optional - suite, floor, etc.)
 - `city` (text, required)
@@ -255,12 +272,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Constraints:**
+
 - Country must be valid ISO 3166-1 alpha-2 code
 - All components must match official registration documents
 - Default selective-disclosure profile includes only `country` and `region` for merchants; Beltic/regulators may access the full object for AML/KYC reviews
 - EU/EEA and UK issuers must capture explicit legitimate-interest documentation before storing a home address for sole proprietors, as it qualifies as personal data under GDPR/UK GDPR
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -284,6 +303,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid email format
 - Should use organizational domain (preferred, not required)
 - Must be verified through email confirmation
@@ -291,6 +311,7 @@ Fields are organized into the following categories:
 - Sole proprietors should either provision an alias mailbox or opt into Beltic's relay service to avoid exposing personal email addresses in merchant-facing credentials
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing (with email verification)
 - Beltic-verified: Required for production use (includes email verification)
 - Third-party-verified: Allowed for regulated industries
@@ -314,12 +335,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Constraints:**
+
 - Should use E.164 international format (e.g., +1-555-123-4567)
 - Must be verified through phone verification process
 - Maximum length: 20 characters
 - Merchant disclosures may only include a yes/no indicator that a phone contact exists; the actual number remains restricted to Beltic
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing (with phone verification)
 - Beltic-verified: Required for production use (includes phone verification)
 - Third-party-verified: Allowed for regulated industries
@@ -343,12 +366,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid email format
 - Should use organizational domain (preferred, not required)
 - Must be verified through email confirmation
 - Maximum length: 254 characters
 
 **Assurance Model:**
+
 - Self-attested: Allowed (with email verification)
 - Beltic-verified: Allowed
 - Third-party-verified: Allowed
@@ -374,10 +399,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `true` - Entity has a tax ID
 - `false` - Entity does not have a tax ID (e.g., new entity, exempt status)
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -401,6 +428,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `verified` - Tax ID verified with authority
 - `not_verified` - Tax ID provided but not verified
 - `verification_pending` - Verification in progress
@@ -408,6 +436,7 @@ Fields are organized into the following categories:
 - `not_applicable` - No tax ID exists
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (verification status must be determined by verifier)
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -425,6 +454,7 @@ Fields are organized into the following categories:
 **Description:** The country (and optionally region) where the tax ID was issued. This helps verifiers understand which tax authority's verification was performed.
 
 **Type:** Object containing:
+
 - `country` (ISO 3166-1 alpha-2 country code, required)
 - `region` (state/province code, optional)
 
@@ -433,10 +463,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Country must be valid ISO 3166-1 alpha-2 code
 - Should match or be related to incorporation jurisdiction
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -460,10 +492,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be a valid date in the past
 - Should not be more than 2 years old for current credentials
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (set by verification system)
 - Beltic-verified: Required
 - Third-party-verified: Allowed
@@ -489,6 +523,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `tier_0_unverified` - No verification performed (self-attested only)
 - `tier_1_basic` - Basic identity and business registration verification
 - `tier_2_standard` - Standard KYB including business verification, address verification, and basic risk screening
@@ -496,6 +531,7 @@ Fields are organized into the following categories:
 - `tier_4_maximum` - Maximum due diligence for high-risk or regulated use cases
 
 **Assurance Model:**
+
 - Self-attested: Only for tier_0
 - Beltic-verified: Required for tiers 1-4
 - Third-party-verified: Allowed for tiers 3-4
@@ -519,6 +555,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `clear` - No matches found on sanctions lists
 - `potential_match` - Possible match requires manual review
 - `confirmed_match` - Entity or principals are on sanctions lists
@@ -526,6 +563,7 @@ Fields are organized into the following categories:
 - `screening_error` - Technical error during screening
 
 **Assurance Model:**
+
 - Self-attested: Not allowed
 - Beltic-verified: Required for tier_2 and above
 - Third-party-verified: Allowed for regulated industries
@@ -549,10 +587,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be a valid date in the past
 - Should not be more than 90 days old for current credentials
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (set by screening system)
 - Beltic-verified: Required
 - Third-party-verified: Allowed
@@ -576,6 +616,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Allowed Values:**
+
 - `none` - No PEP connections identified
 - `low` - Minor indirect PEP connections (e.g., distant family, former minor officials)
 - `medium` - Moderate PEP connections (e.g., close family of local officials)
@@ -583,6 +624,7 @@ Fields are organized into the following categories:
 - `not_assessed` - PEP screening not yet performed
 
 **Assurance Model:**
+
 - Self-attested: Not allowed
 - Beltic-verified: Required for tier_2 and above
 - Third-party-verified: Allowed for regulated industries
@@ -606,10 +648,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Constraints:**
+
 - Must be a valid date in the past
 - Should not be more than 180 days old for current credentials
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (set by assessment system)
 - Beltic-verified: Required
 - Third-party-verified: Allowed
@@ -633,6 +677,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Allowed Values:**
+
 - `none` - No significant adverse media found
 - `low` - Minor negative mentions or resolved historical issues
 - `medium` - Moderate adverse media indicating potential concerns
@@ -640,6 +685,7 @@ Fields are organized into the following categories:
 - `not_assessed` - Media screening not yet performed
 
 **Assurance Model:**
+
 - Self-attested: Not allowed
 - Beltic-verified: Required for tier_2 and above
 - Third-party-verified: Allowed for regulated industries
@@ -663,10 +709,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Constraints:**
+
 - Must be a valid date in the past
 - Should not be more than 180 days old for current credentials
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (set by screening system)
 - Beltic-verified: Required
 - Third-party-verified: Allowed
@@ -690,6 +738,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `low` - Low risk entity suitable for most use cases
 - `medium` - Moderate risk requiring standard monitoring
 - `high` - High risk requiring enhanced due diligence and monitoring
@@ -697,6 +746,7 @@ Fields are organized into the following categories:
 - `not_assessed` - Risk rating not yet determined
 
 **Assurance Model:**
+
 - Self-attested: Not allowed
 - Beltic-verified: Required for tier_2 and above
 - Third-party-verified: Allowed for regulated industries
@@ -722,6 +772,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Allowed Values:**
+
 - `all_identified_and_kycd` - All beneficial owners identified and passed KYC
 - `partially_identified` - Some but not all beneficial owners identified
 - `identified_not_kycd` - Beneficial owners identified but KYC not completed
@@ -730,6 +781,7 @@ Fields are organized into the following categories:
 - `not_assessed` - Assessment not yet performed
 
 **Assurance Model:**
+
 - Self-attested: Not allowed
 - Beltic-verified: Required for tier_2 and above
 - Third-party-verified: Allowed for regulated industries
@@ -753,10 +805,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Constraints:**
+
 - Must be non-negative integer
 - Typical range: 0-10 (larger numbers may indicate complex structures)
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -780,12 +834,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Allowed Values:**
+
 - `simple` - Direct ownership, minimal layers
 - `moderate` - Some corporate layers or multiple owners
 - `complex` - Multiple layers, offshore entities, or intricate structures
 - `not_assessed` - Assessment not performed
 
 **Assurance Model:**
+
 - Self-attested: Not allowed
 - Beltic-verified: Required for tier_2 and above
 - Third-party-verified: Allowed for regulated industries
@@ -811,11 +867,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be globally unique
 - Should be immutable once issued
 - Recommended format: UUID v4 (e.g., "550e8400-e29b-41d4-a716-446655440000")
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (assigned by issuer)
 - Beltic-verified: Assigned by Beltic
 - Third-party-verified: Assigned by third-party issuer
@@ -839,10 +897,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be a valid datetime
 - Should be at or before current time (allowing small clock skew)
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (set by issuer)
 - Beltic-verified: Set by Beltic
 - Third-party-verified: Set by third-party issuer
@@ -866,6 +926,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be after issuance date
 - Typical validity periods:
   - Tier 0-1: 2 years
@@ -874,6 +935,7 @@ Fields are organized into the following categories:
   - Self-attested: 90 days maximum
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (set by issuer)
 - Beltic-verified: Set by Beltic
 - Third-party-verified: Set by third-party issuer
@@ -897,11 +959,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid DID format (e.g., "did:web:beltic.com" or "did:key:...")
 - Must resolve to a valid DID document
 - Issuer must have authority to issue DeveloperCredentials
 
 **Assurance Model:**
+
 - Self-attested: Uses subject's own DID (for self-issued credentials)
 - Beltic-verified: Uses Beltic's DID
 - Third-party-verified: Uses third-party verifier's DID
@@ -925,10 +989,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must reference a valid verification method in issuer's DID document
 - Should use strong cryptographic algorithms (e.g., Ed25519, ECDSA with P-256)
 
 **Assurance Model:**
+
 - Self-attested: References self-signing key
 - Beltic-verified: References Beltic's signing key
 - Third-party-verified: References third-party's signing key
@@ -952,12 +1018,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `active` - Credential is valid and in good standing
 - `suspended` - Temporarily suspended pending investigation
 - `revoked` - Permanently revoked, no longer valid
 - `expired` - Past expiration date
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (managed by issuer)
 - Beltic-verified: Managed by Beltic
 - Third-party-verified: Managed by third-party issuer
@@ -981,11 +1049,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid HTTPS URL
 - Should be publicly accessible or accessible to authorized verifiers
 - Should have high availability
 
 **Assurance Model:**
+
 - Self-attested: Managed by credential subject
 - Beltic-verified: Managed by Beltic
 - Third-party-verified: Managed by third-party issuer
@@ -1009,10 +1079,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be between issuance date and expiration date
 - Should not be in the future
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (managed by issuer)
 - Beltic-verified: Set by Beltic
 - Third-party-verified: Set by third-party issuer
@@ -1038,11 +1110,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid DID format
 - Must resolve to a valid DID document
 - Subject must control the corresponding private key
 
 **Assurance Model:**
+
 - Self-attested: Subject creates their own DID
 - Beltic-verified: DID ownership verified by Beltic
 - Third-party-verified: DID ownership verified by third-party
@@ -1060,6 +1134,7 @@ Fields are organized into the following categories:
 **Description:** The public key corresponding to the subject's DID, used for verifying signatures and encrypting communications to the subject. This is typically extracted from the DID document.
 
 **Type:** Object containing:
+
 - `type` (key type, e.g., "Ed25519VerificationKey2020")
 - `publicKeyMultibase` (encoded public key)
 
@@ -1068,11 +1143,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must correspond to subject DID
 - Must use strong cryptographic algorithms
 - Should support signature verification and optionally encryption
 
 **Assurance Model:**
+
 - Self-attested: Subject provides their public key
 - Beltic-verified: Public key verified as controlled by subject
 - Third-party-verified: Public key verified by third-party
@@ -1090,6 +1167,7 @@ Fields are organized into the following categories:
 **Description:** Cryptographic proof (signature) from the issuer that binds all credential data together and proves authenticity. This is a structured object containing signature type, creation time, and signature value.
 
 **Type:** Object (W3C VC Data Integrity Proof format) containing:
+
 - `type` (proof type, e.g., "Ed25519Signature2020")
 - `created` (ISO 8601 datetime)
 - `verificationMethod` (reference to issuer's key)
@@ -1101,11 +1179,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be verifiable using issuer's public key
 - Must cover all credential claims
 - Should use strong signature algorithms
 
 **Assurance Model:**
+
 - Self-attested: Self-signed by subject
 - Beltic-verified: Signed by Beltic
 - Third-party-verified: Signed by third-party issuer
@@ -1116,51 +1196,52 @@ Fields are organized into the following categories:
 
 ## Field Summary Table
 
-| Field Name | Type | Required | Sensitivity | Min Assurance | NIST Tag |
-|------------|------|----------|-------------|---------------|----------|
-| legalName | Text | Yes | Public | Beltic-verified (prod) | GOVERN |
-| entityType | Enum | Yes | Public | Beltic-verified (prod) | GOVERN |
-| incorporationJurisdiction | Object | Yes | Public | Beltic-verified (prod) | GOVERN |
-| incorporationDate | Date | Conditional | Public | Beltic-verified (prod) | GOVERN |
-| businessRegistrationNumber | Text (hashed) | Conditional | Restricted | Beltic-verified | GOVERN |
-| businessRegistrationStatus | Enum | Yes | Public | Beltic-verified | GOVERN |
-| website | URL | Yes | Public | Self-attested | GOVERN |
-| registeredAddress | Object | Conditional | Restricted | Beltic-verified (prod) | GOVERN |
-| businessEmail | Email | Yes | Public | Beltic-verified (prod) | MANAGE |
-| businessPhone | Text | Yes | Restricted | Beltic-verified (prod) | MANAGE |
-| securityEmail | Email | No | Public | Self-attested | MANAGE |
-| taxIdExists | Boolean | Yes | Public | Beltic-verified (prod) | GOVERN |
-| taxIdVerified | Enum | Conditional | Public | Beltic-verified | GOVERN |
-| taxIdJurisdiction | Object | Conditional | Public | Beltic-verified (prod) | GOVERN |
-| taxIdLastVerifiedDate | Date | Conditional | Public | Beltic-verified | GOVERN |
-| kybTier | Enum | Yes | Public | Beltic-verified | GOVERN |
-| sanctionsScreeningStatus | Enum | Conditional | Public | Beltic-verified | MAP |
-| sanctionsScreeningLastChecked | Date | Conditional | Public | Beltic-verified | MAP |
-| pepRiskLevel | Enum | Conditional | Restricted | Beltic-verified | MAP |
-| pepRiskLastAssessed | Date | Conditional | Restricted | Beltic-verified | MAP |
-| adverseMediaRiskLevel | Enum | Conditional | Restricted | Beltic-verified | MAP |
-| adverseMediaLastAssessed | Date | Conditional | Restricted | Beltic-verified | MAP |
-| overallRiskRating | Enum | Conditional | Public | Beltic-verified | MAP |
-| beneficialOwnersKycStatus | Enum | Conditional | Restricted | Beltic-verified | GOVERN |
-| beneficialOwnersCount | Integer | No | Restricted | Beltic-verified (prod) | GOVERN |
-| controlStructureComplexity | Enum | No | Restricted | Beltic-verified | MAP |
-| credentialId | Text (UUID) | Yes | Public | Issuer-assigned | GOVERN |
-| issuanceDate | DateTime | Yes | Public | Issuer-assigned | GOVERN |
-| expirationDate | DateTime | Yes | Public | Issuer-assigned | GOVERN |
-| issuerDid | Text (DID) | Yes | Public | Issuer-assigned | GOVERN |
-| verificationMethod | Text (URI) | Yes | Public | Issuer-assigned | GOVERN |
-| credentialStatus | Enum | Yes | Public | Issuer-managed | MANAGE |
-| revocationListUrl | URL | Yes | Public | Issuer-managed | MANAGE |
-| lastUpdatedDate | DateTime | Yes | Public | Issuer-assigned | GOVERN |
-| subjectDid | Text (DID) | Yes | Public | Subject-created | GOVERN |
-| publicKey | Object | Yes | Public | Subject-provided | GOVERN |
-| proof | Object | Yes | Public | Issuer-signed | GOVERN |
+| Field Name                    | Type          | Required    | Sensitivity | Min Assurance          | NIST Tag |
+| ----------------------------- | ------------- | ----------- | ----------- | ---------------------- | -------- |
+| legalName                     | Text          | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| entityType                    | Enum          | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| incorporationJurisdiction     | Object        | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| incorporationDate             | Date          | Conditional | Public      | Beltic-verified (prod) | GOVERN   |
+| businessRegistrationNumber    | Text (hashed) | Conditional | Restricted  | Beltic-verified        | GOVERN   |
+| businessRegistrationStatus    | Enum          | Yes         | Public      | Beltic-verified        | GOVERN   |
+| website                       | URL           | Yes         | Public      | Self-attested          | GOVERN   |
+| registeredAddress             | Object        | Conditional | Restricted  | Beltic-verified (prod) | GOVERN   |
+| businessEmail                 | Email         | Yes         | Public      | Beltic-verified (prod) | MANAGE   |
+| businessPhone                 | Text          | Yes         | Restricted  | Beltic-verified (prod) | MANAGE   |
+| securityEmail                 | Email         | No          | Public      | Self-attested          | MANAGE   |
+| taxIdExists                   | Boolean       | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| taxIdVerified                 | Enum          | Conditional | Public      | Beltic-verified        | GOVERN   |
+| taxIdJurisdiction             | Object        | Conditional | Public      | Beltic-verified (prod) | GOVERN   |
+| taxIdLastVerifiedDate         | Date          | Conditional | Public      | Beltic-verified        | GOVERN   |
+| kybTier                       | Enum          | Yes         | Public      | Beltic-verified        | GOVERN   |
+| sanctionsScreeningStatus      | Enum          | Conditional | Public      | Beltic-verified        | MAP      |
+| sanctionsScreeningLastChecked | Date          | Conditional | Public      | Beltic-verified        | MAP      |
+| pepRiskLevel                  | Enum          | Conditional | Restricted  | Beltic-verified        | MAP      |
+| pepRiskLastAssessed           | Date          | Conditional | Restricted  | Beltic-verified        | MAP      |
+| adverseMediaRiskLevel         | Enum          | Conditional | Restricted  | Beltic-verified        | MAP      |
+| adverseMediaLastAssessed      | Date          | Conditional | Restricted  | Beltic-verified        | MAP      |
+| overallRiskRating             | Enum          | Conditional | Public      | Beltic-verified        | MAP      |
+| beneficialOwnersKycStatus     | Enum          | Conditional | Restricted  | Beltic-verified        | GOVERN   |
+| beneficialOwnersCount         | Integer       | No          | Restricted  | Beltic-verified (prod) | GOVERN   |
+| controlStructureComplexity    | Enum          | No          | Restricted  | Beltic-verified        | MAP      |
+| credentialId                  | Text (UUID)   | Yes         | Public      | Issuer-assigned        | GOVERN   |
+| issuanceDate                  | DateTime      | Yes         | Public      | Issuer-assigned        | GOVERN   |
+| expirationDate                | DateTime      | Yes         | Public      | Issuer-assigned        | GOVERN   |
+| issuerDid                     | Text (DID)    | Yes         | Public      | Issuer-assigned        | GOVERN   |
+| verificationMethod            | Text (URI)    | Yes         | Public      | Issuer-assigned        | GOVERN   |
+| credentialStatus              | Enum          | Yes         | Public      | Issuer-managed         | MANAGE   |
+| revocationListUrl             | URL           | Yes         | Public      | Issuer-managed         | MANAGE   |
+| lastUpdatedDate               | DateTime      | Yes         | Public      | Issuer-assigned        | GOVERN   |
+| subjectDid                    | Text (DID)    | Yes         | Public      | Subject-created        | GOVERN   |
+| publicKey                     | Object        | Yes         | Public      | Subject-provided       | GOVERN   |
+| proof                         | Object        | Yes         | Public      | Issuer-signed          | GOVERN   |
 
 ---
 
 ## 8. Conditional Validation Rules
 
 The Developer Credential schema enforces **27 conditional validation rules** organized into two priority tiers:
+
 - **Tier 1 - Critical (10 rules)**: Prevent invalid credentials; violations will cause credential issuance to fail
 - **Tier 2 - High (17 rules)**: Ensure data consistency; violations may result in warnings or enhanced review
 
@@ -1168,41 +1249,41 @@ The Developer Credential schema enforces **27 conditional validation rules** org
 
 These rules must be satisfied for a credential to be valid. Violations will cause immediate rejection during issuance or verification.
 
-| Rule # | Condition | Required Fields / Constraints | Example |
-|--------|-----------|------------------------------|---------|
-| **1** | `taxIdExists = true` | `taxIdVerified` and `taxIdJurisdiction` are **required** | If company has tax ID, must specify verification status and jurisdiction |
-| **2** | `taxIdVerified = "verified"` | `taxIdLastVerifiedDate` is **required** | Verified tax IDs must have verification date |
-| **3** | `entityType = "individual"` | `incorporationDate`, `businessRegistrationNumber`, `registeredAddress` must be **absent or null**; `beneficialOwnersKycStatus` must be `"not_applicable"` | Individuals cannot have incorporation dates or beneficial owners |
-| **4** | `entityType` ∈ {`corporation`, `limited_liability_company`, `partnership`, `nonprofit_organization`, `government_entity`, `other`} | `incorporationDate`, `businessRegistrationNumber`, `registeredAddress` are **required** | Organizations must have incorporation details and registered address |
-| **5** | `kybTier` ∈ {`tier_2_standard`, `tier_3_enhanced`, `tier_4_maximum`} | `sanctionsScreeningStatus`, `pepRiskLevel`, `adverseMediaRiskLevel`, `overallRiskRating` are **required** | Tier 2+ requires comprehensive risk screening |
-| **6a** | `sanctionsScreeningStatus` ∈ {`clear`, `potential_match`, `confirmed_match`, `screening_error`} | `sanctionsScreeningLastChecked` is **required** | Active sanctions screening requires date |
-| **6b** | `pepRiskLevel` ∈ {`none`, `low`, `medium`, `high`} | `pepRiskLastAssessed` is **required** | Active PEP assessments require date |
-| **6c** | `adverseMediaRiskLevel` ∈ {`none`, `low`, `medium`, `high`} | `adverseMediaLastAssessed` is **required** | Active adverse media screening requires date |
-| **7** | `sanctionsScreeningStatus = "confirmed_match"` | `overallRiskRating` must be `"high"` or `"prohibited"` | Sanctioned entities must have high/prohibited risk |
-| **8** | Always | `issuanceDate` < `expirationDate` *(runtime check)* | Credential cannot expire before issuance |
-| **9** | Always | `issuanceDate` ≤ `lastUpdatedDate` ≤ `expirationDate` *(runtime check)* | Updates must occur during credential lifetime |
-| **10** | `overallRiskRating = "prohibited"` | `credentialStatus` must be `"revoked"` or `"suspended"` | Prohibited entities cannot have active credentials |
+| Rule # | Condition                                                                                                                          | Required Fields / Constraints                                                                                                                             | Example                                                                  |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **1**  | `taxIdExists = true`                                                                                                               | `taxIdVerified` and `taxIdJurisdiction` are **required**                                                                                                  | If company has tax ID, must specify verification status and jurisdiction |
+| **2**  | `taxIdVerified = "verified"`                                                                                                       | `taxIdLastVerifiedDate` is **required**                                                                                                                   | Verified tax IDs must have verification date                             |
+| **3**  | `entityType = "individual"`                                                                                                        | `incorporationDate`, `businessRegistrationNumber`, `registeredAddress` must be **absent or null**; `beneficialOwnersKycStatus` must be `"not_applicable"` | Individuals cannot have incorporation dates or beneficial owners         |
+| **4**  | `entityType` ∈ {`corporation`, `limited_liability_company`, `partnership`, `nonprofit_organization`, `government_entity`, `other`} | `incorporationDate`, `businessRegistrationNumber`, `registeredAddress` are **required**                                                                   | Organizations must have incorporation details and registered address     |
+| **5**  | `kybTier` ∈ {`tier_2_standard`, `tier_3_enhanced`, `tier_4_maximum`}                                                               | `sanctionsScreeningStatus`, `pepRiskLevel`, `adverseMediaRiskLevel`, `overallRiskRating` are **required**                                                 | Tier 2+ requires comprehensive risk screening                            |
+| **6a** | `sanctionsScreeningStatus` ∈ {`clear`, `potential_match`, `confirmed_match`, `screening_error`}                                    | `sanctionsScreeningLastChecked` is **required**                                                                                                           | Active sanctions screening requires date                                 |
+| **6b** | `pepRiskLevel` ∈ {`none`, `low`, `medium`, `high`}                                                                                 | `pepRiskLastAssessed` is **required**                                                                                                                     | Active PEP assessments require date                                      |
+| **6c** | `adverseMediaRiskLevel` ∈ {`none`, `low`, `medium`, `high`}                                                                        | `adverseMediaLastAssessed` is **required**                                                                                                                | Active adverse media screening requires date                             |
+| **7**  | `sanctionsScreeningStatus = "confirmed_match"`                                                                                     | `overallRiskRating` must be `"high"` or `"prohibited"`                                                                                                    | Sanctioned entities must have high/prohibited risk                       |
+| **8**  | Always                                                                                                                             | `issuanceDate` < `expirationDate` _(runtime check)_                                                                                                       | Credential cannot expire before issuance                                 |
+| **9**  | Always                                                                                                                             | `issuanceDate` ≤ `lastUpdatedDate` ≤ `expirationDate` _(runtime check)_                                                                                   | Updates must occur during credential lifetime                            |
+| **10** | `overallRiskRating = "prohibited"`                                                                                                 | `credentialStatus` must be `"revoked"` or `"suspended"`                                                                                                   | Prohibited entities cannot have active credentials                       |
 
 ### 8.2 Tier 2 High Conditionals
 
 These rules ensure data consistency and quality. Violations should trigger warnings and may require manual review before credential issuance.
 
-| Rule # | Condition | Required Constraints | Rationale |
-|--------|-----------|---------------------|-----------|
-| **1** | `taxIdJurisdiction` is provided | `taxIdExists` must be `true` | Cannot have jurisdiction without tax ID |
-| **2** | `businessRegistrationStatus` ∈ {`active_good_standing`, `active_requires_attention`, `inactive`, `suspended`, `verification_pending`} | `entityType` must be organization type (not `individual`) | Only organizations have business registration |
-| **3** | `beneficialOwnersCount > 0` | `beneficialOwnersKycStatus` must NOT be `"not_applicable"` | Count > 0 implies owners exist |
-| **4** | `sanctionsScreeningLastChecked` exists | Should be within **90 days** *(runtime check)* | Sanctions lists change frequently |
-| **5** | `pepRiskLastAssessed` exists | Should be within **180 days** *(runtime check)* | PEP status changes over time |
-| **6** | `adverseMediaLastAssessed` exists | Should be within **180 days** *(runtime check)* | Media landscape evolves |
-| **7** | `taxIdLastVerifiedDate` exists | Should be within **2 years** *(runtime check)* | Tax verification should be current |
-| **8** | `credentialStatus = "expired"` | `expirationDate` should be in past *(runtime check)* | Status must match expiration |
-| **9** | `pepRiskLevel = "high"` | `overallRiskRating` must be `"high"` or `"prohibited"` | High component risk → high overall risk |
-| **10** | `adverseMediaRiskLevel = "high"` | `overallRiskRating` must be `"high"` or `"prohibited"` | High adverse media → high overall risk |
-| **11** | `beneficialOwnersKycStatus = "unable_to_identify"` | `overallRiskRating` should be ≥ `"medium"` | Unknown ownership is a risk flag |
-| **12** | `entityType = "sole_proprietorship"` | `beneficialOwnersKycStatus` should be `"not_applicable"` or `"not_assessed"` | Sole proprietors are single-owner |
-| **13** | `controlStructureComplexity = "complex"` | `beneficialOwnersKycStatus` should be assessed *(recommendation)* | Complex structures need thorough review |
-| **14-17** | Various date fields | Freshness checks per rules #4-7 | Ensures current risk assessment data |
+| Rule #    | Condition                                                                                                                             | Required Constraints                                                         | Rationale                                     |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------- |
+| **1**     | `taxIdJurisdiction` is provided                                                                                                       | `taxIdExists` must be `true`                                                 | Cannot have jurisdiction without tax ID       |
+| **2**     | `businessRegistrationStatus` ∈ {`active_good_standing`, `active_requires_attention`, `inactive`, `suspended`, `verification_pending`} | `entityType` must be organization type (not `individual`)                    | Only organizations have business registration |
+| **3**     | `beneficialOwnersCount > 0`                                                                                                           | `beneficialOwnersKycStatus` must NOT be `"not_applicable"`                   | Count > 0 implies owners exist                |
+| **4**     | `sanctionsScreeningLastChecked` exists                                                                                                | Should be within **90 days** _(runtime check)_                               | Sanctions lists change frequently             |
+| **5**     | `pepRiskLastAssessed` exists                                                                                                          | Should be within **180 days** _(runtime check)_                              | PEP status changes over time                  |
+| **6**     | `adverseMediaLastAssessed` exists                                                                                                     | Should be within **180 days** _(runtime check)_                              | Media landscape evolves                       |
+| **7**     | `taxIdLastVerifiedDate` exists                                                                                                        | Should be within **2 years** _(runtime check)_                               | Tax verification should be current            |
+| **8**     | `credentialStatus = "expired"`                                                                                                        | `expirationDate` should be in past _(runtime check)_                         | Status must match expiration                  |
+| **9**     | `pepRiskLevel = "high"`                                                                                                               | `overallRiskRating` must be `"high"` or `"prohibited"`                       | High component risk → high overall risk       |
+| **10**    | `adverseMediaRiskLevel = "high"`                                                                                                      | `overallRiskRating` must be `"high"` or `"prohibited"`                       | High adverse media → high overall risk        |
+| **11**    | `beneficialOwnersKycStatus = "unable_to_identify"`                                                                                    | `overallRiskRating` should be ≥ `"medium"`                                   | Unknown ownership is a risk flag              |
+| **12**    | `entityType = "sole_proprietorship"`                                                                                                  | `beneficialOwnersKycStatus` should be `"not_applicable"` or `"not_assessed"` | Sole proprietors are single-owner             |
+| **13**    | `controlStructureComplexity = "complex"`                                                                                              | `beneficialOwnersKycStatus` should be assessed _(recommendation)_            | Complex structures need thorough review       |
+| **14-17** | Various date fields                                                                                                                   | Freshness checks per rules #4-7                                              | Ensures current risk assessment data          |
 
 ### 8.3 Entity Type Decision Tree
 
@@ -1230,42 +1311,47 @@ Is entityType = "individual"?
 
 ### 8.4 KYB Tier Requirements Matrix
 
-| Field | tier_0 | tier_1 | tier_2 | tier_3 | tier_4 |
-|-------|--------|--------|--------|--------|--------|
-| `sanctionsScreeningStatus` | Optional | Optional | **Required** | **Required** | **Required** |
-| `pepRiskLevel` | Optional | Optional | **Required** | **Required** | **Required** |
-| `adverseMediaRiskLevel` | Optional | Optional | **Required** | **Required** | **Required** |
-| `overallRiskRating` | Optional | Optional | **Required** | **Required** | **Required** |
-| `beneficialOwnersKycStatus` | N/A | N/A | **Required** (orgs) | **Required** (orgs) | **Required** (orgs) |
-| Screening freshness | N/A | N/A | 90 days | 90 days | 30 days |
+| Field                       | tier_0   | tier_1   | tier_2              | tier_3              | tier_4              |
+| --------------------------- | -------- | -------- | ------------------- | ------------------- | ------------------- |
+| `sanctionsScreeningStatus`  | Optional | Optional | **Required**        | **Required**        | **Required**        |
+| `pepRiskLevel`              | Optional | Optional | **Required**        | **Required**        | **Required**        |
+| `adverseMediaRiskLevel`     | Optional | Optional | **Required**        | **Required**        | **Required**        |
+| `overallRiskRating`         | Optional | Optional | **Required**        | **Required**        | **Required**        |
+| `beneficialOwnersKycStatus` | N/A      | N/A      | **Required** (orgs) | **Required** (orgs) | **Required** (orgs) |
+| Screening freshness         | N/A      | N/A      | 90 days             | 90 days             | 30 days             |
 
 ### 8.5 Risk Roll-Up Logic
 
 The `overallRiskRating` must be consistent with component risk assessments:
 
 **Minimum Overall Risk Requirements:**
+
 - If `sanctionsScreeningStatus = "confirmed_match"` → Overall must be `"high"` or `"prohibited"`
 - If `pepRiskLevel = "high"` → Overall must be ≥ `"high"`
 - If `adverseMediaRiskLevel = "high"` → Overall must be ≥ `"high"`
 - If `beneficialOwnersKycStatus = "unable_to_identify"` → Overall should be ≥ `"medium"`
 
 **Special Cases:**
+
 - `overallRiskRating = "prohibited"` → `credentialStatus` MUST be `"revoked"` or `"suspended"`
 - Multiple high-risk indicators → Overall risk should be escalated accordingly
 
 ### 8.6 Date Validation Requirements
 
 **Date Format:**
+
 - All date fields use ISO 8601 format:
   - Dates: `YYYY-MM-DD` (e.g., `2025-11-21`)
   - DateTimes: `YYYY-MM-DDTHH:MM:SSZ` (e.g., `2025-11-21T18:30:00Z`)
 
 **Temporal Constraints:**
+
 1. `issuanceDate < expirationDate` (always)
 2. `issuanceDate ≤ lastUpdatedDate ≤ expirationDate` (always)
 3. All dates must be in the past or present (not future), except `expirationDate`
 
 **Freshness Requirements:**
+
 - Sanctions screening: ≤ 90 days old (tier 2+)
 - PEP assessment: ≤ 180 days old (tier 2+)
 - Adverse media: ≤ 180 days old (tier 2+)
@@ -1274,6 +1360,7 @@ The `overallRiskRating` must be consistent with component risk assessments:
 ### 8.7 Common Validation Scenarios
 
 #### Scenario 1: Individual Developer (Minimal KYB)
+
 ```json
 {
   "entityType": "individual",
@@ -1284,11 +1371,13 @@ The `overallRiskRating` must be consistent with component risk assessments:
   "overallRiskRating": "not_assessed"
 }
 ```
+
 ✅ **Valid**: No organization fields, minimal screening
 
 ---
 
 #### Scenario 2: Small LLC with Tax ID (Standard KYB)
+
 ```json
 {
   "entityType": "limited_liability_company",
@@ -1309,11 +1398,13 @@ The `overallRiskRating` must be consistent with component risk assessments:
   "overallRiskRating": "low"
 }
 ```
+
 ✅ **Valid**: All required organization and tier 2 fields present
 
 ---
 
 #### Scenario 3: High-Risk Entity (Sanctions Match)
+
 ```json
 {
   "sanctionsScreeningStatus": "confirmed_match",
@@ -1321,11 +1412,13 @@ The `overallRiskRating` must be consistent with component risk assessments:
   "credentialStatus": "revoked"
 }
 ```
+
 ✅ **Valid**: Sanctioned entity properly marked as prohibited and revoked
 
 ---
 
 #### Scenario 4: INVALID - Individual with Organization Fields
+
 ```json
 {
   "entityType": "individual",
@@ -1333,11 +1426,13 @@ The `overallRiskRating` must be consistent with component risk assessments:
   "businessRegistrationNumber": "12345"  ❌ NOT ALLOWED
 }
 ```
+
 ❌ **Invalid**: Individuals cannot have incorporation data
 
 ---
 
 #### Scenario 5: INVALID - Verified Tax ID Without Date
+
 ```json
 {
   "taxIdExists": true,
@@ -1345,6 +1440,7 @@ The `overallRiskRating` must be consistent with component risk assessments:
   "taxIdLastVerifiedDate": null  ❌ REQUIRED when verified
 }
 ```
+
 ❌ **Invalid**: Verified tax IDs must have verification date
 
 ---
@@ -1353,15 +1449,18 @@ The `overallRiskRating` must be consistent with component risk assessments:
 
 **JSON Schema Limitations:**
 Some conditional rules (particularly date comparisons and freshness checks) cannot be fully expressed in JSON Schema and require **runtime validation**:
+
 - Rules #8, #9 (Tier 1): Date ordering comparisons
 - Rules #4-8 (Tier 2): Date freshness relative to current date
 
 **Validation Strategy:**
+
 1. **Schema validation**: Enforce all conditionals expressible in JSON Schema
 2. **Runtime validation**: Check date comparisons, freshness, and complex business rules
 3. **Warning vs Error**: Tier 1 violations = hard errors; Tier 2 violations = warnings with manual review option
 
 **Recommended Validators:**
+
 - Use JSON Schema validator with Draft 2020-12 support (e.g., AJV with `allErrors: true`)
 - Implement custom date comparison logic in credential issuance pipeline
 - Log all validation warnings for audit trail
@@ -1375,16 +1474,17 @@ The Developer Credential includes an **assurance metadata structure** that track
 ### 9.1 Overview
 
 **Assurance metadata serves three key purposes:**
+
 1. **Transparency**: Makes verification status explicit for every field
 2. **Trust calibration**: Helps verifiers assess reliability of credential data
 3. **Compliance**: Meets regulatory requirements for documenting verification methods
 
 ### 9.2 Assurance Levels
 
-| Level | Description | Use Case | Example Fields |
-|-------|-------------|----------|----------------|
-| **`self_attested`** | Claimed by credential subject without independent verification | Development/testing, low-risk scenarios, optional fields | `website`, `securityEmail`, initial registration |
-| **`beltic_verified`** | Verified by Beltic through direct checks, API integrations, or document review | Production use, standard risk scenarios, required for most fields | `legalName`, `incorporationDate`, `taxIdVerified`, risk screenings |
+| Level                      | Description                                                                       | Use Case                                                          | Example Fields                                                           |
+| -------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **`self_attested`**        | Claimed by credential subject without independent verification                    | Development/testing, low-risk scenarios, optional fields          | `website`, `securityEmail`, initial registration                         |
+| **`beltic_verified`**      | Verified by Beltic through direct checks, API integrations, or document review    | Production use, standard risk scenarios, required for most fields | `legalName`, `incorporationDate`, `taxIdVerified`, risk screenings       |
 | **`third_party_verified`** | Verified by external KYC/KYB provider, government registry, or accredited auditor | High-risk scenarios, regulated industries, enhanced due diligence | Sanctions screening, beneficial owner KYC, specialized compliance checks |
 
 ### 9.3 Schema Structure
@@ -1430,45 +1530,45 @@ The `assuranceMetadata` field is an object containing:
 
 Based on CLAUDE.md guidance: "never pretend that something is verified if it isn't"
 
-| Field | Minimum Assurance (Production) | Notes |
-|-------|-------------------------------|-------|
-| **Core Identity** |||
-| `legalName` | `beltic_verified` | Must match official registration |
-| `entityType` | `beltic_verified` | Derived from registration documents |
-| `incorporationJurisdiction` | `beltic_verified` | From official records |
-| `incorporationDate` | `beltic_verified` | From registration documents |
-| `businessRegistrationNumber` | `beltic_verified` | **Never self-attested** |
-| `businessRegistrationStatus` | `beltic_verified` | **Never self-attested** |
-| **Contact Information** |||
-| `website` | `self_attested` (acceptable) | Recommended: domain verification |
-| `registeredAddress` | `beltic_verified` | Must match official records |
-| `businessEmail` | `beltic_verified` | With email confirmation |
-| `businessPhone` | `beltic_verified` | With phone verification |
-| `securityEmail` | `self_attested` (acceptable) | With email confirmation |
-| **Tax & Registration** |||
-| `taxIdExists` | `beltic_verified` | Indicates presence, not value |
-| `taxIdVerified` | `beltic_verified` or `third_party_verified` | **Never self-attested** |
-| `taxIdJurisdiction` | `beltic_verified` | Matches tax authority records |
-| `taxIdLastVerifiedDate` | `beltic_verified` or `third_party_verified` | Set by verification system |
-| **Risk & Compliance** |||
-| `kybTier` | `beltic_verified` | Tier assignment is issuer responsibility |
-| `sanctionsScreeningStatus` | `beltic_verified` or `third_party_verified` | **Never self-attested** for tier 2+ |
-| `sanctionsScreeningLastChecked` | `beltic_verified` or `third_party_verified` | Set by screening system |
-| `pepRiskLevel` | `beltic_verified` or `third_party_verified` | **Never self-attested** for tier 2+ |
-| `pepRiskLastAssessed` | `beltic_verified` or `third_party_verified` | Set by assessment system |
-| `adverseMediaRiskLevel` | `beltic_verified` or `third_party_verified` | **Never self-attested** for tier 2+ |
-| `adverseMediaLastAssessed` | `beltic_verified` or `third_party_verified` | Set by screening system |
-| `overallRiskRating` | `beltic_verified` | Composite assessment by issuer |
-| **Ownership** |||
-| `beneficialOwnersKycStatus` | `beltic_verified` or `third_party_verified` | **Never self-attested** for tier 2+ |
-| `beneficialOwnersCount` | `beltic_verified` | From KYC/KYB review |
-| `controlStructureComplexity` | `beltic_verified` | From ownership analysis |
-| **Verification Metadata** |||
-| All verification metadata | Issuer-assigned | Set by credential issuer |
-| **Cryptographic Identity** |||
-| `subjectDid` | Subject-created | Subject controls private key |
-| `publicKey` | Subject-provided, `beltic_verified` ownership | Beltic verifies subject controls key |
-| `proof` | Issuer-signed | Cryptographic signature by issuer |
+| Field                           | Minimum Assurance (Production)                | Notes                                    |
+| ------------------------------- | --------------------------------------------- | ---------------------------------------- |
+| **Core Identity**               |                                               |                                          |
+| `legalName`                     | `beltic_verified`                             | Must match official registration         |
+| `entityType`                    | `beltic_verified`                             | Derived from registration documents      |
+| `incorporationJurisdiction`     | `beltic_verified`                             | From official records                    |
+| `incorporationDate`             | `beltic_verified`                             | From registration documents              |
+| `businessRegistrationNumber`    | `beltic_verified`                             | **Never self-attested**                  |
+| `businessRegistrationStatus`    | `beltic_verified`                             | **Never self-attested**                  |
+| **Contact Information**         |                                               |                                          |
+| `website`                       | `self_attested` (acceptable)                  | Recommended: domain verification         |
+| `registeredAddress`             | `beltic_verified`                             | Must match official records              |
+| `businessEmail`                 | `beltic_verified`                             | With email confirmation                  |
+| `businessPhone`                 | `beltic_verified`                             | With phone verification                  |
+| `securityEmail`                 | `self_attested` (acceptable)                  | With email confirmation                  |
+| **Tax & Registration**          |                                               |                                          |
+| `taxIdExists`                   | `beltic_verified`                             | Indicates presence, not value            |
+| `taxIdVerified`                 | `beltic_verified` or `third_party_verified`   | **Never self-attested**                  |
+| `taxIdJurisdiction`             | `beltic_verified`                             | Matches tax authority records            |
+| `taxIdLastVerifiedDate`         | `beltic_verified` or `third_party_verified`   | Set by verification system               |
+| **Risk & Compliance**           |                                               |                                          |
+| `kybTier`                       | `beltic_verified`                             | Tier assignment is issuer responsibility |
+| `sanctionsScreeningStatus`      | `beltic_verified` or `third_party_verified`   | **Never self-attested** for tier 2+      |
+| `sanctionsScreeningLastChecked` | `beltic_verified` or `third_party_verified`   | Set by screening system                  |
+| `pepRiskLevel`                  | `beltic_verified` or `third_party_verified`   | **Never self-attested** for tier 2+      |
+| `pepRiskLastAssessed`           | `beltic_verified` or `third_party_verified`   | Set by assessment system                 |
+| `adverseMediaRiskLevel`         | `beltic_verified` or `third_party_verified`   | **Never self-attested** for tier 2+      |
+| `adverseMediaLastAssessed`      | `beltic_verified` or `third_party_verified`   | Set by screening system                  |
+| `overallRiskRating`             | `beltic_verified`                             | Composite assessment by issuer           |
+| **Ownership**                   |                                               |                                          |
+| `beneficialOwnersKycStatus`     | `beltic_verified` or `third_party_verified`   | **Never self-attested** for tier 2+      |
+| `beneficialOwnersCount`         | `beltic_verified`                             | From KYC/KYB review                      |
+| `controlStructureComplexity`    | `beltic_verified`                             | From ownership analysis                  |
+| **Verification Metadata**       |                                               |                                          |
+| All verification metadata       | Issuer-assigned                               | Set by credential issuer                 |
+| **Cryptographic Identity**      |                                               |                                          |
+| `subjectDid`                    | Subject-created                               | Subject controls private key             |
+| `publicKey`                     | Subject-provided, `beltic_verified` ownership | Beltic verifies subject controls key     |
+| `proof`                         | Issuer-signed                                 | Cryptographic signature by issuer        |
 
 ### 9.5 Assurance Level Progression
 
@@ -1481,12 +1581,14 @@ Tier 0 (Self-Attested) → Tier 1 (Basic Verified) → Tier 2 (Standard Verified
 ```
 
 **Upgrade Triggers:**
+
 - KYC/KYB vendor integration
 - Government registry checks
 - Beneficial owner verification
 - Enhanced risk screening
 
 **Downgrade Triggers:**
+
 - Verification expiration (data becomes stale)
 - Failed re-verification attempts
 - Contradictory information discovered
@@ -1495,31 +1597,34 @@ Tier 0 (Self-Attested) → Tier 1 (Basic Verified) → Tier 2 (Standard Verified
 
 Common verification sources by field type:
 
-| Field Type | Verification Source Examples |
-|------------|----------------------------|
-| Business Registration | Companies House (UK), Secretary of State (US), Corporate Registry (CA) |
-| Tax ID | IRS EIN Verification (US), VIES (EU VAT), CRA (CA) |
-| Address | Utility bills, government-issued documents, address verification services |
-| Sanctions | OFAC SDN List, UN Sanctions, EU Sanctions, WorldCheck |
-| PEP | Dow Jones PEP Database, LexisNexis, Refinitiv |
-| Adverse Media | LexisNexis, Dow Jones Factiva, Google News API with ML classification |
-| Beneficial Owners | UBO registry, corporate filings, KYC provider interviews |
+| Field Type            | Verification Source Examples                                              |
+| --------------------- | ------------------------------------------------------------------------- |
+| Business Registration | Companies House (UK), Secretary of State (US), Corporate Registry (CA)    |
+| Tax ID                | IRS EIN Verification (US), VIES (EU VAT), CRA (CA)                        |
+| Address               | Utility bills, government-issued documents, address verification services |
+| Sanctions             | OFAC SDN List, UN Sanctions, EU Sanctions, WorldCheck                     |
+| PEP                   | Dow Jones PEP Database, LexisNexis, Refinitiv                             |
+| Adverse Media         | LexisNexis, Dow Jones Factiva, Google News API with ML classification     |
+| Beneficial Owners     | UBO registry, corporate filings, KYC provider interviews                  |
 
 ### 9.7 Assurance in Merchant Presentations
 
 When presenting credentials to merchants or other verifiers:
 
 **Default Disclosure:**
+
 - `globalAssuranceLevel` is always visible
 - Field-level assurance is visible for public-sensitivity fields
 - Restricted fields may hide assurance details to avoid leaking metadata about PII
 
 **Selective Disclosure:**
+
 - High-assurance verifiers can request full `fieldAssurances` object
 - Low-assurance fields can be hidden entirely in merchant-safe views
 - Zero-knowledge proofs can prove assurance level without revealing verification source
 
 **Policy Example:**
+
 ```
 Merchant Policy: "Only accept credentials where:
   - globalAssuranceLevel >= beltic_verified
@@ -1531,15 +1636,18 @@ Merchant Policy: "Only accept credentials where:
 ### 9.8 Assurance vs. Accuracy
 
 **Important Distinction:**
-- **Assurance level** = *who verified* and *how recently*
-- **Accuracy** = *correctness of the data*
+
+- **Assurance level** = _who verified_ and _how recently_
+- **Accuracy** = _correctness of the data_
 
 A field can be `beltic_verified` but still inaccurate if:
+
 - Source data was wrong
 - Information changed after verification
 - Verification process had gaps
 
 **Best Practices:**
+
 - Combine assurance level with freshness checks (verification date)
 - Re-verify periodically based on risk tier
 - Flag fields for re-verification when contradictions arise
@@ -1596,6 +1704,7 @@ A field can be `beltic_verified` but still inaccurate if:
 ### 9.10 Assurance and NIST AI RMF
 
 Assurance metadata directly supports **NIST AI RMF GOVERN** function:
+
 - **Accountability**: Clear attribution of verification responsibility
 - **Transparency**: Explicit documentation of verification methods
 - **Auditability**: Timestamped verification trail
@@ -1611,6 +1720,7 @@ This alignment ensures that Beltic credentials meet enterprise and regulatory ex
 The following fields contain sensitive information and have special handling requirements:
 
 **Restricted Sensitivity:**
+
 - `businessRegistrationNumber` - Stored as hash/token
 - `registeredAddress` - Full address may reveal personal information
 - `businessPhone` - Can be used for harassment or spam
@@ -1623,6 +1733,7 @@ The following fields contain sensitive information and have special handling req
 - `controlStructureComplexity` - Structural information
 
 **Internal Only (Not included in v1):**
+
 - Full tax identification numbers (TIN, SSN, VAT, etc.)
 - Individual beneficial owner names, addresses, or DOB
 - Raw documents (passport scans, incorporation certificates, etc.)
@@ -1635,6 +1746,7 @@ The following fields contain sensitive information and have special handling req
 ### Selective Disclosure
 
 DeveloperCredentials should support selective disclosure mechanisms to allow:
+
 - Revealing only public fields to most verifiers
 - Revealing restricted fields only to authorized verifiers
 - Proving properties without revealing exact values (e.g., "KYB tier >= 2" without revealing exact tier)
@@ -1642,6 +1754,7 @@ DeveloperCredentials should support selective disclosure mechanisms to allow:
 ### Data Minimization
 
 Verifiers should only request the minimum necessary fields for their use case:
+
 - Low-risk interactions: Public fields only
 - Moderate-risk: Public + basic restricted fields
 - High-risk/regulated: Full credential with all fields
@@ -1673,6 +1786,7 @@ Verifiers should only request the minimum necessary fields for their use case:
 ### Regulatory Considerations
 
 Different jurisdictions may have specific requirements for:
+
 - KYC/KYB verification depth
 - Data retention periods
 - Cross-border data transfer restrictions
@@ -1682,6 +1796,7 @@ Different jurisdictions may have specific requirements for:
 ### GDPR Compliance
 
 For entities subject to GDPR:
+
 - Personal data (even in hashed form) requires legal basis
 - Data subjects have rights to access, correction, and erasure
 - International transfers require appropriate safeguards
@@ -1690,6 +1805,7 @@ For entities subject to GDPR:
 ### Anti-Money Laundering (AML)
 
 For regulated verifiers:
+
 - KYB tier requirements vary by jurisdiction
 - Enhanced due diligence required for high-risk entities
 - Ongoing monitoring and periodic re-verification required
@@ -1700,6 +1816,7 @@ For regulated verifiers:
 ## Version History
 
 **v1.0 (2025-11-21):**
+
 - Initial specification
 - Defined 35 core fields across 7 categories
 - Established three-tier assurance model

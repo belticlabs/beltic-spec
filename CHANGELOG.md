@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Security: Fixed prototype pollution vulnerability in fast-json-patch by adding npm override to force version 3.1.1
-- CI: Fixed Python validation script to only validate valid-*.json files (exclude invalid test files)
+- CI: Fixed Python validation script to only validate valid-\*.json files (exclude invalid test files)
 - CI: Fixed formatting issues by running Prettier on all JSON and Markdown files
 
 ### Added

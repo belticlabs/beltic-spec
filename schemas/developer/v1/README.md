@@ -52,6 +52,7 @@ Tracks **verification level** for each field:
 - `third_party_verified`: Verified by external KYC/KYB provider
 
 Example:
+
 ```json
 {
   "assuranceMetadata": {
@@ -71,56 +72,64 @@ Example:
 
 Different requirements based on entity type:
 
-| Entity Type | Required Fields | Optional | Not Applicable |
-|-------------|----------------|----------|----------------|
-| **individual** | legalName, businessEmail | All optional | incorporationDate, businessRegistrationNumber, registeredAddress, beneficialOwnersKycStatus |
-| **corporation** | + incorporationDate, businessRegistrationNumber, registeredAddress | All optional | None |
-| **sole_proprietorship** | Similar to individual | incorporationDate, registeredAddress optional | beneficialOwnersKycStatus |
-| **LLC / partnership / nonprofit / govt** | Same as corporation | All optional | None |
+| Entity Type                              | Required Fields                                                    | Optional                                      | Not Applicable                                                                              |
+| ---------------------------------------- | ------------------------------------------------------------------ | --------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| **individual**                           | legalName, businessEmail                                           | All optional                                  | incorporationDate, businessRegistrationNumber, registeredAddress, beneficialOwnersKycStatus |
+| **corporation**                          | + incorporationDate, businessRegistrationNumber, registeredAddress | All optional                                  | None                                                                                        |
+| **sole_proprietorship**                  | Similar to individual                                              | incorporationDate, registeredAddress optional | beneficialOwnersKycStatus                                                                   |
+| **LLC / partnership / nonprofit / govt** | Same as corporation                                                | All optional                                  | None                                                                                        |
 
 ### 4. KYB Tier System
 
 Progressive verification levels (tier_0 to tier_4):
 
-| Tier | Requirements | Use Case |
-|------|-------------|----------|
-| **tier_0** | Self-attested only | Development/testing |
-| **tier_1** | Basic identity + business registration | Low-risk agents |
-| **tier_2** | + Sanctions/PEP/adverse media screening | Standard production agents |
+| Tier       | Requirements                                | Use Case                    |
+| ---------- | ------------------------------------------- | --------------------------- |
+| **tier_0** | Self-attested only                          | Development/testing         |
+| **tier_1** | Basic identity + business registration      | Low-risk agents             |
+| **tier_2** | + Sanctions/PEP/adverse media screening     | Standard production agents  |
 | **tier_3** | + Enhanced due diligence, beneficial owners | High-value/regulated agents |
-| **tier_4** | + Maximum verification, ongoing monitoring | Financial/healthcare agents |
+| **tier_4** | + Maximum verification, ongoing monitoring  | Financial/healthcare agents |
 
 ## Schema Structure (35 Fields)
 
 ### 1. Core Identity (6 fields)
+
 - `legalName`, `entityType`, `incorporationJurisdiction`
 - `incorporationDate`, `businessRegistrationNumber`, `businessRegistrationStatus`
 
 ### 2. Contact Information (5 fields)
+
 - `website`, `registeredAddress`, `businessEmail`
 - `businessPhone`, `securityEmail`
 
 ### 3. Tax & Registration (4 fields)
+
 - `taxIdExists`, `taxIdVerified`, `taxIdJurisdiction`, `taxIdLastVerifiedDate`
 
 ### 4. Risk & Compliance (9 fields)
+
 - `kybTier`, `sanctionsScreeningStatus`, `sanctionsScreeningLastChecked`
 - `pepRiskLevel`, `pepRiskLastAssessed`
 - `adverseMediaRiskLevel`, `adverseMediaLastAssessed`
 - `overallRiskRating`
 
 ### 5. Ownership & Control (3 fields)
+
 - `beneficialOwnersKycStatus`, `beneficialOwnersCount`, `controlStructureComplexity`
 
 ### 6. Verification Metadata (8 fields)
+
 - `credentialId`, `issuanceDate`, `expirationDate`
 - `issuerDid`, `verificationMethod`, `credentialStatus`
 - `revocationListUrl`, `lastUpdatedDate`
 
 ### 7. Cryptographic Identity (3 fields)
+
 - `subjectDid`, `publicKey`, `proof`
 
 ### 8. Assurance Metadata (Optional)
+
 - `assuranceMetadata` with `globalAssuranceLevel` and `fieldAssurances`
 
 ## Conditional Validation Summary
@@ -134,8 +143,8 @@ Progressive verification levels (tier_0 to tier_4):
 5. **KYB Screening**: `kybTier ≥ tier_2` → require `sanctionsScreeningStatus`, `pepRiskLevel`, `adverseMediaRiskLevel`, `overallRiskRating`
 6. **Screening Dates**: Active screening → require corresponding date fields
 7. **Sanctions Match Risk**: `sanctionsScreeningStatus="confirmed_match"` → require `overallRiskRating ∈ {high, prohibited}`
-8. **Date Ordering**: `issuanceDate < expirationDate` *(runtime check)*
-9. **Update Window**: `issuanceDate ≤ lastUpdatedDate ≤ expirationDate` *(runtime check)*
+8. **Date Ordering**: `issuanceDate < expirationDate` _(runtime check)_
+9. **Update Window**: `issuanceDate ≤ lastUpdatedDate ≤ expirationDate` _(runtime check)_
 10. **Prohibited Status**: `overallRiskRating="prohibited"` → require `credentialStatus ∈ {revoked, suspended}`
 
 ### Tier 2 High Rules (SHOULD Pass)
@@ -143,12 +152,12 @@ Progressive verification levels (tier_0 to tier_4):
 1. **Jurisdiction Consistency**: `taxIdJurisdiction` provided → require `taxIdExists=true`
 2. **Registration Entity Match**: Active registration → organization entity type
 3. **Beneficial Owners**: `beneficialOwnersCount > 0` → valid `beneficialOwnersKycStatus`
-4-7. **Date Freshness**: Sanctions ≤90 days, PEP/adverse media ≤180 days, tax ≤2 years
-8. **Expired Status**: `credentialStatus="expired"` → `expirationDate` in past
-9-10. **Risk Roll-up**: High component risks → high overall rating
-11. **Unknown Owners Risk**: Unable to identify owners → medium+ risk
-12. **Sole Proprietor**: Sole proprietorship → `beneficialOwnersKycStatus="not_applicable"`
-13. **Complex Structure**: Complex ownership → assess beneficial owners
+   4-7. **Date Freshness**: Sanctions ≤90 days, PEP/adverse media ≤180 days, tax ≤2 years
+4. **Expired Status**: `credentialStatus="expired"` → `expirationDate` in past
+   9-10. **Risk Roll-up**: High component risks → high overall rating
+5. **Unknown Owners Risk**: Unable to identify owners → medium+ risk
+6. **Sole Proprietor**: Sole proprietorship → `beneficialOwnersKycStatus="not_applicable"`
+7. **Complex Structure**: Complex ownership → assess beneficial owners
 
 See [Full Conditional Validation Rules](../../../docs/developer-credential-v1.md#8-conditional-validation-rules) for details.
 
@@ -217,28 +226,36 @@ See [Full Conditional Validation Rules](../../../docs/developer-credential-v1.md
 ### Common Validation Errors
 
 **Individual with Organization Fields**:
+
 ```
 Error: Individual entities cannot have incorporationDate
 ```
-*Solution*: Remove `incorporationDate`, `businessRegistrationNumber`, `registeredAddress` for `entityType="individual"`
+
+_Solution_: Remove `incorporationDate`, `businessRegistrationNumber`, `registeredAddress` for `entityType="individual"`
 
 **Tax ID Without Verification**:
+
 ```
 Error: taxIdVerified is required when taxIdExists is true
 ```
-*Solution*: Add `taxIdVerified` field with value: `"verified"`, `"not_verified"`, `"verification_pending"`, `"verification_failed"`, or `"not_applicable"`
+
+_Solution_: Add `taxIdVerified` field with value: `"verified"`, `"not_verified"`, `"verification_pending"`, `"verification_failed"`, or `"not_applicable"`
 
 **Tier 2 Missing Screening**:
+
 ```
 Error: pepRiskLevel is required when kybTier is tier_2_standard or higher
 ```
-*Solution*: Add all screening fields: `sanctionsScreeningStatus`, `pepRiskLevel`, `adverseMediaRiskLevel`, `overallRiskRating`
+
+_Solution_: Add all screening fields: `sanctionsScreeningStatus`, `pepRiskLevel`, `adverseMediaRiskLevel`, `overallRiskRating`
 
 **Sanctions Match with Low Risk**:
+
 ```
 Error: overallRiskRating must be 'high' or 'prohibited' when sanctionsScreeningStatus is 'confirmed_match'
 ```
-*Solution*: Update `overallRiskRating` to reflect the sanctions match severity
+
+_Solution_: Update `overallRiskRating` to reflect the sanctions match severity
 
 ## Example Usage
 
@@ -252,10 +269,16 @@ const fs = require("fs");
 const ajv = new Ajv({ allErrors: true, strict: true });
 addFormats(ajv);
 
-const schema = JSON.parse(fs.readFileSync('developer-credential-v1.schema.json'));
+const schema = JSON.parse(
+  fs.readFileSync("developer-credential-v1.schema.json"),
+);
 const validate = ajv.compile(schema);
 
-const credential = JSON.parse(fs.readFileSync('../../examples/developer/v1/tests/valid-individual-minimal.json'));
+const credential = JSON.parse(
+  fs.readFileSync(
+    "../../examples/developer/v1/tests/valid-individual-minimal.json",
+  ),
+);
 
 if (validate(credential)) {
   console.log("✓ Valid DeveloperCredential");
@@ -280,13 +303,19 @@ const updated = new Date(cred.lastUpdatedDate);
 const expiration = new Date(cred.expirationDate);
 
 if (updated < issuance || updated > expiration) {
-  throw new Error("lastUpdatedDate must be between issuanceDate and expirationDate");
+  throw new Error(
+    "lastUpdatedDate must be between issuanceDate and expirationDate",
+  );
 }
 
 // Tier 2 Rule #4: Sanctions freshness (≤90 days)
-const daysOld = (dateStr) => (new Date() - new Date(dateStr)) / (1000 * 60 * 60 * 24);
+const daysOld = (dateStr) =>
+  (new Date() - new Date(dateStr)) / (1000 * 60 * 60 * 24);
 
-if (cred.sanctionsScreeningLastChecked && daysOld(cred.sanctionsScreeningLastChecked) > 90) {
+if (
+  cred.sanctionsScreeningLastChecked &&
+  daysOld(cred.sanctionsScreeningLastChecked) > 90
+) {
   console.warn("Warning: Sanctions screening is stale (>90 days old)");
 }
 ```
@@ -304,6 +333,7 @@ Location: [`examples/developer/v1/tests/`](../../../examples/developer/v1/tests/
 Documentation: [`tests/README.md`](../../../examples/developer/v1/tests/README.md)
 
 **Run All Tests**:
+
 ```bash
 # Using AJV
 for file in examples/developer/v1/tests/invalid-*.json; do
@@ -322,13 +352,13 @@ done
 
 ## Entity Type Decision Matrix
 
-| Field | individual | sole_proprietorship | corporation/LLC/partnership | nonprofit | government |
-|-------|-----------|---------------------|---------------------------|-----------|------------|
-| `incorporationDate` | ❌ NOT ALLOWED | ⚠️ Optional | ✅ Required | ✅ Required | ⚠️ Optional |
-| `businessRegistrationNumber` | ❌ NOT ALLOWED | ⚠️ Optional | ✅ Required | ✅ Required | ⚠️ Optional |
-| `registeredAddress` | ❌ NOT ALLOWED | ⚠️ Optional | ✅ Required | ✅ Required | ✅ Required |
-| `beneficialOwnersKycStatus` | ❌ NOT APPLICABLE | ❌ NOT APPLICABLE | ✅ Required (tier_2+) | ⚠️ Optional | ❌ NOT APPLICABLE |
-| `taxIdExists` | ⚠️ Typically false | ⚠️ May be true | ✅ Typically true | ⚠️ May be false (exempt) | ⚠️ Varies |
+| Field                        | individual         | sole_proprietorship | corporation/LLC/partnership | nonprofit                | government        |
+| ---------------------------- | ------------------ | ------------------- | --------------------------- | ------------------------ | ----------------- |
+| `incorporationDate`          | ❌ NOT ALLOWED     | ⚠️ Optional         | ✅ Required                 | ✅ Required              | ⚠️ Optional       |
+| `businessRegistrationNumber` | ❌ NOT ALLOWED     | ⚠️ Optional         | ✅ Required                 | ✅ Required              | ⚠️ Optional       |
+| `registeredAddress`          | ❌ NOT ALLOWED     | ⚠️ Optional         | ✅ Required                 | ✅ Required              | ✅ Required       |
+| `beneficialOwnersKycStatus`  | ❌ NOT APPLICABLE  | ❌ NOT APPLICABLE   | ✅ Required (tier_2+)       | ⚠️ Optional              | ❌ NOT APPLICABLE |
+| `taxIdExists`                | ⚠️ Typically false | ⚠️ May be true      | ✅ Typically true           | ⚠️ May be false (exempt) | ⚠️ Varies         |
 
 ## Assurance Requirements by Field
 
@@ -358,6 +388,7 @@ See [Full Assurance Requirements](../../../docs/developer-credential-v1.md#9-ass
 ### Future v1.x Versions
 
 Minor updates will be backward-compatible:
+
 - New fields will be optional
 - Conditional rules may become stricter (warnings → errors)
 - Assurance requirements may increase for higher tiers

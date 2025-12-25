@@ -15,6 +15,7 @@ This document specifies version 1 of the Beltic AgentCredential, which certifies
 ## Field Categories
 
 Fields are organized into the following categories:
+
 1. Agent Identity & Provenance
 2. Technical Profile
 3. Tools & Actions
@@ -43,12 +44,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be globally unique
 - Should be immutable once assigned
 - Recommended format: UUID v4 (e.g., "a3f5b2c7-8d1e-4f9a-b2c3-d4e5f6a7b8c9")
 - Must remain consistent across agent versions
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -72,12 +75,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Minimum length: 2 characters
 - Maximum length: 200 characters
 - Should be unique within a developer's portfolio (recommended)
 - May not contain offensive or misleading terms
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (reviewed for misleading claims)
 - Third-party-verified: Allowed for regulated industries
@@ -101,12 +106,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must follow semantic versioning format (x.y.z)
 - Major version increments for breaking changes or significant capability additions
 - Minor version increments for backward-compatible functionality additions
 - Patch version increments for bug fixes and minor improvements
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -130,12 +137,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Minimum length: 50 characters
 - Maximum length: 1000 characters
 - Should describe intended use, not make exaggerated claims
 - Must not contain misleading information about capabilities
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (reviewed for accuracy)
 - Third-party-verified: Allowed for regulated industries
@@ -159,11 +168,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be a valid date in the past
 - Cannot be more than 10 years in the past (agents older than this should be re-certified)
 - Cannot be in the future
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -187,6 +198,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `production` - Agent is production-ready and actively supported
 - `beta` - Agent is in beta testing with limited availability
 - `alpha` - Agent is in early alpha testing, expect instability
@@ -195,6 +207,7 @@ Fields are organized into the following categories:
 - `retired` - Agent has been retired and is no longer operational
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing/internal status
 - Beltic-verified: Required for production status
 - Third-party-verified: Allowed for regulated industries
@@ -218,11 +231,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be a valid UUID format
 - Must reference an existing, valid DeveloperCredential
 - Referenced DeveloperCredential must not be revoked or expired
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (must reference valid credential)
 - Beltic-verified: Required
 - Third-party-verified: Allowed
@@ -246,10 +261,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `true` - DeveloperCredential verified and valid
 - `false` - Verification pending or failed
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (verification performed by issuer)
 - Beltic-verified: Set by Beltic during issuance
 - Third-party-verified: Set by third-party issuer
@@ -275,11 +292,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Maximum length: 200 characters
 - Should be the official provider name
 - For self-hosted open-source models, use "Self-hosted ({model family})"
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through API fingerprinting or attestation)
 - Third-party-verified: Allowed for regulated industries
@@ -303,12 +322,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Maximum length: 200 characters
 - Should specify model generation/version when relevant
 - May include size variants (e.g., "GPT-4 Turbo", "Claude-3 Opus")
 - For hybrid stacks list the orchestrating LLM first and note major deterministic or specialty models in parentheses (e.g., "Claude-3 Opus (vision encoder + rules engine)")
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -332,12 +353,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be positive integer
 - Typical range: 4,000 to 1,000,000+ tokens
 - Should reflect effective context window, not theoretical maximum
 - For hybrid agents, list the narrowest context limit that governs end-user prompts and note any wider retrieval context in description if materially different
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified against provider specifications)
 - Third-party-verified: Allowed for regulated industries
@@ -361,6 +384,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values (array can contain multiple):**
+
 - `text` - Text input and output
 - `image` - Image input and/or generation
 - `audio` - Audio input and/or generation (speech, music)
@@ -369,6 +393,7 @@ Fields are organized into the following categories:
 - `structured_data` - Structured data formats (JSON, CSV, XML)
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through capability testing)
 - Third-party-verified: Allowed for regulated industries
@@ -392,11 +417,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Each element must be valid ISO 639-1 two-letter code (e.g., "en", "es", "zh", "ar")
 - Array must contain at least one language
 - Order indicates relative proficiency (primary language first)
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through language capability testing)
 - Third-party-verified: Allowed for regulated industries
@@ -420,6 +447,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `single_agent` - Single LLM with system prompt, no additional components
 - `rag` - Retrieval-Augmented Generation with knowledge base
 - `tool_using` - Agent with access to external tools/APIs
@@ -429,6 +457,7 @@ Fields are organized into the following categories:
 - `hybrid` - Combination of multiple architectural patterns
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -452,12 +481,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Restricted
 
 **Constraints:**
+
 - Must be valid SHA-256 hash (64 hexadecimal characters)
 - Should be recomputed whenever system prompt or config changes
 - Hash should include: system prompt, temperature, top-p, stop sequences, safety settings
 - For multi-component or agentic workflows, include orchestrator logic, deterministic guard rails, and key tool routing policies so verifiers can detect meaningful behavior drift
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (hash verified against submitted config)
 - Third-party-verified: Allowed for regulated industries
@@ -481,11 +512,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be a valid date
 - Must be at or before current date
 - Must be at or after first release date
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -509,12 +542,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Maximum length: 500 characters
 - Should describe general infrastructure (e.g., "AWS US-East", "Azure Europe", "On-premises", "Hybrid cloud")
 - Should NOT include specific IP addresses, subnets, or detailed architecture diagrams
 - Should focus on geographic deployment and general platform
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -538,6 +573,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values (array can contain multiple):**
+
 - `soc2_type1` - SOC 2 Type I certification
 - `soc2_type2` - SOC 2 Type II certification
 - `iso27001` - ISO/IEC 27001 Information Security
@@ -550,6 +586,7 @@ Fields are organized into the following categories:
 - `ccpa_compliant` - CCPA compliance measures in place
 
 **Assurance Model:**
+
 - Self-attested: Not allowed for certification claims
 - Beltic-verified: Required (verification of valid certificates)
 - Third-party-verified: Required for regulated industries
@@ -567,6 +604,7 @@ Fields are organized into the following categories:
 **Description:** Structured declaration of where agent data is stored, processed, and backed up. Consolidating this information helps merchants and regulators quickly evaluate localization, residency, and export-control requirements without juggling multiple fields.
 
 **Type:** Object containing:
+
 - `storageRegions` (array of ISO 3166-1 alpha-2 codes, required) – primary data-at-rest locations
 - `processingRegions` (array of ISO 3166-1 alpha-2 codes, required) – compute/inference regions
 - `backupRegions` (array of ISO 3166-1 codes, optional) – disaster-recovery or cold backups
@@ -577,6 +615,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Each array must contain at least one region and use valid ISO codes
 - `storageRegions` must include every region storing user logs, caches, or persisted state
 - `processingRegions` must enumerate all regions where inference or tool execution occurs, even transient burst capacity
@@ -584,6 +623,7 @@ Fields are organized into the following categories:
 - Notes should call out any jurisdictions with special access controls (e.g., “EU-only data plane under Schrems II SCCs”)
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (validated via infrastructure audit or attestation)
 - Third-party-verified: Allowed for regulated industries
@@ -603,6 +643,7 @@ Fields are organized into the following categories:
 **Description:** Comprehensive list of all tools, APIs, and actions the agent can invoke. Each tool is classified by risk category to help merchants assess potential impact. This field uses a hierarchical risk taxonomy with main categories and sub-categories for precise risk assessment.
 
 **Type:** Array of objects, each containing:
+
 - `toolId` (text, required) - Unique identifier for the tool
 - `toolName` (text, required) - Human-readable tool name
 - `toolDescription` (text, required) - What the tool does and why it exists
@@ -618,6 +659,7 @@ Fields are organized into the following categories:
 **Risk Categories and Sub-categories:**
 
 **Data:**
+
 - `data_read_internal` - Read from internal databases or knowledge bases
 - `data_read_external` - Read from external APIs or services
 - `data_write_internal` - Write to internal databases
@@ -626,6 +668,7 @@ Fields are organized into the following categories:
 - `data_export` - Export data to external systems
 
 **Compute:**
+
 - `compute_code_execution` - Execute code or scripts
 - `compute_query_generation` - Generate database queries
 - `compute_api_call` - Make API calls to services
@@ -633,12 +676,14 @@ Fields are organized into the following categories:
 - `compute_analysis` - Perform analysis or calculations
 
 **Financial:**
+
 - `financial_read` - Read financial information
 - `financial_transaction` - Initiate financial transactions
 - `financial_account_access` - Access financial accounts
 - `financial_payment_initiation` - Initiate payments
 
 **External:**
+
 - `external_internet_access` - General internet access
 - `external_email` - Send emails
 - `external_notification` - Send notifications (SMS, push, etc.)
@@ -646,6 +691,7 @@ Fields are organized into the following categories:
 - `external_file_access` - Access file systems
 
 **Constraints:**
+
 - Array can be empty if agent has no tools
 - Each tool must have unique toolId
 - Tool descriptions must be clear and accurate
@@ -653,6 +699,7 @@ Fields are organized into the following categories:
 - Derived counts (total tools, high-risk tools) are computed by Beltic verifiers directly from this list; developers do not need to maintain separate numeric fields
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through code review and testing)
 - Third-party-verified: Required for high-risk tools (financial, data deletion)
@@ -676,11 +723,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be a valid date in the past
 - Should not be more than 180 days old for production agents
 - Must be at or after system config last updated date
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Required for high-risk tools
@@ -706,6 +755,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values (array can contain multiple):**
+
 - `none` - Agent processes no sensitive data (mutually exclusive with other values)
 - `pii` - Personally Identifiable Information (names, addresses, IDs)
 - `phi` - Protected Health Information (medical records, health data)
@@ -718,10 +768,12 @@ Fields are organized into the following categories:
 - `children_data` - Data related to children under 13 (COPPA)
 
 **Constraints:**
+
 - Array must contain at least one value
 - If `none` is selected it must be the only value present
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through data flow analysis)
 - Third-party-verified: Required for regulated data types (PHI, financial)
@@ -745,11 +797,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid ISO 8601 duration (e.g., "P30D" for 30 days, "P1Y" for 1 year)
 - Common values: "P0D" (no retention), "P30D" (30 days), "P90D" (90 days), "P1Y" (1 year)
 - Shorter retention is generally lower risk
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through infrastructure audit)
 - Third-party-verified: Required for regulated industries
@@ -773,6 +827,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Example:**
+
 ```json
 {
   "pii": "P30D",
@@ -783,6 +838,7 @@ Fields are organized into the following categories:
 ```
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Required for regulated industries
@@ -806,6 +862,7 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `never` - User data is never used for training or model improvement
 - `anonymized_only` - Only anonymized/de-identified data may be used
 - `aggregated_only` - Only aggregated statistics, no individual data
@@ -814,6 +871,7 @@ Fields are organized into the following categories:
 - `not_applicable` - Agent uses third-party model with no training access
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through data flow audit)
 - Third-party-verified: Required for regulated industries
@@ -837,10 +895,12 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `true` - PII detection is enabled
 - `false` - No PII detection (higher risk)
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through testing)
 - Third-party-verified: Allowed for regulated industries
@@ -864,12 +924,14 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `none` - No PII redaction capability
 - `basic` - Basic pattern matching (email addresses, phone numbers, credit cards)
 - `advanced` - ML-based detection of names, addresses, and contextual PII
 - `context_aware` - Advanced context-aware redaction with entity recognition
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through PII leakage testing)
 - Third-party-verified: Required for regulated industries
@@ -893,11 +955,13 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Maximum length: 1000 characters
 - Should describe specific pipeline stages where redaction occurs
 - Should note any exceptions or limitations
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -921,17 +985,20 @@ Fields are organized into the following categories:
 **Sensitivity:** Public
 
 **Example values:**
+
 - "AES-256 at rest"
 - "TLS 1.3 in transit"
 - "End-to-end encryption for user sessions"
 - "Field-level encryption for PII"
 
 **Constraints:**
+
 - Array must contain at least one encryption standard
 - Should specify both at-rest and in-transit encryption
 - Should use industry-standard encryption (AES-256, TLS 1.2+, etc.)
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through infrastructure audit)
 - Third-party-verified: Required for regulated industries
@@ -959,11 +1026,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be numeric value between 0 and 100
 - Higher values indicate better safety (100 = perfect refusal)
 - Should be based on standardized benchmark evaluation
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through Beltic safety testing)
 - Third-party-verified: Required for high-risk use cases
@@ -987,11 +1056,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Maximum length: 200 characters
 - Should reference recognized safety benchmark
 - Should be reproducible by verifiers
 
 **Assurance Model:**
+
 - Self-attested: Must specify benchmark used
 - Beltic-verified: Uses Beltic-approved benchmarks
 - Third-party-verified: Uses industry-standard benchmarks
@@ -1015,10 +1086,12 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Should follow semantic versioning or benchmark's versioning scheme
 - Enables comparison across time and between agents
 
 **Assurance Model:**
+
 - Self-attested: Must specify version
 - Beltic-verified: Version verified by Beltic
 - Third-party-verified: Version verified by third-party
@@ -1042,11 +1115,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid date in the past
 - Should not be more than 180 days old for production agents
 - Must be at or after first release date
 
 **Assurance Model:**
+
 - Self-attested: Date of self-evaluation
 - Beltic-verified: Date of Beltic evaluation
 - Third-party-verified: Date of third-party evaluation
@@ -1070,11 +1145,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `self` - Self-evaluation by developer
 - `beltic` - Evaluation performed by Beltic
 - `third_party` - Independent third-party evaluation (specify auditor in notes)
 
 **Assurance Model:**
+
 - Self-attested: Value must be "self"
 - Beltic-verified: Value must be "beltic"
 - Third-party-verified: Value must be "third_party"
@@ -1098,12 +1175,14 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be numeric value between 0 and 100
 - Calculated as: Score = 100 - (Attack Success Rate %)
 - Higher values indicate better robustness (100 = no successful attacks)
 - Should be based on diverse prompt injection techniques
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through Beltic adversarial testing)
 - Third-party-verified: Required for high-risk use cases
@@ -1127,10 +1206,12 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Maximum length: 200 characters
 - Should reference recognized adversarial testing benchmark
 
 **Assurance Model:**
+
 - Self-attested: Must specify benchmark used
 - Beltic-verified: Uses Beltic-approved benchmarks
 - Third-party-verified: Uses industry-standard benchmarks
@@ -1154,10 +1235,12 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Should follow benchmark's versioning scheme
 - Enables tracking of evaluation rigor over time
 
 **Assurance Model:**
+
 - Self-attested: Must specify version
 - Beltic-verified: Version verified by Beltic
 - Third-party-verified: Version verified by third-party
@@ -1181,11 +1264,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid date in the past
 - Should not be more than 90 days old for production agents (attacks evolve quickly)
 - Must be at or after first release date
 
 **Assurance Model:**
+
 - Self-attested: Date of self-evaluation
 - Beltic-verified: Date of Beltic evaluation
 - Third-party-verified: Date of third-party evaluation
@@ -1209,11 +1294,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `self` - Self-evaluation by developer
 - `beltic` - Evaluation performed by Beltic
 - `third_party` - Independent third-party evaluation
 
 **Assurance Model:**
+
 - Self-attested: Value must be "self"
 - Beltic-verified: Value must be "beltic"
 - Third-party-verified: Value must be "third_party"
@@ -1237,11 +1324,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be numeric value between 0 and 100
 - Higher values indicate better tool safety
 - Should test unauthorized tool use, privilege escalation, and tool chaining attacks
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through tool abuse testing)
 - Third-party-verified: Required for high-risk tools
@@ -1265,10 +1354,12 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Maximum length: 200 characters
 - Should test tool authorization, scope, and abuse scenarios
 
 **Assurance Model:**
+
 - Self-attested: Must specify benchmark used
 - Beltic-verified: Uses Beltic-approved benchmarks
 - Third-party-verified: Uses industry-standard benchmarks
@@ -1292,9 +1383,11 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Should follow benchmark's versioning scheme
 
 **Assurance Model:**
+
 - Self-attested: Must specify version
 - Beltic-verified: Version verified by Beltic
 - Third-party-verified: Version verified by third-party
@@ -1318,11 +1411,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid date in the past
 - Should not be more than 180 days old for production agents
 - Must be at or after first release date
 
 **Assurance Model:**
+
 - Self-attested: Date of self-evaluation
 - Beltic-verified: Date of Beltic evaluation
 - Third-party-verified: Date of third-party evaluation
@@ -1346,11 +1441,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `self` - Self-evaluation by developer
 - `beltic` - Evaluation performed by Beltic
 - `third_party` - Independent third-party evaluation
 
 **Assurance Model:**
+
 - Self-attested: Value must be "self"
 - Beltic-verified: Value must be "beltic"
 - Third-party-verified: Value must be "third_party"
@@ -1374,11 +1471,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be numeric value between 0 and 100
 - Higher values indicate better privacy protection
 - Should test PII extraction, system prompt leakage, and context leakage attacks
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through leakage testing)
 - Third-party-verified: Required for agents processing sensitive data
@@ -1402,10 +1501,12 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Maximum length: 200 characters
 - Should test extraction attacks, inference attacks, and unintended disclosure
 
 **Assurance Model:**
+
 - Self-attested: Must specify benchmark used
 - Beltic-verified: Uses Beltic-approved benchmarks
 - Third-party-verified: Uses industry-standard benchmarks
@@ -1429,9 +1530,11 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Should follow benchmark's versioning scheme
 
 **Assurance Model:**
+
 - Self-attested: Must specify version
 - Beltic-verified: Version verified by Beltic
 - Third-party-verified: Version verified by third-party
@@ -1455,11 +1558,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid date in the past
 - Should not be more than 180 days old for production agents
 - Must be at or after first release date
 
 **Assurance Model:**
+
 - Self-attested: Date of self-evaluation
 - Beltic-verified: Date of Beltic evaluation
 - Third-party-verified: Date of third-party evaluation
@@ -1483,11 +1588,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `self` - Self-evaluation by developer
 - `beltic` - Evaluation performed by Beltic
 - `third_party` - Independent third-party evaluation
 
 **Assurance Model:**
+
 - Self-attested: Value must be "self"
 - Beltic-verified: Value must be "beltic"
 - Third-party-verified: Value must be "third_party"
@@ -1513,12 +1620,14 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid email format
 - Should be dedicated security/incident response address
 - Must be verified and actively monitored
 - Maximum length: 254 characters
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing (with email verification)
 - Beltic-verified: Required for production use (includes response time verification)
 - Third-party-verified: Allowed for regulated industries
@@ -1542,11 +1651,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid ISO 8601 duration
 - Common values: "PT1H" (1 hour), "PT4H" (4 hours), "PT24H" (24 hours)
 - Shorter SLOs indicate better incident response capability
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (SLO adherence monitored)
 - Third-party-verified: Allowed for regulated industries
@@ -1570,12 +1681,14 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Maximum length: 1000 characters
 - Should specify minimum notice period for deprecation
 - Should describe migration support and backwards compatibility approach
 - Should reference full policy document URL if available
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (policy reviewed for adequacy)
 - Third-party-verified: Allowed for regulated industries
@@ -1599,6 +1712,7 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `continuous` - Continuous deployment, multiple updates per week
 - `weekly` - Weekly update cycle
 - `biweekly` - Updates every two weeks
@@ -1608,6 +1722,7 @@ This section contains four primary safety metrics, each with five associated met
 - `no_updates` - No updates planned (may indicate deprecated agent)
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through release history)
 - Third-party-verified: Allowed for regulated industries
@@ -1631,6 +1746,7 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `autonomous_low_risk` – Fully autonomous, limited to read-only or low-impact tasks
 - `human_review_pre_action` – Human approval required before high-risk tools execute
 - `human_review_post_action` – Human reviews samples or audit logs after execution
@@ -1638,10 +1754,12 @@ This section contains four primary safety metrics, each with five associated met
 - `custom_handover` – Custom oversight model (details must be provided in failSafeBehavior)
 
 **Constraints:**
+
 - Value must align with per-tool `requiresHumanApproval` flags in `toolsList`
 - High-risk or regulated use cases must use `human_review_pre_action`, `human_initiated_only`, or document compensating controls in `failSafeBehavior`
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (validated during safety review)
 - Third-party-verified: Allowed for regulated industries
@@ -1665,11 +1783,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Minimum length: 50 characters; maximum length: 800 characters
 - Must cover at least: (1) what triggers the fail-safe, (2) what the agent does (e.g., refuse, quarantine, notify), and (3) who is alerted
 - Should align with `humanOversightMode` and tool risk classifications
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (validated via runbooks or demos)
 - Third-party-verified: Allowed for regulated industries
@@ -1693,11 +1813,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Minimum length: 50 characters; maximum length: 800 characters
 - Should cover log retention, automated detectors (e.g., prompt-injection catchers), and human review cadence
 - Must list the channel or system that receives high-severity alerts (e.g., PagerDuty, SOC inbox)
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (Beltic may request evidence of alerting)
 - Third-party-verified: Allowed for regulated industries
@@ -1721,11 +1843,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid datetime
 - Should be at or before current time (allowing small clock skew)
 - Must be at or after first release date
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (set by issuer)
 - Beltic-verified: Set by Beltic
 - Third-party-verified: Set by third-party issuer
@@ -1749,6 +1873,7 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be after issuance date
 - Typical validity periods:
   - Self-attested: 30-90 days
@@ -1757,6 +1882,7 @@ This section contains four primary safety metrics, each with five associated met
 - Should be shorter for agents with high-risk tools or capabilities
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (set by issuer)
 - Beltic-verified: Set by Beltic
 - Third-party-verified: Set by third-party issuer
@@ -1782,6 +1908,7 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `minimal_risk` - Very low risk, suitable for most use cases
 - `low_risk` - Low risk with appropriate safeguards
 - `moderate_risk` - Moderate risk requiring oversight and monitoring
@@ -1789,6 +1916,7 @@ This section contains four primary safety metrics, each with five associated met
 - `evaluation_pending` - Risk rating not yet determined
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (must be derived from evaluations)
 - Beltic-verified: Required (calculated by Beltic based on metrics)
 - Third-party-verified: Calculated by third-party based on comprehensive audit
@@ -1812,6 +1940,7 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Example values:**
+
 - "Customer service and support"
 - "Content generation and editing"
 - "Data analysis and reporting"
@@ -1820,10 +1949,12 @@ This section contains four primary safety metrics, each with five associated met
 - "Research assistance"
 
 **Constraints:**
+
 - Should be specific enough to be meaningful
 - Should align with agent's evaluated capabilities and safety testing
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through use case testing)
 - Third-party-verified: Allowed for regulated industries
@@ -1847,6 +1978,7 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Example values:**
+
 - "Medical diagnosis or treatment recommendations"
 - "Legal advice"
 - "Financial investment decisions"
@@ -1855,10 +1987,12 @@ This section contains four primary safety metrics, each with five associated met
 - "Weapons development"
 
 **Constraints:**
+
 - Should be specific and clear
 - Should include high-risk domains not covered by evaluations
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use
 - Third-party-verified: Allowed for regulated industries
@@ -1882,6 +2016,7 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `none` - No age restrictions, suitable for all ages
 - `13+` - Minimum age 13 (COPPA compliance)
 - `16+` - Minimum age 16
@@ -1889,6 +2024,7 @@ This section contains four primary safety metrics, each with five associated met
 - `21+` - Minimum age 21 (regulated substances, gambling)
 
 **Assurance Model:**
+
 - Self-attested: Allowed for development/testing
 - Beltic-verified: Required for production use (verified through content review)
 - Third-party-verified: Required for regulated age-restricted services
@@ -1912,6 +2048,7 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Example values:**
+
 - "HIPAA compliant for healthcare data"
 - "SOC 2 Type II certified"
 - "GDPR compliant"
@@ -1919,10 +2056,12 @@ This section contains four primary safety metrics, each with five associated met
 - "FINRA approved for financial services"
 
 **Constraints:**
+
 - Should specify jurisdiction and regulatory body
 - Should include certification/approval number or reference
 
 **Assurance Model:**
+
 - Self-attested: Not allowed for regulatory claims
 - Beltic-verified: Required (verification of valid certifications)
 - Third-party-verified: Required for regulated industries
@@ -1946,6 +2085,7 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `tier_0` - No minimum requirement (for development/testing only)
 - `tier_1` - Basic verification required
 - `tier_2` - Standard KYB required
@@ -1953,10 +2093,12 @@ This section contains four primary safety metrics, each with five associated met
 - `tier_4` - Maximum due diligence required
 
 **Constraints:**
+
 - Higher risk agents should require higher KYB tiers
 - Must not exceed the actual KYB tier of linked DeveloperCredential
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (set by issuer based on risk assessment)
 - Beltic-verified: Set by Beltic based on agent risk profile
 - Third-party-verified: Set by third-party based on regulatory requirements
@@ -1980,11 +2122,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `self_attested` - Self-attestation by developer
 - `beltic_verified` - Verified by Beltic
 - `third_party_verified` - Verified by independent third-party
 
 **Assurance Model:**
+
 - Self-attested: Value must be "self_attested"
 - Beltic-verified: Value must be "beltic_verified"
 - Third-party-verified: Value must be "third_party_verified"
@@ -2008,10 +2152,12 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid date in the past
 - Should not be more than 1 year old for high-risk agents
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (audit must be independent)
 - Beltic-verified: Audit performed or commissioned by Beltic
 - Third-party-verified: Independent security audit
@@ -2037,11 +2183,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be globally unique
 - Should be immutable once issued
 - Recommended format: UUID v4
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (assigned by issuer)
 - Beltic-verified: Assigned by Beltic
 - Third-party-verified: Assigned by third-party issuer
@@ -2065,11 +2213,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid DID format (e.g., "did:web:beltic.com")
 - Must resolve to valid DID document
 - Issuer must have authority to issue AgentCredentials
 
 **Assurance Model:**
+
 - Self-attested: Uses developer's DID (for self-issued credentials)
 - Beltic-verified: Uses Beltic's DID
 - Third-party-verified: Uses third-party verifier's DID
@@ -2093,10 +2243,12 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must reference valid verification method in issuer's DID document
 - Should use strong cryptographic algorithms (Ed25519, ECDSA P-256)
 
 **Assurance Model:**
+
 - Self-attested: References self-signing key
 - Beltic-verified: References Beltic's signing key
 - Third-party-verified: References third-party's signing key
@@ -2120,12 +2272,14 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Allowed Values:**
+
 - `active` - Credential is valid and in good standing
 - `suspended` - Temporarily suspended pending investigation
 - `revoked` - Permanently revoked, no longer valid
 - `expired` - Past expiration date
 
 **Assurance Model:**
+
 - Self-attested: Not allowed (managed by issuer)
 - Beltic-verified: Managed by Beltic
 - Third-party-verified: Managed by third-party issuer
@@ -2149,11 +2303,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be valid HTTPS URL
 - Should be publicly accessible or accessible to authorized verifiers
 - Should have high availability
 
 **Assurance Model:**
+
 - Self-attested: Managed by credential subject
 - Beltic-verified: Managed by Beltic
 - Third-party-verified: Managed by third-party issuer
@@ -2171,6 +2327,7 @@ This section contains four primary safety metrics, each with five associated met
 **Description:** Cryptographic proof (signature) from the issuer that binds all credential data together and proves authenticity. This is a structured object containing signature type, creation time, and signature value.
 
 **Type:** Object (W3C VC Data Integrity Proof format) containing:
+
 - `type` (proof type, e.g., "Ed25519Signature2020")
 - `created` (ISO 8601 datetime)
 - `verificationMethod` (reference to issuer's key)
@@ -2182,11 +2339,13 @@ This section contains four primary safety metrics, each with five associated met
 **Sensitivity:** Public
 
 **Constraints:**
+
 - Must be verifiable using issuer's public key
 - Must cover all credential claims
 - Should use strong signature algorithms
 
 **Assurance Model:**
+
 - Self-attested: Self-signed by developer
 - Beltic-verified: Signed by Beltic
 - Third-party-verified: Signed by third-party issuer
@@ -2197,88 +2356,88 @@ This section contains four primary safety metrics, each with five associated met
 
 ## Field Summary Table
 
-| Field Name | Type | Required | Sensitivity | Min Assurance | NIST Tag |
-|------------|------|----------|-------------|---------------|----------|
-| **1. Agent Identity & Provenance** |
-| agentId | UUID | Yes | Public | Beltic-verified (prod) | GOVERN |
-| agentName | Text | Yes | Public | Beltic-verified (prod) | GOVERN |
-| agentVersion | Text | Yes | Public | Beltic-verified (prod) | GOVERN |
-| agentDescription | Text | Yes | Public | Beltic-verified (prod) | MAP |
-| firstReleaseDate | Date | Yes | Public | Beltic-verified (prod) | GOVERN |
-| currentStatus | Enum | Yes | Public | Beltic-verified (prod) | MANAGE |
-| developerCredentialId | UUID | Yes | Public | Beltic-verified | GOVERN |
-| developerCredentialVerified | Boolean | Yes | Public | Issuer-set | GOVERN |
-| **2. Technical Profile** |
-| primaryModelProvider | Text | Yes | Public | Beltic-verified (prod) | MAP |
-| primaryModelFamily | Text | Yes | Public | Beltic-verified (prod) | MAP |
-| modelContextWindow | Integer | Yes | Public | Beltic-verified (prod) | MAP |
-| modalitySupport | Array[Enum] | Yes | Public | Beltic-verified (prod) | MAP |
-| languageCapabilities | Array[Text] | Yes | Public | Beltic-verified (prod) | MAP |
-| architectureType | Enum | Yes | Public | Beltic-verified (prod) | MAP |
-| systemConfigFingerprint | Text (SHA-256) | Yes | Restricted | Beltic-verified (prod) | MEASURE |
-| systemConfigLastUpdated | Date | Yes | Public | Beltic-verified (prod) | MANAGE |
-| deploymentEnvironment | Text | Yes | Public | Beltic-verified (prod) | MAP |
-| complianceCertifications | Array[Enum] | No | Public | Beltic-verified | GOVERN |
-| dataLocationProfile | Object | Yes | Public | Beltic-verified (prod) | GOVERN |
-| **3. Tools & Actions** |
-| toolsList | Array[Object] | Conditional | Public | Beltic-verified (prod) | MAP |
-| toolsLastAudited | Date | Conditional | Public | Beltic-verified (prod) | MANAGE |
-| **4. Data Handling & Privacy** |
-| dataCategoriesProcessed | Array[Enum] | Yes | Public | Beltic-verified (prod) | MAP |
-| dataRetentionMaxPeriod | Duration | Yes | Public | Beltic-verified (prod) | GOVERN |
-| dataRetentionByCategory | Object | No | Public | Beltic-verified (prod) | GOVERN |
-| trainingDataUsage | Enum | Yes | Public | Beltic-verified (prod) | GOVERN |
-| piiDetectionEnabled | Boolean | Yes | Public | Beltic-verified (prod) | MEASURE |
-| piiRedactionCapability | Enum | Yes | Public | Beltic-verified (prod) | MEASURE |
-| piiRedactionPipeline | Text | No | Public | Beltic-verified (prod) | MANAGE |
-| dataEncryptionStandards | Array[Text] | Yes | Public | Beltic-verified (prod) | MANAGE |
-| **5. Safety & Robustness Metrics** |
-| harmfulContentRefusalScore | Float | Yes | Public | Beltic-verified (prod) | MEASURE |
-| harmfulContentBenchmarkName | Text | Yes | Public | Specified | MEASURE |
-| harmfulContentBenchmarkVersion | Text | Yes | Public | Specified | MEASURE |
-| harmfulContentEvaluationDate | Date | Yes | Public | Evaluator-set | MEASURE |
-| harmfulContentAssuranceSource | Enum | Yes | Public | Matches level | GOVERN |
-| promptInjectionRobustnessScore | Float | Yes | Public | Beltic-verified (prod) | MEASURE |
-| promptInjectionBenchmarkName | Text | Yes | Public | Specified | MEASURE |
-| promptInjectionBenchmarkVersion | Text | Yes | Public | Specified | MEASURE |
-| promptInjectionEvaluationDate | Date | Yes | Public | Evaluator-set | MEASURE |
-| promptInjectionAssuranceSource | Enum | Yes | Public | Matches level | GOVERN |
-| toolAbuseRobustnessScore | Float | Conditional | Public | Beltic-verified (prod) | MEASURE |
-| toolAbuseBenchmarkName | Text | Conditional | Public | Specified | MEASURE |
-| toolAbuseBenchmarkVersion | Text | Conditional | Public | Specified | MEASURE |
-| toolAbuseEvaluationDate | Date | Conditional | Public | Evaluator-set | MEASURE |
-| toolAbuseAssuranceSource | Enum | Conditional | Public | Matches level | GOVERN |
-| piiLeakageRobustnessScore | Float | Yes | Public | Beltic-verified (prod) | MEASURE |
-| piiLeakageBenchmarkName | Text | Yes | Public | Specified | MEASURE |
-| piiLeakageBenchmarkVersion | Text | Yes | Public | Specified | MEASURE |
-| piiLeakageEvaluationDate | Date | Yes | Public | Evaluator-set | MEASURE |
-| piiLeakageAssuranceSource | Enum | Yes | Public | Matches level | GOVERN |
-| **6. Operations & Lifecycle** |
-| incidentResponseContact | Email | Yes | Public | Beltic-verified (prod) | MANAGE |
-| incidentResponseSLO | Duration | Yes | Public | Beltic-verified (prod) | MANAGE |
-| deprecationPolicy | Text | Yes | Public | Beltic-verified (prod) | MANAGE |
-| updateCadence | Enum | Yes | Public | Beltic-verified (prod) | MANAGE |
-| humanOversightMode | Enum | Yes | Public | Beltic-verified (prod) | MANAGE |
-| failSafeBehavior | Text | Conditional | Public | Beltic-verified (prod) | MANAGE |
-| monitoringCoverage | Text | Yes | Public | Beltic-verified (prod) | MANAGE |
-| credentialIssuanceDate | DateTime | Yes | Public | Issuer-set | GOVERN |
-| credentialExpirationDate | DateTime | Yes | Public | Issuer-set | GOVERN |
+| Field Name                               | Type           | Required    | Sensitivity | Min Assurance          | NIST Tag |
+| ---------------------------------------- | -------------- | ----------- | ----------- | ---------------------- | -------- |
+| **1. Agent Identity & Provenance**       |
+| agentId                                  | UUID           | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| agentName                                | Text           | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| agentVersion                             | Text           | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| agentDescription                         | Text           | Yes         | Public      | Beltic-verified (prod) | MAP      |
+| firstReleaseDate                         | Date           | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| currentStatus                            | Enum           | Yes         | Public      | Beltic-verified (prod) | MANAGE   |
+| developerCredentialId                    | UUID           | Yes         | Public      | Beltic-verified        | GOVERN   |
+| developerCredentialVerified              | Boolean        | Yes         | Public      | Issuer-set             | GOVERN   |
+| **2. Technical Profile**                 |
+| primaryModelProvider                     | Text           | Yes         | Public      | Beltic-verified (prod) | MAP      |
+| primaryModelFamily                       | Text           | Yes         | Public      | Beltic-verified (prod) | MAP      |
+| modelContextWindow                       | Integer        | Yes         | Public      | Beltic-verified (prod) | MAP      |
+| modalitySupport                          | Array[Enum]    | Yes         | Public      | Beltic-verified (prod) | MAP      |
+| languageCapabilities                     | Array[Text]    | Yes         | Public      | Beltic-verified (prod) | MAP      |
+| architectureType                         | Enum           | Yes         | Public      | Beltic-verified (prod) | MAP      |
+| systemConfigFingerprint                  | Text (SHA-256) | Yes         | Restricted  | Beltic-verified (prod) | MEASURE  |
+| systemConfigLastUpdated                  | Date           | Yes         | Public      | Beltic-verified (prod) | MANAGE   |
+| deploymentEnvironment                    | Text           | Yes         | Public      | Beltic-verified (prod) | MAP      |
+| complianceCertifications                 | Array[Enum]    | No          | Public      | Beltic-verified        | GOVERN   |
+| dataLocationProfile                      | Object         | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| **3. Tools & Actions**                   |
+| toolsList                                | Array[Object]  | Conditional | Public      | Beltic-verified (prod) | MAP      |
+| toolsLastAudited                         | Date           | Conditional | Public      | Beltic-verified (prod) | MANAGE   |
+| **4. Data Handling & Privacy**           |
+| dataCategoriesProcessed                  | Array[Enum]    | Yes         | Public      | Beltic-verified (prod) | MAP      |
+| dataRetentionMaxPeriod                   | Duration       | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| dataRetentionByCategory                  | Object         | No          | Public      | Beltic-verified (prod) | GOVERN   |
+| trainingDataUsage                        | Enum           | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| piiDetectionEnabled                      | Boolean        | Yes         | Public      | Beltic-verified (prod) | MEASURE  |
+| piiRedactionCapability                   | Enum           | Yes         | Public      | Beltic-verified (prod) | MEASURE  |
+| piiRedactionPipeline                     | Text           | No          | Public      | Beltic-verified (prod) | MANAGE   |
+| dataEncryptionStandards                  | Array[Text]    | Yes         | Public      | Beltic-verified (prod) | MANAGE   |
+| **5. Safety & Robustness Metrics**       |
+| harmfulContentRefusalScore               | Float          | Yes         | Public      | Beltic-verified (prod) | MEASURE  |
+| harmfulContentBenchmarkName              | Text           | Yes         | Public      | Specified              | MEASURE  |
+| harmfulContentBenchmarkVersion           | Text           | Yes         | Public      | Specified              | MEASURE  |
+| harmfulContentEvaluationDate             | Date           | Yes         | Public      | Evaluator-set          | MEASURE  |
+| harmfulContentAssuranceSource            | Enum           | Yes         | Public      | Matches level          | GOVERN   |
+| promptInjectionRobustnessScore           | Float          | Yes         | Public      | Beltic-verified (prod) | MEASURE  |
+| promptInjectionBenchmarkName             | Text           | Yes         | Public      | Specified              | MEASURE  |
+| promptInjectionBenchmarkVersion          | Text           | Yes         | Public      | Specified              | MEASURE  |
+| promptInjectionEvaluationDate            | Date           | Yes         | Public      | Evaluator-set          | MEASURE  |
+| promptInjectionAssuranceSource           | Enum           | Yes         | Public      | Matches level          | GOVERN   |
+| toolAbuseRobustnessScore                 | Float          | Conditional | Public      | Beltic-verified (prod) | MEASURE  |
+| toolAbuseBenchmarkName                   | Text           | Conditional | Public      | Specified              | MEASURE  |
+| toolAbuseBenchmarkVersion                | Text           | Conditional | Public      | Specified              | MEASURE  |
+| toolAbuseEvaluationDate                  | Date           | Conditional | Public      | Evaluator-set          | MEASURE  |
+| toolAbuseAssuranceSource                 | Enum           | Conditional | Public      | Matches level          | GOVERN   |
+| piiLeakageRobustnessScore                | Float          | Yes         | Public      | Beltic-verified (prod) | MEASURE  |
+| piiLeakageBenchmarkName                  | Text           | Yes         | Public      | Specified              | MEASURE  |
+| piiLeakageBenchmarkVersion               | Text           | Yes         | Public      | Specified              | MEASURE  |
+| piiLeakageEvaluationDate                 | Date           | Yes         | Public      | Evaluator-set          | MEASURE  |
+| piiLeakageAssuranceSource                | Enum           | Yes         | Public      | Matches level          | GOVERN   |
+| **6. Operations & Lifecycle**            |
+| incidentResponseContact                  | Email          | Yes         | Public      | Beltic-verified (prod) | MANAGE   |
+| incidentResponseSLO                      | Duration       | Yes         | Public      | Beltic-verified (prod) | MANAGE   |
+| deprecationPolicy                        | Text           | Yes         | Public      | Beltic-verified (prod) | MANAGE   |
+| updateCadence                            | Enum           | Yes         | Public      | Beltic-verified (prod) | MANAGE   |
+| humanOversightMode                       | Enum           | Yes         | Public      | Beltic-verified (prod) | MANAGE   |
+| failSafeBehavior                         | Text           | Conditional | Public      | Beltic-verified (prod) | MANAGE   |
+| monitoringCoverage                       | Text           | Yes         | Public      | Beltic-verified (prod) | MANAGE   |
+| credentialIssuanceDate                   | DateTime       | Yes         | Public      | Issuer-set             | GOVERN   |
+| credentialExpirationDate                 | DateTime       | Yes         | Public      | Issuer-set             | GOVERN   |
 | **7. Risk Summary & Assurance Metadata** |
-| overallSafetyRating | Enum | Yes | Public | Beltic-verified | MAP |
-| approvedUseCases | Array[Text] | No | Public | Beltic-verified (prod) | MAP |
-| prohibitedUseCases | Array[Text] | No | Public | Beltic-verified (prod) | MAP |
-| ageRestrictions | Enum | Yes | Public | Beltic-verified (prod) | GOVERN |
-| regulatoryApprovals | Array[Text] | No | Public | Beltic-verified | GOVERN |
-| kybTierRequired | Enum | Yes | Public | Issuer-set | GOVERN |
-| verificationLevel | Enum | Yes | Public | Issuer-set | GOVERN |
-| lastSecurityAuditDate | Date | No | Public | Third-party | MEASURE |
-| **8. Cryptographic Identity** |
-| credentialId | UUID | Yes | Public | Issuer-assigned | GOVERN |
-| issuerDid | DID | Yes | Public | Issuer-assigned | GOVERN |
-| verificationMethod | URI | Yes | Public | Issuer-assigned | GOVERN |
-| credentialStatus | Enum | Yes | Public | Issuer-managed | MANAGE |
-| revocationListUrl | URL | Yes | Public | Issuer-managed | MANAGE |
-| proof | Object | Yes | Public | Issuer-signed | GOVERN |
+| overallSafetyRating                      | Enum           | Yes         | Public      | Beltic-verified        | MAP      |
+| approvedUseCases                         | Array[Text]    | No          | Public      | Beltic-verified (prod) | MAP      |
+| prohibitedUseCases                       | Array[Text]    | No          | Public      | Beltic-verified (prod) | MAP      |
+| ageRestrictions                          | Enum           | Yes         | Public      | Beltic-verified (prod) | GOVERN   |
+| regulatoryApprovals                      | Array[Text]    | No          | Public      | Beltic-verified        | GOVERN   |
+| kybTierRequired                          | Enum           | Yes         | Public      | Issuer-set             | GOVERN   |
+| verificationLevel                        | Enum           | Yes         | Public      | Issuer-set             | GOVERN   |
+| lastSecurityAuditDate                    | Date           | No          | Public      | Third-party            | MEASURE  |
+| **8. Cryptographic Identity**            |
+| credentialId                             | UUID           | Yes         | Public      | Issuer-assigned        | GOVERN   |
+| issuerDid                                | DID            | Yes         | Public      | Issuer-assigned        | GOVERN   |
+| verificationMethod                       | URI            | Yes         | Public      | Issuer-assigned        | GOVERN   |
+| credentialStatus                         | Enum           | Yes         | Public      | Issuer-managed         | MANAGE   |
+| revocationListUrl                        | URL            | Yes         | Public      | Issuer-managed         | MANAGE   |
+| proof                                    | Object         | Yes         | Public      | Issuer-signed          | GOVERN   |
 
 **Total Fields: 71 fields across 8 categories**
 
@@ -2289,6 +2448,7 @@ This section contains four primary safety metrics, each with five associated met
 ### Selective Disclosure
 
 AgentCredentials should support selective disclosure mechanisms to allow:
+
 - Revealing only public fields to most merchants
 - Revealing restricted fields (systemConfigFingerprint) only to authorized verifiers or security researchers
 - Proving properties without revealing exact values (e.g., "safety score >= 80" without revealing exact score)
@@ -2297,6 +2457,7 @@ AgentCredentials should support selective disclosure mechanisms to allow:
 ### Data Minimization
 
 Merchants should request only the minimum necessary fields:
+
 - **Low-risk integrations:** Identity, status, overall safety rating, approved use cases
 - **Moderate-risk:** Add data handling, privacy fields, basic safety metrics
 - **High-risk/regulated:** Full credential with all safety metrics, compliance certifications, detailed tool risk analysis
@@ -2304,6 +2465,7 @@ Merchants should request only the minimum necessary fields:
 ### Merchant Disclosure Guidance
 
 Default merchant-safe presentations include:
+
 - All identity and provenance fields
 - Technical profile (except system config fingerprint)
 - Sanitized `toolsList` entries (tool name/description + risk classification) plus Beltic-derived counts surfaced in dashboards
@@ -2314,12 +2476,14 @@ Default merchant-safe presentations include:
 - Cryptographic verification fields
 
 **Restricted access fields** (require security researcher or regulator status):
+
 - `systemConfigFingerprint` - Full hash (summary indicators public)
 - Detailed tool implementation details beyond risk classification
 
 ### Internal Use Fields (not in v1 credential)
 
 The following data is maintained by Beltic internally but not included in AgentCredentials:
+
 - Source code or proprietary algorithms
 - Detailed system prompts (fingerprint provided instead)
 - Raw evaluation data and test cases
@@ -2331,22 +2495,26 @@ The following data is maintained by Beltic internally but not included in AgentC
 ### Region-Specific Privacy Notes
 
 **EU/EEA + UK:**
+
 - Agent credentials processing personal data must comply with GDPR
 - Data residency fields help assess cross-border transfer requirements
 - Right to explanation may require disclosure of AI decision-making processes
 - Retention periods must align with GDPR principles
 
 **United States:**
+
 - State-specific laws (CCPA, Virginia CDPA, etc.) apply based on user location
 - Sector-specific regulations (HIPAA, GLBA, FERPA) apply to specific use cases
 - FTC Act Section 5 prohibits unfair/deceptive AI practices
 
 **Canada:**
+
 - PIPEDA applies to commercial activities
 - Quebec Law 25 has specific AI transparency requirements
 - Cross-border data transfer notices required
 
 **APAC:**
+
 - Singapore PDPA requires consent for automated decision-making
 - Japan APPI has specific requirements for AI explanations
 - China PIPL has strict data localization requirements
@@ -2373,16 +2541,19 @@ Each deferred field is tracked in the backlog and re-enters the spec once suppor
 AgentCredentials help demonstrate compliance with emerging AI regulations:
 
 **EU AI Act:**
+
 - High-risk AI systems require conformity assessment
 - Safety metrics, risk ratings, and technical documentation support compliance
 - Transparency requirements met through credential disclosure
 
 **NIST AI Risk Management Framework:**
+
 - Field tagging aligns with NIST AI RMF functions
 - Supports risk management throughout AI lifecycle
 - Enables measurement and monitoring
 
 **Industry-Specific:**
+
 - Healthcare: Safety metrics and PHI handling for HIPAA compliance
 - Finance: Risk ratings and regulatory approvals for financial services
 - Education: Age restrictions and data handling for FERPA/COPPA
@@ -2390,6 +2561,7 @@ AgentCredentials help demonstrate compliance with emerging AI regulations:
 ### Liability and Accountability
 
 AgentCredentials establish clear accountability:
+
 - Link to DeveloperCredential creates verification chain
 - Safety metrics provide evidence of due diligence
 - Approved/prohibited use cases set expectations
@@ -2398,6 +2570,7 @@ AgentCredentials establish clear accountability:
 ### Limitations and Disclaimers
 
 AgentCredentials have important limitations:
+
 - Metrics represent point-in-time evaluations, not guarantees
 - Safety scores don't eliminate all risks
 - Approved use cases don't guarantee fitness for purpose
@@ -2411,6 +2584,7 @@ AgentCredentials have important limitations:
 ### Relationship to DeveloperCredential
 
 Every AgentCredential MUST:
+
 1. Reference a valid, active DeveloperCredential
 2. Require the DeveloperCredential to be at or above specified KYB tier
 3. Be automatically suspended if DeveloperCredential is revoked
@@ -2419,6 +2593,7 @@ Every AgentCredential MUST:
 ### Versioning and Updates
 
 When an agent is updated:
+
 - Minor updates (patch versions): May update without new credential if safety metrics unchanged
 - Significant updates: Require new credential evaluation
 - Model changes: Always require new credential
@@ -2428,6 +2603,7 @@ When an agent is updated:
 ### Credential Chaining Verification
 
 Merchants verifying an AgentCredential must:
+
 1. Verify AgentCredential signature and status
 2. Verify referenced DeveloperCredential exists and is valid
 3. Check DeveloperCredential meets minimum KYB tier
@@ -2440,6 +2616,7 @@ Merchants verifying an AgentCredential must:
 ## Version History
 
 **v1.0 (2025-11-21):**
+
 - Initial specification
 - Defined 75 fields across 8 categories
 - Established hierarchical tool risk taxonomy

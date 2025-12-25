@@ -40,6 +40,7 @@ AgentCredential v1 serves multiple stakeholders:
 ## Required vs Optional Fields
 
 ### Always Required
+
 - Identity & provenance: `schemaVersion`, `agentId`, `agentName`, `agentVersion`, `agentDescription`, `firstReleaseDate`, `currentStatus`, `developerCredentialId`, `developerCredentialVerified`
 - Technical profile: `primaryModelProvider`, `primaryModelFamily`, `modelContextWindow`, `modalitySupport`, `languageCapabilities`, `architectureType`, `systemConfigFingerprint`, `systemConfigLastUpdated`, `deploymentEnvironment`, `dataLocationProfile`
 - Data handling & privacy: `dataCategoriesProcessed`, `dataRetentionMaxPeriod`, `trainingDataUsage`, `piiDetectionEnabled`, `piiRedactionCapability`, `dataEncryptionStandards`
@@ -49,6 +50,7 @@ AgentCredential v1 serves multiple stakeholders:
 - Cryptographic: `credentialId`, `issuerDid`, `verificationMethod`, `credentialStatus`, `revocationListUrl`, `proof`
 
 ### Conditionally Required
+
 - When `toolsList` has entries: `toolsLastAudited` plus the full `toolAbuse*` metric block.
 - Optional arrays (include only when populated): `approvedUseCases`, `prohibitedUseCases`, `regulatoryApprovals`, `complianceCertifications`.
 - `dataRetentionByCategory` and `piiRedactionPipeline` are optional but recommended for clarity.
@@ -76,7 +78,10 @@ AgentCredential v1 serves multiple stakeholders:
   "systemConfigFingerprint": "9f1c7e98e4d66274e8d9b9d9301f5b8eaf3a8b1df02f89a0bc613066b8c1d4fa",
   "systemConfigLastUpdated": "2025-01-20",
   "deploymentEnvironment": "AWS us-east-1 primary, eu-west-1 DR",
-  "dataLocationProfile": { "storageRegions": ["US"], "processingRegions": ["US"] },
+  "dataLocationProfile": {
+    "storageRegions": ["US"],
+    "processingRegions": ["US"]
+  },
   "toolsList": [],
   "dataCategoriesProcessed": ["pii", "financial"],
   "dataRetentionMaxPeriod": "P90D",
@@ -128,6 +133,7 @@ AgentCredential v1 serves multiple stakeholders:
 ```
 
 ### Common Validation Errors
+
 - **Tool fields missing**: When `toolsList` is non-empty, the `toolAbuse*` metrics and `toolsLastAudited` must be present.
 - **Fingerprint absent**: `systemConfigFingerprint` and `systemConfigLastUpdated` are required even for simple agents.
 - **Data location**: `dataLocationProfile.storageRegions` and `processingRegions` must contain valid ISO 3166-1 country codes.
@@ -145,12 +151,12 @@ Each metric includes benchmark name, version, evaluation date, and assurance sou
 
 ## NIST AI RMF Alignment
 
-| NIST Function | Mapped Fields (representative) |
-|---------------|--------------------------------|
-| **GOVERN** | agentId, agentName, developerCredentialId, credentialId, issuerDid, credentialStatus |
-| **MAP** | agentDescription, toolsList, dataLocationProfile, approvedUseCases/prohibitedUseCases, kybTierRequired |
-| **MEASURE** | harmfulContentRefusalScore block, promptInjectionRobustnessScore block, toolAbuseRobustnessScore block, piiLeakageRobustnessScore block |
-| **MANAGE** | incidentResponseContact/SLO, humanOversightMode, failSafeBehavior, monitoringCoverage, deprecationPolicy, updateCadence |
+| NIST Function | Mapped Fields (representative)                                                                                                          |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **GOVERN**    | agentId, agentName, developerCredentialId, credentialId, issuerDid, credentialStatus                                                    |
+| **MAP**       | agentDescription, toolsList, dataLocationProfile, approvedUseCases/prohibitedUseCases, kybTierRequired                                  |
+| **MEASURE**   | harmfulContentRefusalScore block, promptInjectionRobustnessScore block, toolAbuseRobustnessScore block, piiLeakageRobustnessScore block |
+| **MANAGE**    | incidentResponseContact/SLO, humanOversightMode, failSafeBehavior, monitoringCoverage, deprecationPolicy, updateCadence                 |
 
 ## Example Usage
 
@@ -164,10 +170,12 @@ const fs = require("fs");
 const ajv = new Ajv({ allErrors: true, strict: true });
 addFormats(ajv);
 
-const schema = JSON.parse(fs.readFileSync('agent-credential-v1.schema.json'));
+const schema = JSON.parse(fs.readFileSync("agent-credential-v1.schema.json"));
 const validate = ajv.compile(schema);
 
-const credential = JSON.parse(fs.readFileSync('../../examples/agent/v1/valid-simple-agent.json'));
+const credential = JSON.parse(
+  fs.readFileSync("../../examples/agent/v1/valid-simple-agent.json"),
+);
 
 if (validate(credential)) {
   console.log("✓ Valid AgentCredential");
@@ -230,6 +238,7 @@ If you're creating agent credentials for the first time:
 ### Future v1.x Versions
 
 Minor version updates (v1.1, v1.2) will be backward-compatible:
+
 - New fields will be **optional**
 - Existing fields will not change structure
 - Validation rules will not become stricter

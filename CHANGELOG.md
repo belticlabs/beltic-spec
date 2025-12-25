@@ -8,14 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+
 - Security: Fixed prototype pollution vulnerability in fast-json-patch by adding npm override to force version 3.1.1
+- CI: Fixed Python validation script to only validate valid-*.json files (exclude invalid test files)
+- CI: Fixed formatting issues by running Prettier on all JSON and Markdown files
 
 ### Added
+
 - Initial changelog
 
 ## [1.0.0] - 2024-12-XX
 
 ### Added
+
 - DeveloperCredential v1 specification and JSON Schema
 - AgentCredential v1 specification and JSON Schema
 - DeveloperCredential v2 specification and JSON Schema
@@ -37,11 +42,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Progress tracking log for specification development
 
 ### Changed
+
 - Improved schema validation with Draft 2020-12 support
 - Enhanced conditional rule testing
 - Updated examples with comprehensive test cases
 
 ### Fixed
+
 - Schema validation edge cases
 - Conditional rule logic improvements
-

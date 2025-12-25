@@ -25,6 +25,7 @@ This guide covers everything from basic validation to advanced CI/CD integration
 ### What is Validation?
 
 Validation ensures that a credential:
+
 - Contains all required fields
 - Uses correct data types and formats
 - Satisfies conditional logic rules
@@ -38,6 +39,7 @@ Validation ensures that a credential:
 Validates structure, types, formats, and some conditional logic.
 
 **What it checks:**
+
 - Required fields present
 - Correct data types (string, number, boolean, object, array)
 - Format constraints (date-time, email, URI, UUID)
@@ -47,6 +49,7 @@ Validates structure, types, formats, and some conditional logic.
 - Conditional rules (if/then/else)
 
 **What it cannot check:**
+
 - Date ordering (issuance < expiration)
 - Relative date freshness (screening within 90 days)
 - Cross-credential references
@@ -57,6 +60,7 @@ Validates structure, types, formats, and some conditional logic.
 Validates business logic that JSON Schema cannot express.
 
 **What it checks:**
+
 - Date comparisons (`issuanceDate < expirationDate`)
 - Time-based constraints (screening age, credential expiration)
 - External lookups (DID resolution, revocation list checks)
@@ -72,6 +76,7 @@ Validates business logic that JSON Schema cannot express.
 ### JavaScript/Node.js: AJV
 
 **Install:**
+
 ```bash
 npm install ajv ajv-formats
 
@@ -80,6 +85,7 @@ npm install -g ajv-cli ajv-formats
 ```
 
 **Features:**
+
 - ✅ Full JSON Schema Draft 2020-12 support
 - ✅ Fast (compiles schemas)
 - ✅ Excellent error messages
@@ -93,11 +99,13 @@ npm install -g ajv-cli ajv-formats
 ### Python: jsonschema
 
 **Install:**
+
 ```bash
 pip install jsonschema
 ```
 
 **Features:**
+
 - ✅ Full JSON Schema Draft 2020-12 support
 - ✅ Easy to use
 - ✅ Good error messages
@@ -110,11 +118,13 @@ pip install jsonschema
 ### Go: gojsonschema
 
 **Install:**
+
 ```bash
 go get github.com/xeipuuv/gojsonschema
 ```
 
 **Features:**
+
 - ✅ JSON Schema Draft 7 support (Draft 2020-12 partial)
 - ✅ Fast
 - ✅ Native Go types
@@ -126,6 +136,7 @@ go get github.com/xeipuuv/gojsonschema
 ### Java: everit-org/json-schema
 
 **Maven:**
+
 ```xml
 <dependency>
     <groupId>com.github.erosb</groupId>
@@ -135,6 +146,7 @@ go get github.com/xeipuuv/gojsonschema
 ```
 
 **Gradle:**
+
 ```gradle
 implementation 'com.github.erosb:everit-json-schema:1.14.2'
 ```
@@ -183,6 +195,7 @@ ajv validate \
 ```
 
 **Expected output:**
+
 ```
 examples/developer/v1/tests/valid-individual-minimal.json valid
 ```
@@ -244,7 +257,7 @@ addFormats(ajv);
 
 // Load schema
 const schema = JSON.parse(
-  fs.readFileSync('schemas/agent/v1/agent-credential-v1.schema.json')
+  fs.readFileSync("schemas/agent/v1/agent-credential-v1.schema.json"),
 );
 
 // Compile schema (done once, reused for multiple validations)
@@ -252,7 +265,7 @@ const validate = ajv.compile(schema);
 
 // Load credential
 const credential = JSON.parse(
-  fs.readFileSync('examples/agent/v1/valid-simple-agent.json')
+  fs.readFileSync("examples/agent/v1/valid-simple-agent.json"),
 );
 
 // Validate
@@ -260,7 +273,7 @@ if (validate(credential)) {
   console.log("✓ Valid AgentCredential");
 } else {
   console.error("✗ Validation errors:");
-  validate.errors.forEach(err => {
+  validate.errors.forEach((err) => {
     console.error(`  - ${err.instancePath}: ${err.message}`);
     if (err.params) {
       console.error(`    Params: ${JSON.stringify(err.params)}`);
@@ -277,30 +290,32 @@ const addFormats = require("ajv-formats");
 const fs = require("fs");
 
 const ajv = new Ajv({
-  allErrors: true,  // Report all errors, not just first
-  verbose: true,     // Include schema and data in errors
-  strict: true       // Strict mode for schema validation
+  allErrors: true, // Report all errors, not just first
+  verbose: true, // Include schema and data in errors
+  strict: true, // Strict mode for schema validation
 });
 addFormats(ajv);
 
 const schema = JSON.parse(
-  fs.readFileSync('schemas/developer/v1/developer-credential-v1.schema.json')
+  fs.readFileSync("schemas/developer/v1/developer-credential-v1.schema.json"),
 );
 const validate = ajv.compile(schema);
 
-const credential = JSON.parse(fs.readFileSync('my-developer-credential.json'));
+const credential = JSON.parse(fs.readFileSync("my-developer-credential.json"));
 
 if (!validate(credential)) {
   console.error("Validation failed with the following errors:\n");
 
   validate.errors.forEach((err, index) => {
     console.error(`Error ${index + 1}:`);
-    console.error(`  Path: ${err.instancePath || '(root)'}`);
+    console.error(`  Path: ${err.instancePath || "(root)"}`);
     console.error(`  Message: ${err.message}`);
     console.error(`  Schema path: ${err.schemaPath}`);
 
     if (err.params) {
-      console.error(`  Additional info: ${JSON.stringify(err.params, null, 2)}`);
+      console.error(
+        `  Additional info: ${JSON.stringify(err.params, null, 2)}`,
+      );
     }
     console.error("");
   });
@@ -326,10 +341,10 @@ class BelticValidator {
 
     // Preload and compile schemas
     this.agentSchema = this.loadSchema(
-      'schemas/agent/v1/agent-credential-v1.schema.json'
+      "schemas/agent/v1/agent-credential-v1.schema.json",
     );
     this.developerSchema = this.loadSchema(
-      'schemas/developer/v1/developer-credential-v1.schema.json'
+      "schemas/developer/v1/developer-credential-v1.schema.json",
     );
 
     this.validateAgent = this.ajv.compile(this.agentSchema);
@@ -341,21 +356,22 @@ class BelticValidator {
   }
 
   validate(credential, type) {
-    const validator = type === 'agent' ? this.validateAgent : this.validateDeveloper;
+    const validator =
+      type === "agent" ? this.validateAgent : this.validateDeveloper;
 
     const valid = validator(credential);
 
     return {
       valid,
-      errors: valid ? null : validator.errors
+      errors: valid ? null : validator.errors,
     };
   }
 
   formatErrors(errors) {
-    return errors.map(err => ({
-      path: err.instancePath || '(root)',
+    return errors.map((err) => ({
+      path: err.instancePath || "(root)",
       message: err.message,
-      params: err.params
+      params: err.params,
     }));
   }
 }
@@ -364,14 +380,15 @@ module.exports = BelticValidator;
 ```
 
 **Usage:**
+
 ```javascript
-const BelticValidator = require('./validator');
-const fs = require('fs');
+const BelticValidator = require("./validator");
+const fs = require("fs");
 
 const validator = new BelticValidator();
 
-const credential = JSON.parse(fs.readFileSync('my-agent.json'));
-const result = validator.validate(credential, 'agent');
+const credential = JSON.parse(fs.readFileSync("my-agent.json"));
+const result = validator.validate(credential, "agent");
 
 if (result.valid) {
   console.log("✓ Valid credential");
@@ -512,6 +529,7 @@ if __name__ == '__main__':
 ```
 
 **Usage:**
+
 ```bash
 python validator.py my-agent-credential.json
 ```
@@ -566,7 +584,7 @@ DeveloperCredential v1 has **27 conditional validation rules** that require spec
 2. **Tax Verification Date**: If `taxIdVerified="verified"`, then `taxIdLastVerifiedDate` is required
 3. **Individual Restrictions**: If `entityType="individual"`, then `incorporationDate`, `businessRegistrationNumber`, `registeredAddress` are **prohibited**
 4. **Organization Requirements**: If `entityType` is organization type, then `incorporationDate`, `businessRegistrationNumber`, `registeredAddress` are **required**
-5-10. Additional critical rules (see [full list](developer-credential-v1.md#8-conditional-validation-rules))
+   5-10. Additional critical rules (see [full list](developer-credential-v1.md#8-conditional-validation-rules))
 
 #### Tier 2 High Rules (SHOULD pass)
 
@@ -579,6 +597,7 @@ Data consistency warnings that don't invalidate credentials but indicate potenti
 The `examples/developer/v1/tests/` directory contains 26 test files:
 
 **Valid Examples (6 files):**
+
 - `valid-individual-minimal.json`
 - `valid-individual-complete.json`
 - `valid-organization-tier1.json`
@@ -587,6 +606,7 @@ The `examples/developer/v1/tests/` directory contains 26 test files:
 - `valid-high-risk-suspended.json`
 
 **Tier 1 Invalid Examples (10 files):**
+
 - `invalid-tax-id-chain.json` - Tax ID exists but no verification
 - `invalid-entity-type-mismatch.json` - Individual with organization fields
 - `invalid-organization-missing-required.json` - LLC without registered address
@@ -599,6 +619,7 @@ The `examples/developer/v1/tests/` directory contains 26 test files:
 - `invalid-last-updated-out-of-range.json` - Update before issuance
 
 **Tier 2 Invalid Examples (10 files):**
+
 - `tier2-invalid-jurisdiction-without-tax-id.json`
 - `tier2-invalid-registration-entity-mismatch.json`
 - `tier2-invalid-beneficial-owners-inconsistent.json`
@@ -608,6 +629,7 @@ The `examples/developer/v1/tests/` directory contains 26 test files:
 #### Running the Test Suite
 
 **Validate All Valid Examples (should pass):**
+
 ```bash
 for file in examples/developer/v1/tests/valid-*.json; do
   ajv validate \
@@ -619,6 +641,7 @@ done
 ```
 
 **Validate All Invalid Examples (should fail):**
+
 ```bash
 for file in examples/developer/v1/tests/invalid-*.json examples/developer/v1/tests/tier2-invalid-*.json; do
   ajv validate \
@@ -632,6 +655,7 @@ done
 #### Automated Test Suite
 
 **JavaScript (Node.js):**
+
 ```javascript
 // test-conditional-rules.js
 const Ajv = require("ajv/dist/2020");
@@ -643,33 +667,35 @@ const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
 
 const schema = JSON.parse(
-  fs.readFileSync('schemas/developer/v1/developer-credential-v1.schema.json')
+  fs.readFileSync("schemas/developer/v1/developer-credential-v1.schema.json"),
 );
 const validate = ajv.compile(schema);
 
-const testDir = 'examples/developer/v1/tests';
+const testDir = "examples/developer/v1/tests";
 const files = fs.readdirSync(testDir);
 
 let passCount = 0;
 let failCount = 0;
 
-files.forEach(file => {
-  if (!file.endsWith('.json')) return;
+files.forEach((file) => {
+  if (!file.endsWith(".json")) return;
 
   const filePath = path.join(testDir, file);
   const credential = JSON.parse(fs.readFileSync(filePath));
   const isValid = validate(credential);
 
-  const shouldBeValid = file.startsWith('valid-');
+  const shouldBeValid = file.startsWith("valid-");
   const testPassed = (isValid && shouldBeValid) || (!isValid && !shouldBeValid);
 
   if (testPassed) {
     console.log(`✓ ${file}`);
     passCount++;
   } else {
-    console.log(`✗ ${file} - Expected ${shouldBeValid ? 'valid' : 'invalid'}, got ${isValid ? 'valid' : 'invalid'}`);
+    console.log(
+      `✗ ${file} - Expected ${shouldBeValid ? "valid" : "invalid"}, got ${isValid ? "valid" : "invalid"}`,
+    );
     if (!isValid && shouldBeValid) {
-      validate.errors.forEach(err => {
+      validate.errors.forEach((err) => {
         console.log(`    - ${err.instancePath}: ${err.message}`);
       });
     }
@@ -682,6 +708,7 @@ process.exit(failCount > 0 ? 1 : 0);
 ```
 
 **Run:**
+
 ```bash
 node test-conditional-rules.js
 ```
@@ -703,14 +730,14 @@ function validateDateOrdering(credential) {
   // Rule #8: issuanceDate < expirationDate
   if (issuance >= expiration) {
     throw new Error(
-      `issuanceDate (${credential.issuanceDate}) must be before expirationDate (${credential.expirationDate})`
+      `issuanceDate (${credential.issuanceDate}) must be before expirationDate (${credential.expirationDate})`,
     );
   }
 
   // Rule #9: issuanceDate <= lastUpdatedDate <= expirationDate
   if (updated < issuance || updated > expiration) {
     throw new Error(
-      `lastUpdatedDate (${credential.lastUpdatedDate}) must be between issuanceDate and expirationDate`
+      `lastUpdatedDate (${credential.lastUpdatedDate}) must be between issuanceDate and expirationDate`,
     );
   }
 
@@ -733,9 +760,9 @@ function validateScreeningFreshness(credential) {
     const age = daysOld(credential.sanctionsScreeningLastChecked);
     if (age > 90) {
       warnings.push({
-        severity: 'high',
-        field: 'sanctionsScreeningLastChecked',
-        message: `Sanctions screening is stale (${Math.round(age)} days old, should be ≤90 days)`
+        severity: "high",
+        field: "sanctionsScreeningLastChecked",
+        message: `Sanctions screening is stale (${Math.round(age)} days old, should be ≤90 days)`,
       });
     }
   }
@@ -745,9 +772,9 @@ function validateScreeningFreshness(credential) {
     const age = daysOld(credential.pepRiskLastAssessed);
     if (age > 180) {
       warnings.push({
-        severity: 'medium',
-        field: 'pepRiskLastAssessed',
-        message: `PEP risk assessment is stale (${Math.round(age)} days old, should be ≤180 days)`
+        severity: "medium",
+        field: "pepRiskLastAssessed",
+        message: `PEP risk assessment is stale (${Math.round(age)} days old, should be ≤180 days)`,
       });
     }
   }
@@ -756,9 +783,9 @@ function validateScreeningFreshness(credential) {
     const age = daysOld(credential.adverseMediaLastAssessed);
     if (age > 180) {
       warnings.push({
-        severity: 'medium',
-        field: 'adverseMediaLastAssessed',
-        message: `Adverse media assessment is stale (${Math.round(age)} days old, should be ≤180 days)`
+        severity: "medium",
+        field: "adverseMediaLastAssessed",
+        message: `Adverse media assessment is stale (${Math.round(age)} days old, should be ≤180 days)`,
       });
     }
   }
@@ -766,11 +793,12 @@ function validateScreeningFreshness(credential) {
   // Tier 2 Rule #11: Tax verification ≤2 years
   if (credential.taxIdLastVerifiedDate) {
     const age = daysOld(credential.taxIdLastVerifiedDate);
-    if (age > 730) { // 2 years
+    if (age > 730) {
+      // 2 years
       warnings.push({
-        severity: 'medium',
-        field: 'taxIdLastVerifiedDate',
-        message: `Tax verification is old (${Math.round(age)} days old, should be ≤730 days)`
+        severity: "medium",
+        field: "taxIdLastVerifiedDate",
+        message: `Tax verification is old (${Math.round(age)} days old, should be ≤730 days)`,
       });
     }
   }
@@ -792,7 +820,7 @@ class RuntimeValidator {
     try {
       this.validateDateOrdering(credential);
     } catch (e) {
-      errors.push({ severity: 'critical', message: e.message });
+      errors.push({ severity: "critical", message: e.message });
     }
 
     // Screening freshness (warnings)
@@ -801,9 +829,9 @@ class RuntimeValidator {
     // Credential expiration (critical if expired)
     if (this.isExpired(credential)) {
       errors.push({
-        severity: 'critical',
-        field: 'expirationDate',
-        message: `Credential expired on ${credential.expirationDate}`
+        severity: "critical",
+        field: "expirationDate",
+        message: `Credential expired on ${credential.expirationDate}`,
       });
     }
 
@@ -816,14 +844,12 @@ class RuntimeValidator {
     const updated = new Date(credential.lastUpdatedDate);
 
     if (issuance >= expiration) {
-      throw new Error(
-        `issuanceDate must be before expirationDate`
-      );
+      throw new Error(`issuanceDate must be before expirationDate`);
     }
 
     if (updated < issuance || updated > expiration) {
       throw new Error(
-        `lastUpdatedDate must be between issuanceDate and expirationDate`
+        `lastUpdatedDate must be between issuanceDate and expirationDate`,
       );
     }
   }
@@ -842,15 +868,16 @@ module.exports = RuntimeValidator;
 ```
 
 **Usage:**
+
 ```javascript
-const BelticValidator = require('./validator');
-const RuntimeValidator = require('./runtime-validator');
+const BelticValidator = require("./validator");
+const RuntimeValidator = require("./runtime-validator");
 
 const schemaValidator = new BelticValidator();
 const runtimeValidator = new RuntimeValidator();
 
 // Schema validation
-const schemaResult = schemaValidator.validate(credential, 'developer');
+const schemaResult = schemaValidator.validate(credential, "developer");
 
 if (!schemaResult.valid) {
   console.error("Schema validation failed");
@@ -863,15 +890,15 @@ const runtimeResult = runtimeValidator.validateDeveloperCredential(credential);
 
 if (runtimeResult.errors.length > 0) {
   console.error("Runtime validation failed:");
-  runtimeResult.errors.forEach(err => {
-    console.error(`  - ${err.field || '(general)'}: ${err.message}`);
+  runtimeResult.errors.forEach((err) => {
+    console.error(`  - ${err.field || "(general)"}: ${err.message}`);
   });
   process.exit(1);
 }
 
 if (runtimeResult.warnings.length > 0) {
   console.warn("Runtime validation warnings:");
-  runtimeResult.warnings.forEach(warn => {
+  runtimeResult.warnings.forEach((warn) => {
     console.warn(`  - [${warn.severity}] ${warn.field}: ${warn.message}`);
   });
 }
@@ -885,61 +912,61 @@ This section provides a comprehensive catalog of all runtime validation rules wi
 
 #### Severity Levels
 
-| Severity | Description | Action |
-|----------|-------------|--------|
-| `critical` | Validation fails; credential MUST NOT be trusted | Reject credential |
-| `high` | Serious issue affecting trust | Reject for high-risk operations |
-| `medium` | Notable issue | Log and monitor |
-| `warning` | Recommendation | Informational only |
+| Severity   | Description                                      | Action                          |
+| ---------- | ------------------------------------------------ | ------------------------------- |
+| `critical` | Validation fails; credential MUST NOT be trusted | Reject credential               |
+| `high`     | Serious issue affecting trust                    | Reject for high-risk operations |
+| `medium`   | Notable issue                                    | Log and monitor                 |
+| `warning`  | Recommendation                                   | Informational only              |
 
 #### Date Ordering Rules
 
-| Rule ID | Condition | Error Code | Severity |
-|---------|-----------|------------|----------|
-| RV-D001 | `issuanceDate < expirationDate` | `DATE_ORDER_ISSUANCE_EXPIRATION` | critical |
-| RV-D002 | `issuanceDate <= lastUpdatedDate <= expirationDate` | `DATE_ORDER_LAST_UPDATED` | critical |
-| RV-D003 | `proof.created >= issuanceDate` | `DATE_ORDER_PROOF_CREATED` | warning |
+| Rule ID | Condition                                           | Error Code                       | Severity |
+| ------- | --------------------------------------------------- | -------------------------------- | -------- |
+| RV-D001 | `issuanceDate < expirationDate`                     | `DATE_ORDER_ISSUANCE_EXPIRATION` | critical |
+| RV-D002 | `issuanceDate <= lastUpdatedDate <= expirationDate` | `DATE_ORDER_LAST_UPDATED`        | critical |
+| RV-D003 | `proof.created >= issuanceDate`                     | `DATE_ORDER_PROOF_CREATED`       | warning  |
 
 #### Freshness Rules
 
-| Rule ID | Field | Max Age | Error Code | Severity |
-|---------|-------|---------|------------|----------|
-| RV-F001 | `sanctionsScreeningLastChecked` | 90 days | `FRESHNESS_SANCTIONS_SCREENING` | high |
-| RV-F002 | `pepRiskLastAssessed` | 180 days | `FRESHNESS_PEP_ASSESSMENT` | medium |
-| RV-F003 | `adverseMediaLastAssessed` | 180 days | `FRESHNESS_ADVERSE_MEDIA` | medium |
-| RV-F004 | `taxIdLastVerifiedDate` | 730 days | `FRESHNESS_TAX_VERIFICATION` | medium |
-| RV-F005 | `expirationDate > now` | current | `CREDENTIAL_EXPIRED` | critical |
-| RV-F006 | Safety evaluation dates | 180 days | `FRESHNESS_SAFETY_EVALUATION` | medium |
-| RV-F007 | `toolsLastAudited` | 180 days | `FRESHNESS_TOOLS_AUDIT` | medium |
+| Rule ID | Field                           | Max Age  | Error Code                      | Severity |
+| ------- | ------------------------------- | -------- | ------------------------------- | -------- |
+| RV-F001 | `sanctionsScreeningLastChecked` | 90 days  | `FRESHNESS_SANCTIONS_SCREENING` | high     |
+| RV-F002 | `pepRiskLastAssessed`           | 180 days | `FRESHNESS_PEP_ASSESSMENT`      | medium   |
+| RV-F003 | `adverseMediaLastAssessed`      | 180 days | `FRESHNESS_ADVERSE_MEDIA`       | medium   |
+| RV-F004 | `taxIdLastVerifiedDate`         | 730 days | `FRESHNESS_TAX_VERIFICATION`    | medium   |
+| RV-F005 | `expirationDate > now`          | current  | `CREDENTIAL_EXPIRED`            | critical |
+| RV-F006 | Safety evaluation dates         | 180 days | `FRESHNESS_SAFETY_EVALUATION`   | medium   |
+| RV-F007 | `toolsLastAudited`              | 180 days | `FRESHNESS_TOOLS_AUDIT`         | medium   |
 
 #### Cross-Field Consistency Rules
 
-| Rule ID | Condition | Error Code | Severity |
-|---------|-----------|------------|----------|
-| RV-C001 | `toolsList.length > 0` → tool abuse metrics required | `CONSISTENCY_TOOLS_METRICS_REQUIRED` | critical |
-| RV-C002 | PHI in `dataCategoriesProcessed` → HIPAA in `complianceCertifications` | `CONSISTENCY_PHI_COMPLIANCE` | warning |
-| RV-C003 | Financial in `dataCategoriesProcessed` → PCI/SOC2 in `complianceCertifications` | `CONSISTENCY_FINANCIAL_COMPLIANCE` | warning |
-| RV-C004 | `credentialStatus="expired"` → `expirationDate` in past | `CONSISTENCY_EXPIRED_STATUS` | critical |
-| RV-C005 | `credentialStatus="active"` → `expirationDate` in future | `CONSISTENCY_ACTIVE_EXPIRED` | critical |
+| Rule ID | Condition                                                                       | Error Code                           | Severity |
+| ------- | ------------------------------------------------------------------------------- | ------------------------------------ | -------- |
+| RV-C001 | `toolsList.length > 0` → tool abuse metrics required                            | `CONSISTENCY_TOOLS_METRICS_REQUIRED` | critical |
+| RV-C002 | PHI in `dataCategoriesProcessed` → HIPAA in `complianceCertifications`          | `CONSISTENCY_PHI_COMPLIANCE`         | warning  |
+| RV-C003 | Financial in `dataCategoriesProcessed` → PCI/SOC2 in `complianceCertifications` | `CONSISTENCY_FINANCIAL_COMPLIANCE`   | warning  |
+| RV-C004 | `credentialStatus="expired"` → `expirationDate` in past                         | `CONSISTENCY_EXPIRED_STATUS`         | critical |
+| RV-C005 | `credentialStatus="active"` → `expirationDate` in future                        | `CONSISTENCY_ACTIVE_EXPIRED`         | critical |
 
 #### Cross-Credential Rules (AgentCredential)
 
-| Rule ID | Condition | Error Code | Severity |
-|---------|-----------|------------|----------|
-| RV-X001 | `developerCredentialId` references valid credential | `CROSS_CREDENTIAL_DEVELOPER_NOT_FOUND` | critical |
-| RV-X002 | Referenced developer credential is active | `CROSS_CREDENTIAL_DEVELOPER_NOT_ACTIVE` | critical |
-| RV-X003 | Referenced developer credential not expired | `CROSS_CREDENTIAL_DEVELOPER_EXPIRED` | critical |
-| RV-X004 | Developer KYB tier >= agent `kybTierRequired` | `CROSS_CREDENTIAL_KYB_TIER_INSUFFICIENT` | critical |
-| RV-X005 | Developer `overallRiskRating` not "prohibited" | `CROSS_CREDENTIAL_DEVELOPER_PROHIBITED` | critical |
+| Rule ID | Condition                                           | Error Code                               | Severity |
+| ------- | --------------------------------------------------- | ---------------------------------------- | -------- |
+| RV-X001 | `developerCredentialId` references valid credential | `CROSS_CREDENTIAL_DEVELOPER_NOT_FOUND`   | critical |
+| RV-X002 | Referenced developer credential is active           | `CROSS_CREDENTIAL_DEVELOPER_NOT_ACTIVE`  | critical |
+| RV-X003 | Referenced developer credential not expired         | `CROSS_CREDENTIAL_DEVELOPER_EXPIRED`     | critical |
+| RV-X004 | Developer KYB tier >= agent `kybTierRequired`       | `CROSS_CREDENTIAL_KYB_TIER_INSUFFICIENT` | critical |
+| RV-X005 | Developer `overallRiskRating` not "prohibited"      | `CROSS_CREDENTIAL_DEVELOPER_PROHIBITED`  | critical |
 
 #### ValidationResult Structure
 
 ```typescript
 interface ValidationResult {
-  valid: boolean;                // true if no critical/high errors
-  credentialType: 'DeveloperCredential' | 'AgentCredential';
+  valid: boolean; // true if no critical/high errors
+  credentialType: "DeveloperCredential" | "AgentCredential";
   credentialId: string;
-  timestamp: string;             // ISO 8601
+  timestamp: string; // ISO 8601
   schemaValid: boolean;
   runtimeValid: boolean;
   errors: ValidationError[];
@@ -947,11 +974,11 @@ interface ValidationResult {
 }
 
 interface ValidationError {
-  code: string;                  // Error code (e.g., "DATE_ORDER_ISSUANCE_EXPIRATION")
-  severity: 'critical' | 'high' | 'medium' | 'low' | 'warning';
-  field: string;                 // JSON path (e.g., "issuanceDate")
-  message: string;               // Human-readable message
-  rule: string;                  // Rule ID (e.g., "RV-D001")
+  code: string; // Error code (e.g., "DATE_ORDER_ISSUANCE_EXPIRATION")
+  severity: "critical" | "high" | "medium" | "low" | "warning";
+  field: string; // JSON path (e.g., "issuanceDate")
+  message: string; // Human-readable message
+  rule: string; // Rule ID (e.g., "RV-D001")
 }
 ```
 
@@ -962,6 +989,7 @@ interface ValidationError {
 ### Validate All Examples
 
 **Bash script:**
+
 ```bash
 #!/bin/bash
 # validate-all.sh
@@ -1013,6 +1041,7 @@ exit $FAIL
 ```
 
 **Make it executable:**
+
 ```bash
 chmod +x validate-all.sh
 ./validate-all.sh
@@ -1046,7 +1075,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install AJV CLI
         run: npm install -g ajv-cli ajv-formats
@@ -1157,6 +1186,7 @@ exit 0
 ```
 
 **Make it executable:**
+
 ```bash
 chmod +x .git/hooks/pre-commit
 ```
@@ -1170,6 +1200,7 @@ chmod +x .git/hooks/pre-commit
 #### 1. Missing Required Property
 
 **Error:**
+
 ```
 Error: must have required property 'attackSuccessRate'
 ```
@@ -1177,6 +1208,7 @@ Error: must have required property 'attackSuccessRate'
 **Cause:** Required field is missing from the credential.
 
 **Fix:** Add the field with a valid value:
+
 ```json
 {
   "attackSuccessRate": 0.05
@@ -1186,6 +1218,7 @@ Error: must have required property 'attackSuccessRate'
 #### 2. Invalid Format
 
 **Error:**
+
 ```
 Error: issuanceDate must match format "date-time"
 ```
@@ -1193,6 +1226,7 @@ Error: issuanceDate must match format "date-time"
 **Cause:** Date is not in ISO 8601 format.
 
 **Fix:** Use proper format:
+
 ```json
 {
   "issuanceDate": "2025-11-21T10:00:00Z"
@@ -1200,6 +1234,7 @@ Error: issuanceDate must match format "date-time"
 ```
 
 **Common format issues:**
+
 - ❌ `"2025-11-21"` (missing time)
 - ❌ `"11/21/2025"` (wrong format)
 - ✅ `"2025-11-21T10:00:00Z"` (correct)
@@ -1207,6 +1242,7 @@ Error: issuanceDate must match format "date-time"
 #### 3. Invalid UUID
 
 **Error:**
+
 ```
 Error: credentialId must match format "uuid"
 ```
@@ -1214,6 +1250,7 @@ Error: credentialId must match format "uuid"
 **Cause:** String is not a valid UUID v4.
 
 **Fix:** Generate a proper UUID:
+
 ```bash
 # Mac/Linux
 uuidgen | tr '[:upper:]' '[:lower:]'
@@ -1225,6 +1262,7 @@ uuidgen | tr '[:upper:]' '[:lower:]'
 #### 4. Value Out of Range
 
 **Error:**
+
 ```
 Error: attackSuccessRate must be <= 1
 ```
@@ -1232,16 +1270,18 @@ Error: attackSuccessRate must be <= 1
 **Cause:** ASR is provided as percentage (15) instead of ratio (0.15).
 
 **Fix:**
+
 ```json
 {
-  "attackSuccessRate": 0.15,  // 15% as decimal
-  "robustnessScore": 85        // 85% as integer
+  "attackSuccessRate": 0.15, // 15% as decimal
+  "robustnessScore": 85 // 85% as integer
 }
 ```
 
 #### 5. Invalid Enum Value
 
 **Error:**
+
 ```
 Error: currentStatus must be equal to one of the allowed values
 ```
@@ -1249,15 +1289,17 @@ Error: currentStatus must be equal to one of the allowed values
 **Cause:** Value doesn't match any allowed enum value.
 
 **Fix:** Check schema for allowed values:
+
 ```json
 {
-  "currentStatus": "production"  // Must be: development, beta, production, or deprecated
+  "currentStatus": "production" // Must be: development, beta, production, or deprecated
 }
 ```
 
 #### 6. Conditional Validation Failed
 
 **Error:**
+
 ```
 Error: must have required property 'taxIdVerified' when taxIdExists is true
 ```
@@ -1265,6 +1307,7 @@ Error: must have required property 'taxIdVerified' when taxIdExists is true
 **Cause:** Conditional rule not satisfied (Tax ID Chain rule).
 
 **Fix:** Add required conditional fields:
+
 ```json
 {
   "taxIdExists": true,
@@ -1277,6 +1320,7 @@ Error: must have required property 'taxIdVerified' when taxIdExists is true
 #### 7. Entity Type Mismatch
 
 **Error:**
+
 ```
 Error: individual entities cannot have incorporationDate
 ```
@@ -1284,6 +1328,7 @@ Error: individual entities cannot have incorporationDate
 **Cause:** Individual developer has organization-only fields.
 
 **Fix:** Remove organization fields or change entity type:
+
 ```json
 {
   "entityType": "individual"
@@ -1298,6 +1343,7 @@ Error: individual entities cannot have incorporationDate
 #### Enable Verbose Errors
 
 **AJV CLI:**
+
 ```bash
 ajv validate \
   -s schema.json \
@@ -1307,11 +1353,12 @@ ajv validate \
 ```
 
 **AJV Programmatic:**
+
 ```javascript
 const ajv = new Ajv({
   allErrors: true,
   verbose: true,
-  logger: console  // Log schema compilation errors
+  logger: console, // Log schema compilation errors
 });
 ```
 
@@ -1358,20 +1405,22 @@ const ajv = new Ajv();
 // Add custom keyword for ASR/robustness consistency
 ajv.addKeyword({
   keyword: "validateRobustness",
-  validate: function(schema, data) {
+  validate: function (schema, data) {
     const expectedRobustness = Math.round(100 * (1 - data.attackSuccessRate));
     const actualRobustness = data.robustnessScore;
 
     if (expectedRobustness !== actualRobustness) {
-      validate.errors = [{
-        keyword: 'validateRobustness',
-        message: `robustnessScore should be ${expectedRobustness} (100 × (1 - ${data.attackSuccessRate}))`
-      }];
+      validate.errors = [
+        {
+          keyword: "validateRobustness",
+          message: `robustnessScore should be ${expectedRobustness} (100 × (1 - ${data.attackSuccessRate}))`,
+        },
+      ];
       return false;
     }
 
     return true;
-  }
+  },
 });
 ```
 
@@ -1409,10 +1458,10 @@ const developerValidate = ajv.compile(developerSchema);
 
 // Reuse compiled validators
 function validateMany(credentials) {
-  return credentials.map(cred => ({
+  return credentials.map((cred) => ({
     id: cred.credentialId,
     valid: agentValidate(cred),
-    errors: agentValidate.errors
+    errors: agentValidate.errors,
   }));
 }
 ```
@@ -1425,12 +1474,12 @@ function validateMany(credentials) {
 
 Typical validation times (M1 Mac, Node.js 18):
 
-| Operation | Time | Throughput |
-|-----------|------|------------|
-| Schema compilation | ~5ms | - |
-| Single validation | ~0.5ms | 2000/sec |
-| Batch (100 credentials) | ~50ms | 2000/sec |
-| Runtime checks | ~0.1ms | 10000/sec |
+| Operation               | Time   | Throughput |
+| ----------------------- | ------ | ---------- |
+| Schema compilation      | ~5ms   | -          |
+| Single validation       | ~0.5ms | 2000/sec   |
+| Batch (100 credentials) | ~50ms  | 2000/sec   |
+| Runtime checks          | ~0.1ms | 10000/sec  |
 
 ### Optimization Tips
 
@@ -1441,7 +1490,7 @@ Typical validation times (M1 Mac, Node.js 18):
 5. **Parallel Validation**: Use worker threads for large batches
 
 ```javascript
-const { Worker } = require('worker_threads');
+const { Worker } = require("worker_threads");
 
 function validateInParallel(credentials, workerCount = 4) {
   const chunkSize = Math.ceil(credentials.length / workerCount);
@@ -1452,14 +1501,15 @@ function validateInParallel(credentials, workerCount = 4) {
   }
 
   return Promise.all(
-    chunks.map(chunk =>
-      new Promise((resolve, reject) => {
-        const worker = new Worker('./validator-worker.js');
-        worker.postMessage(chunk);
-        worker.on('message', resolve);
-        worker.on('error', reject);
-      })
-    )
+    chunks.map(
+      (chunk) =>
+        new Promise((resolve, reject) => {
+          const worker = new Worker("./validator-worker.js");
+          worker.postMessage(chunk);
+          worker.on("message", resolve);
+          worker.on("error", reject);
+        }),
+    ),
   );
 }
 ```
@@ -1469,17 +1519,20 @@ function validateInParallel(credentials, workerCount = 4) {
 ## Resources
 
 ### Documentation
+
 - [DeveloperCredential Spec](developer-credential-v1.md) - Conditional validation rules (Section 8)
 - [AgentCredential Spec](agent-credential-v1.md) - Complete field reference
 - [Quickstart Guide](quickstart.md) - Get started in 5 minutes
 - [Integration Guide](integration-guide.md) - For merchants/platforms
 
 ### Examples
+
 - [Test Suite](../examples/developer/v1/tests/README.md) - 26 validation test cases
 - [Agent Examples](../examples/agent/v1/) - Valid and invalid examples
 - [Developer Examples](../examples/developer/v1/) - All entity types and tiers
 
 ### Tools
+
 - [AJV Documentation](https://ajv.js.org/)
 - [JSON Schema Specification](https://json-schema.org/)
 - [JSON Schema Validator](https://www.jsonschemavalidator.net/) (for development only)

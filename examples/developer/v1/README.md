@@ -42,6 +42,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 **File**: `tests/valid-individual-minimal.json`
 
 **Profile**:
+
 - **Entity Type**: individual
 - **KYB Tier**: tier_0_unverified (self-attested only)
 - **Tax ID**: No
@@ -49,6 +50,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 - **Use Case**: Development/testing, low-risk agents
 
 **Key Features**:
+
 - No organization fields (no incorporationDate, businessRegistrationNumber, registeredAddress)
 - Minimal self-attested information
 - No risk screening required
@@ -63,6 +65,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 **File**: `tests/valid-individual-complete.json`
 
 **Profile**:
+
 - **Entity Type**: individual
 - **KYB Tier**: tier_1_basic
 - **Tax ID**: Yes (verified)
@@ -70,6 +73,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 - **Use Case**: Professional individual developers, freelancers
 
 **Key Features**:
+
 - All optional individual fields provided
 - Tax ID verified
 - Business phone and security email
@@ -85,6 +89,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 **File**: `tests/valid-organization-tier1.json`
 
 **Profile**:
+
 - **Entity Type**: limited_liability_company
 - **KYB Tier**: tier_1_basic
 - **Tax ID**: Yes (verified)
@@ -92,6 +97,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 - **Use Case**: Small startups, early-stage companies
 
 **Key Features**:
+
 - All required organization fields (incorporationDate, businessRegistrationNumber, registeredAddress)
 - Company registration verified
 - Tax ID verified
@@ -106,6 +112,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 **File**: `tests/valid-organization-tier2-complete.json`
 
 **Profile**:
+
 - **Entity Type**: corporation
 - **KYB Tier**: tier_2_standard
 - **Tax ID**: Yes (third-party verified)
@@ -114,6 +121,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 - **Use Case**: Standard production agents, moderate-risk operations
 
 **Key Features**:
+
 - Complete tier_2 risk screening
 - Fresh screening dates (within 90 days)
 - Beneficial ownership transparency
@@ -130,6 +138,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 **File**: `tests/valid-organization-tier3-complex.json`
 
 **Profile**:
+
 - **Entity Type**: corporation
 - **KYB Tier**: tier_3_enhanced
 - **Tax ID**: Yes (third-party verified)
@@ -138,6 +147,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 - **Use Case**: High-value agents, regulated industries, financial services
 
 **Key Features**:
+
 - Enhanced due diligence
 - Complex ownership structure documented
 - Medium PEP risk (acceptable with proper documentation)
@@ -154,6 +164,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 **File**: `tests/valid-high-risk-suspended.json`
 
 **Profile**:
+
 - **Entity Type**: corporation
 - **KYB Tier**: tier_3_enhanced
 - **Sanctions Status**: confirmed_match
@@ -162,6 +173,7 @@ DeveloperCredential v1 examples are organized into a **comprehensive test suite*
 - **Use Case**: Demonstrates proper handling of high-risk entities
 
 **Key Features**:
+
 - Sanctions match properly flagged
 - Overall risk rating: prohibited
 - Credential status: suspended (not active)
@@ -211,13 +223,13 @@ See [Test Suite README](tests/README.md) for complete descriptions and validatio
 
 ### Step 1: Choose Your Entity Type
 
-| You Are | Use This Template |
-|---------|------------------|
-| Individual developer (hobby/learning) | `valid-individual-minimal.json` |
-| Professional freelancer/consultant | `valid-individual-complete.json` |
-| Small startup/LLC | `valid-organization-tier1.json` |
-| Established company (standard risk) | `valid-organization-tier2-complete.json` |
-| Enterprise/regulated industry | `valid-organization-tier3-complex.json` |
+| You Are                               | Use This Template                        |
+| ------------------------------------- | ---------------------------------------- |
+| Individual developer (hobby/learning) | `valid-individual-minimal.json`          |
+| Professional freelancer/consultant    | `valid-individual-complete.json`         |
+| Small startup/LLC                     | `valid-organization-tier1.json`          |
+| Established company (standard risk)   | `valid-organization-tier2-complete.json` |
+| Enterprise/regulated industry         | `valid-organization-tier3-complex.json`  |
 
 ### Step 2: Copy and Customize
 
@@ -232,6 +244,7 @@ cp tests/valid-organization-tier1.json my-developer-credential.json
 ### Step 3: Update Required Fields
 
 **For All Entity Types**:
+
 - `schemaVersion`: Keep as "1.0"
 - `legalName`: Your legal name or company name
 - `entityType`: Choose from: individual, corporation, limited_liability_company, etc.
@@ -243,11 +256,13 @@ cp tests/valid-organization-tier1.json my-developer-credential.json
 - `subjectDid`: Your decentralized identifier
 
 **For Organizations Only** (not individuals):
+
 - `incorporationDate`: Date of incorporation
 - `businessRegistrationNumber`: Hashed registration number
 - `registeredAddress`: Full registered address
 
 **For Tier 2+ (Standard KYB and above)**:
+
 - `sanctionsScreeningStatus`, `sanctionsScreeningLastChecked`
 - `pepRiskLevel`, `pepRiskLastAssessed`
 - `adverseMediaRiskLevel`, `adverseMediaLastAssessed`
@@ -292,9 +307,13 @@ if (new Date(cred.issuanceDate) >= new Date(cred.expirationDate)) {
 }
 
 // Check screening freshness (Tier 2 Rule #4)
-const daysSince = (date) => (new Date() - new Date(date)) / (1000 * 60 * 60 * 24);
+const daysSince = (date) =>
+  (new Date() - new Date(date)) / (1000 * 60 * 60 * 24);
 
-if (cred.sanctionsScreeningLastChecked && daysSince(cred.sanctionsScreeningLastChecked) > 90) {
+if (
+  cred.sanctionsScreeningLastChecked &&
+  daysSince(cred.sanctionsScreeningLastChecked) > 90
+) {
   console.warn("Sanctions screening is stale (>90 days)");
 }
 ```
@@ -322,47 +341,55 @@ done
 ### Common Validation Errors
 
 **Individual with Organization Fields**:
+
 ```
 Error: Individual entities cannot have incorporationDate
 ```
-*Fix*: Remove organization-only fields for individuals
+
+_Fix_: Remove organization-only fields for individuals
 
 **Missing Screening for Tier 2+**:
+
 ```
 Error: pepRiskLevel is required when kybTier is tier_2_standard or higher
 ```
-*Fix*: Add all required screening fields
+
+_Fix_: Add all required screening fields
 
 **Tax ID Chain Broken**:
+
 ```
 Error: taxIdVerified is required when taxIdExists is true
 ```
-*Fix*: Add taxIdVerified and taxIdJurisdiction fields
+
+_Fix_: Add taxIdVerified and taxIdJurisdiction fields
 
 **Stale Screening Dates**:
+
 ```
 Warning: Sanctions screening is stale (>90 days old)
 ```
-*Fix*: Update screening dates to be within freshness windows
+
+_Fix_: Update screening dates to be within freshness windows
 
 ## Entity Type Decision Matrix
 
-| Field | Individual | Sole Prop | Corp/LLC | Nonprofit | Government |
-|-------|-----------|-----------|----------|-----------|------------|
-| `incorporationDate` | ❌ No | ⚠️ Optional | ✅ Required | ✅ Required | ⚠️ Optional |
-| `businessRegistrationNumber` | ❌ No | ⚠️ Optional | ✅ Required | ✅ Required | ⚠️ Optional |
-| `registeredAddress` | ❌ No | ⚠️ Optional | ✅ Required | ✅ Required | ✅ Required |
-| `beneficialOwnersKycStatus` | ❌ N/A | ❌ N/A | ✅ Req (T2+) | ⚠️ Optional | ❌ N/A |
+| Field                        | Individual | Sole Prop   | Corp/LLC     | Nonprofit   | Government  |
+| ---------------------------- | ---------- | ----------- | ------------ | ----------- | ----------- |
+| `incorporationDate`          | ❌ No      | ⚠️ Optional | ✅ Required  | ✅ Required | ⚠️ Optional |
+| `businessRegistrationNumber` | ❌ No      | ⚠️ Optional | ✅ Required  | ✅ Required | ⚠️ Optional |
+| `registeredAddress`          | ❌ No      | ⚠️ Optional | ✅ Required  | ✅ Required | ✅ Required |
+| `beneficialOwnersKycStatus`  | ❌ N/A     | ❌ N/A      | ✅ Req (T2+) | ⚠️ Optional | ❌ N/A      |
 
 ## KYB Tier Comparison
 
-| Tier | Screening Required | Validity Period | Use Case |
-|------|-------------------|----------------|----------|
-| **tier_0** | None | 90 days | Development/testing |
-| **tier_1** | Identity + registration | 2 years | Low-risk production |
-| **tier_2** | + Sanctions/PEP/adverse media | 6-12 months | Standard production |
-| **tier_3** | + Enhanced DD, beneficial owners | 2-6 months | High-risk/regulated |
-| **tier_4** | + Maximum verification, continuous monitoring | 1-3 months | Financial/healthcare |
+| Tier       | Screening Required                            | Validity Period | Use Case             |
+| ---------- | --------------------------------------------- | --------------- | -------------------- |
+| **tier_0** | None                                          | 90 days         | Development/testing  |
+| **tier_1** | Identity + registration                       | 2 years         | Low-risk production  |
+| **tier_2** | + Sanctions/PEP/adverse media                 | 6-12 months     | Standard production  |
+| **tier_3** | + Enhanced DD, beneficial owners              | 2-6 months      | High-risk/regulated  |
+| **tier_4** | + Maximum verification, continuous monitoring | 1-3 months      | Financial/healthcare |
 
 ## Related Documentation
 

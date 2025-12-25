@@ -6,6 +6,7 @@
 ---
 
 ## 1. Core Identity
+
 - `legalName`: Aurora Labs Inc.
 - `entityType`: corporation
 - `incorporationJurisdiction`: country=US, region=CA
@@ -14,6 +15,7 @@
 - `businessRegistrationStatus`: active_good_standing
 
 ## 2. Contact Information
+
 - `website`: https://auroralabs.ai
 - `registeredAddress` (restricted): 500 Market St, Suite 1200, San Francisco, CA 94105, US
 - `businessEmail`: ops@auroralabs.ai
@@ -21,12 +23,14 @@
 - `securityEmail`: security@auroralabs.ai
 
 ## 3. Tax & Registration
+
 - `taxIdExists`: true
 - `taxIdVerified`: verified (Beltic-verified 2025-05-01)
 - `taxIdJurisdiction`: country=US
 - `taxIdLastVerifiedDate`: 2025-05-01
 
 ## 4. Risk & Compliance
+
 - `kybTier`: tier_2_standard
 - `sanctionsScreeningStatus`: clear (Beltic-verified)
 - `sanctionsScreeningLastChecked`: 2025-10-05
@@ -37,11 +41,13 @@
 - `overallRiskRating`: low
 
 ## 5. Ownership & Control
+
 - `beneficialOwnersKycStatus`: all_identified_and_kycd
 - `beneficialOwnersCount`: 3
 - `controlStructureComplexity`: moderate
 
 ## 6. Verification Metadata
+
 - `credentialId`: d7aa92c7-8b07-4f35-8c9b-a2d02e26f012
 - `issuanceDate`: 2025-11-10T18:22:00Z
 - `expirationDate`: 2026-05-10T18:22:00Z
@@ -52,6 +58,7 @@
 - `lastUpdatedDate`: 2025-11-10T18:22:00Z
 
 ## 7. Cryptographic Identity
+
 - `subjectDid`: did:web:auroralabs.ai
 - `publicKey`: Ed25519 key reference
 - `proof`: Ed25519Signature2020 (Beltic)

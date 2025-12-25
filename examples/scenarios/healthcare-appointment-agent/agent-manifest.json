@@ -69,10 +69,22 @@
   "piiDetectionEnabled": true,
   "piiRedactionCapability": "context_aware",
   "piiRedactionPipeline": "PHI classifier at ingress; context-aware redaction before storage; outbound reminders filtered for minimum necessary",
-  "dataEncryptionStandards": ["AES-256 at rest", "TLS 1.3 in transit", "Field-level encryption for PHI"],
+  "dataEncryptionStandards": [
+    "AES-256 at rest",
+    "TLS 1.3 in transit",
+    "Field-level encryption for PHI"
+  ],
   "monitoringCoverage": "PHI access logged to SIEM; anomaly alerts on cross-tenant queries; weekly manual review of 5% of scheduling actions; HIPAA audit feed retained 30 days.",
-  "approvedUseCases": ["Outpatient appointment scheduling", "Rescheduling and cancellations", "Consent-aware reminders"],
-  "prohibitedUseCases": ["Clinical triage or diagnosis", "Prescription management", "Insurance appeals"],
+  "approvedUseCases": [
+    "Outpatient appointment scheduling",
+    "Rescheduling and cancellations",
+    "Consent-aware reminders"
+  ],
+  "prohibitedUseCases": [
+    "Clinical triage or diagnosis",
+    "Prescription management",
+    "Insurance appeals"
+  ],
   "ageRestrictions": "18+",
   "riskSummary": "moderate_risk",
   "humanOversightMode": "human_review_pre_action",

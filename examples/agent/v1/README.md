@@ -4,11 +4,11 @@ This directory contains example AgentCredentials demonstrating various agent typ
 
 ## Example Files
 
-| File | Description | Validation Status | Use Case |
-|------|-------------|------------------|----------|
-| **valid-simple-agent.json** | Simple production agent with basic safety metrics | ✅ Valid | E-commerce refund handling, low-risk operations |
-| **valid-complex-agent.json** | Complex multi-modal agent with extensive documentation | ✅ Valid | Financial advisory, high-risk regulated use case |
-| **invalid-missing-required.json** | Minimal credential missing required fields | ❌ Invalid | Demonstrates validation errors |
+| File                              | Description                                            | Validation Status | Use Case                                         |
+| --------------------------------- | ------------------------------------------------------ | ----------------- | ------------------------------------------------ |
+| **valid-simple-agent.json**       | Simple production agent with basic safety metrics      | ✅ Valid          | E-commerce refund handling, low-risk operations  |
+| **valid-complex-agent.json**      | Complex multi-modal agent with extensive documentation | ✅ Valid          | Financial advisory, high-risk regulated use case |
+| **invalid-missing-required.json** | Minimal credential missing required fields             | ❌ Invalid        | Demonstrates validation errors                   |
 
 ## Example Scenarios
 
@@ -19,6 +19,7 @@ This directory contains example AgentCredentials demonstrating various agent typ
 **Agent**: Aurora Refund Guide
 
 **Profile**:
+
 - **Model**: Anthropic Claude-3 Opus
 - **Domain**: E-commerce support (refund processing)
 - **Safety**: ASR = 0.03 (97% robustness score)
@@ -27,6 +28,7 @@ This directory contains example AgentCredentials demonstrating various agent typ
 - **Risk**: Low complexity, standard safety controls
 
 **Key Features**:
+
 - Text-only modality
 - Multi-language support (English, Spanish)
 - Human-in-the-loop for refunds >$100
@@ -46,6 +48,7 @@ This directory contains example AgentCredentials demonstrating various agent typ
 **Agent**: Atlas Wealth Copilot
 
 **Profile**:
+
 - **Model**: Anthropic Claude-3 Opus (fine-tuned)
 - **Domain**: Financial advisory, wealth management
 - **Safety**: ASR = 0.015 (98.5% robustness score)
@@ -54,6 +57,7 @@ This directory contains example AgentCredentials demonstrating various agent typ
 - **Risk**: High complexity, extensive audit trail
 
 **Key Features**:
+
 - Multi-modal: text, structured_data, limited_vision
 - Multi-language: English, Spanish, Mandarin
 - Fine-tuned on proprietary financial advisory data
@@ -62,6 +66,7 @@ This directory contains example AgentCredentials demonstrating various agent typ
 - Privacy leakage score: 0.008 (excellent)
 
 **Use Case**: Demonstrates a high-value, regulated agent with:
+
 - Enhanced safety testing
 - Strict privacy controls
 - Complex tool ecosystem
@@ -78,12 +83,14 @@ This directory contains example AgentCredentials demonstrating various agent typ
 **Agent**: Broken Agent
 
 **Profile**:
+
 - Minimal credential with only 3 fields
 - Missing 15+ required fields
 
 **Validation**: ❌ Fails schema validation
 
 **Expected Errors**:
+
 ```
 Error: must have required property 'firstReleaseDate'
 Error: must have required property 'currentStatus'
@@ -144,18 +151,18 @@ addFormats(ajv);
 
 // Load schema
 const schema = JSON.parse(
-  fs.readFileSync('../../schemas/agent/v1/agent-credential-v1.schema.json')
+  fs.readFileSync("../../schemas/agent/v1/agent-credential-v1.schema.json"),
 );
 const validate = ajv.compile(schema);
 
 // Validate example
-const agent = JSON.parse(fs.readFileSync('valid-simple-agent.json'));
+const agent = JSON.parse(fs.readFileSync("valid-simple-agent.json"));
 
 if (validate(agent)) {
   console.log("✓ Valid AgentCredential");
 } else {
   console.error("✗ Validation errors:");
-  validate.errors.forEach(err => {
+  validate.errors.forEach((err) => {
     console.error(`  - ${err.instancePath}: ${err.message}`);
   });
 }
@@ -198,6 +205,7 @@ cp valid-complex-agent.json my-agent.json
 ### 2. Customize the Credential
 
 Update the following required fields:
+
 - `agentId`: Generate a new UUID v4
 - `agentName`: Your agent's name
 - `agentVersion`: Your version (semantic versioning)
@@ -220,6 +228,7 @@ ajv validate \
 ### 4. Fix Validation Errors
 
 Common issues:
+
 - **Date format**: Use ISO 8601 format (`2025-11-20T10:00:00Z`)
 - **UUID format**: Use proper UUID v4
 - **ASR range**: Must be 0.0 to 1.0 (e.g., 0.15 = 15%)
@@ -230,6 +239,7 @@ Common issues:
 When customizing an example, ensure you update:
 
 ### Identity & Metadata
+
 - [ ] `agentId` - New UUID v4
 - [ ] `agentName` - Clear, unique name
 - [ ] `agentVersion` - Semantic version
@@ -239,6 +249,7 @@ When customizing an example, ensure you update:
 - [ ] `developerCredentialId` - Link to your developer credential
 
 ### Technical Profile
+
 - [ ] `primaryModelProvider` - Your model provider
 - [ ] `primaryModelFamily` - Specific model
 - [ ] `modelContextWindow` - Actual context size
@@ -246,27 +257,32 @@ When customizing an example, ensure you update:
 - [ ] `languageCapabilities` - Supported languages
 
 ### Safety & Robustness
+
 - [ ] `attackSuccessRate` - Real test results (0.0-1.0)
 - [ ] `robustnessScore` - Calculated as 100 × (1 - ASR)
 - [ ] `safetyTestsLastRun` - Recent date
 - [ ] Test coverage breakdowns (optional but recommended)
 
 ### Data & Privacy
+
 - [ ] `userDataRetentionDays` - Your retention policy
 - [ ] `userDataUsedForTraining` - true/false
 - [ ] `userDataLoggingScope` - What you log
 - [ ] `piiDetectionEnabled` and `piiRedactionEnabled` - PII handling
 
 ### Operations
+
 - [ ] `deploymentEnvironment` - Where agent runs
 - [ ] `rateLimits` - Actual rate limits
 - [ ] `availabilitySLA` - Your SLA commitment
 
 ### Tools & Actions
+
 - [ ] `toolsAndActions` - All tools with risk categories
 - [ ] `humanInTheLoopRequired` - When required
 
 ### Verification Metadata
+
 - [ ] `credentialId` - New UUID v4
 - [ ] `issuanceDate` - Current datetime
 - [ ] `expirationDate` - Future datetime (6-12 months)

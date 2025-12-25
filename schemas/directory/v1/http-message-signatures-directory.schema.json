@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.beltic.com/directory/v1/http-message-signatures-directory.schema.json",
+  "title": "HTTP Message Signatures Key Directory",
+  "description": "Key directory for HTTP Message Signatures verification per draft-meunier-http-message-signatures-directory",
+  "type": "object",
+  "required": ["keys"],
+  "properties": {
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kty", "crv", "x"],
+        "properties": {
+          "kty": {
+            "const": "OKP",
+            "description": "Key type - must be OKP for Ed25519"
+          },
+          "crv": {
+            "const": "Ed25519",
+            "description": "Curve - must be Ed25519"
+          },
+          "x": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "description": "Base64url-encoded public key (32 bytes for Ed25519)"
+          },
+          "kid": {
+            "type": "string",
+            "description": "Key ID - typically the JWK thumbprint"
+          },
+          "use": {
+            "const": "sig",
+            "description": "Key use - always 'sig' for signing"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "description": "Array of Ed25519 public keys for signature verification"
+    },
+    "agentCredentialUrl": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "URL to fetch the agent's credential JWT for full identity verification"
+    }
+  },
+  "additionalProperties": false
+}

@@ -114,7 +114,7 @@ def main():
 
     agent_passed, agent_failed = validate_credential_set(
         'schemas/agent/v1/agent-credential-v1.schema.json',
-        'examples/agent/v1/*.json',
+        'examples/agent/v1/valid-*.json',
         'agent'
     )
 

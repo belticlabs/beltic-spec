@@ -16,3 +16,6 @@ draft/
 # Node modules (if not already ignored)
 node_modules/
 
+.cursor/
+.claude/
+
